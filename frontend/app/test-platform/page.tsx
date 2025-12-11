@@ -22,7 +22,14 @@ export default function TestPlatform() {
     }
 
     fetchCategories();
+    fetchCompletedLevels();
   }, []);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      fetchCompletedLevels(); 
+    }
+  }, [selectedCategory]);
 
   const fetchCategories = async () => {
     try {
@@ -60,13 +67,30 @@ export default function TestPlatform() {
       });
 
       localStorage.setItem(`test_${response.data.id}`, JSON.stringify(response.data));
-      
+
       router.push(`/test/${response.data.id}`);
     } catch (err) {
       console.error('Failed to start test');
       alert('Failed to start test. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchCompletedLevels = async () => {
+    try {
+      const response = await testAPI.getDashboard();
+      const completed = new Set<string>();
+
+      response.data.forEach((test: any) => {
+        if (test.completed && test.score !== null) {
+          completed.add(`${test.category}-${test.level}`);
+        }
+      });
+
+      setCompletedLevels(completed);
+    } catch (err) {
+      console.error('Failed to fetch completed levels');
     }
   };
 
@@ -125,6 +149,7 @@ export default function TestPlatform() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {levels.map((level, index) => {
             const isCompleted = completedLevels.has(`${selectedCategory}-${level.value}`);
+            // const isLocked = index > 0 && !completedLevels.has(`${selectedCategory}-${levels[index - 1].value}`);
             const isLocked = index > 0 && !completedLevels.has(`${selectedCategory}-${levels[index - 1].value}`);
 
             return (

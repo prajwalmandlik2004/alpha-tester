@@ -14,6 +14,9 @@ import {
   Share2,
 } from 'lucide-react';
 import { resultAPI } from '@/src/lib/api';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'; 
+
 
 export default function ResultPage() {
   const router = useRouter();
@@ -22,6 +25,8 @@ export default function ResultPage() {
 
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -79,6 +84,262 @@ export default function ResultPage() {
     );
   }
 
+  const downloadReport = () => {
+    if (!result) return;
+
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setFillColor(34, 197, 94); 
+    doc.rect(0, 0, pageWidth, 40, 'F');
+
+    doc.setFontSize(28);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Alpha Test Platform', pageWidth / 2, 20, { align: 'center' });
+    doc.setFontSize(14);
+    doc.text('Test Result Report', pageWidth / 2, 30, { align: 'center' });
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
+    let yPos = 50;
+
+    doc.setFont('helvetica', 'bold');
+    doc.text('Test Information', 20, yPos);
+    yPos += 10;
+
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Test Name: ${result.test_name}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Category: ${result.category}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Level: ${result.level.replace('_', ' ')}`, 20, yPos);
+    yPos += 7;
+    doc.text(`Date: ${new Date(result.completed_at).toLocaleDateString()}`, 20, yPos);
+    yPos += 15;
+
+    const scoreColor = result.score >= 80 ? [34, 197, 94] : result.score >= 60 ? [234, 179, 8] : [239, 68, 68];
+    doc.setFillColor(scoreColor[0], scoreColor[1], scoreColor[2]);
+    doc.roundedRect(pageWidth / 2 - 30, yPos - 5, 60, 25, 5, 5, 'F');
+
+    doc.setFontSize(24);
+    doc.setTextColor(255, 255, 255);
+    doc.text(`${result.score.toFixed(0)}%`, pageWidth / 2, yPos + 10, { align: 'center' });
+    doc.setFontSize(10);
+    doc.text(getScoreLabel(result.score), pageWidth / 2, yPos + 18, { align: 'center' });
+
+    yPos += 35;
+
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Performance Analysis', 20, yPos);
+    yPos += 8;
+
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    const splitAnalysis = doc.splitTextToSize(result.analysis.detailed_analysis, pageWidth - 40);
+    doc.text(splitAnalysis, 20, yPos);
+    yPos += splitAnalysis.length * 5 + 10;
+
+
+    if (yPos > pageHeight - 60) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Question-by-Question Feedback', 20, yPos);
+    yPos += 8;
+
+    const tableData = result.analysis.question_feedback.map((feedback: any) => [
+      `Q${feedback.question_number}`,
+      `${feedback.score}%`,
+      feedback.feedback
+    ]);
+
+    autoTable(doc, {
+      startY: yPos,
+      head: [['Question', 'Score', 'Feedback']],
+      body: tableData,
+      theme: 'grid',
+      headStyles: { fillColor: [34, 197, 94], textColor: 255, fontStyle: 'bold' },
+      columnStyles: {
+        0: { cellWidth: 25 },
+        1: { cellWidth: 25 },
+        2: { cellWidth: 'auto' }
+      },
+      margin: { left: 20, right: 20 },
+    });
+
+    yPos = (doc as any).lastAutoTable.finalY + 15;
+
+
+    if (yPos > pageHeight - 80) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(34, 197, 94);
+    doc.text('✓ Strengths:', 20, yPos);
+    yPos += 7;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(10);
+    result.analysis.strengths.forEach((strength: string) => {
+      const splitStrength = doc.splitTextToSize(`• ${strength}`, pageWidth - 50);
+      doc.text(splitStrength, 25, yPos);
+      yPos += splitStrength.length * 5 + 2;
+    });
+    yPos += 5;
+
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(234, 179, 8);
+    doc.text('⚠ Areas for Improvement:', 20, yPos);
+    yPos += 7;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(10);
+    result.analysis.improvements.forEach((improvement: string) => {
+      if (yPos > pageHeight - 30) {
+        doc.addPage();
+        yPos = 20;
+      }
+      const splitImprovement = doc.splitTextToSize(`• ${improvement}`, pageWidth - 50);
+      doc.text(splitImprovement, 25, yPos);
+      yPos += splitImprovement.length * 5 + 2;
+    });
+    yPos += 10;
+
+    if (yPos > pageHeight - 40) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(59, 130, 246);
+    doc.text('💡 Recommendations:', 20, yPos);
+    yPos += 7;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(10);
+    const splitRecommendations = doc.splitTextToSize(result.analysis.recommendations, pageWidth - 40);
+    doc.text(splitRecommendations, 20, yPos);
+
+    const footerY = pageHeight - 15;
+    doc.setFontSize(8);
+    doc.setTextColor(128, 128, 128);
+    doc.text('Generated by Alpha Test Platform', pageWidth / 2, footerY, { align: 'center' });
+    doc.text(`Report generated on ${new Date().toLocaleDateString()}`, pageWidth / 2, footerY + 5, { align: 'center' });
+
+    doc.save(`Alpha_Test_Report_${result.test_name.replace(/\s+/g, '_')}.pdf`);
+  };
+
+  const shareResult = () => {
+    if (!result) return;
+
+    const shareText = `I scored ${result.score.toFixed(0)}% on ${result.test_name} at Alpha Test Platform! 🎉`;
+    const shareUrl = window.location.href;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'My Test Result',
+        text: shareText,
+        url: shareUrl,
+      })
+        .then(() => console.log('Shared successfully'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      const encodedText = encodeURIComponent(shareText);
+      const encodedUrl = encodeURIComponent(shareUrl);
+
+      const shareOptions = [
+        {
+          name: 'Twitter',
+          url: `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`,
+          color: '#1DA1F2'
+        },
+        {
+          name: 'Facebook',
+          url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
+          color: '#4267B2'
+        },
+        {
+          name: 'LinkedIn',
+          url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+          color: '#0077B5'
+        },
+        {
+          name: 'WhatsApp',
+          url: `https://wa.me/?text=${encodedText}%20${encodedUrl}`,
+          color: '#25D366'
+        }
+      ];
+
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    `;
+
+      const modalContent = document.createElement('div');
+      modalContent.style.cssText = `
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+    `;
+
+      modalContent.innerHTML = `
+      <h3 style="margin: 0 0 20px 0; font-size: 24px; font-weight: bold; color: #16a34a;">Share Your Result</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+        ${shareOptions.map(option => `
+          <a href="${option.url}" target="_blank" rel="noopener noreferrer"
+             style="display: flex; align-items: center; justify-content: center; padding: 12px; 
+                    background: ${option.color}; color: white; text-decoration: none; 
+                    border-radius: 8px; font-weight: 600; transition: opacity 0.2s;"
+             onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+            ${option.name}
+          </a>
+        `).join('')}
+      </div>
+      <button onclick="this.closest('[style*=fixed]').remove()"
+              style="width: 100%; padding: 12px; background: #e5e7eb; border: none; 
+                     border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 16px;"
+              onmouseover="this.style.background='#d1d5db'" onmouseout="this.style.background='#e5e7eb'">
+        Close
+      </button>
+    `;
+
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen px-4 py-20">
       <div className="max-w-6xl mx-auto">
@@ -126,11 +387,11 @@ export default function ResultPage() {
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t">
-            <button className="btn-secondary flex items-center space-x-2">
+            <button onClick={downloadReport} className="btn-secondary flex items-center space-x-2">
               <Download size={18} />
               <span>Download Report</span>
             </button>
-            <button className="btn-secondary flex items-center space-x-2">
+            <button onClick={shareResult} className="btn-secondary flex items-center space-x-2">
               <Share2 size={18} />
               <span>Share Result</span>
             </button>
