@@ -26,6 +26,7 @@ export default function Navbar() {
     { href: '/about', label: 'About', icon: Info },
     { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
     { href: '/test-dashboard', label: 'My Tests', icon: BarChart3 },
+    { href: '/information', label: 'Information', icon: Info },
   ];
 
   return (
