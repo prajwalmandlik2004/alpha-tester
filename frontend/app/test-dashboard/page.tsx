@@ -2,14 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BarChart3, Calendar, Award, Eye, Search } from 'lucide-react';
+import { BarChart3, Calendar, Award, Eye, Search, Trash2, LoaderCircle } from 'lucide-react';
 import { testAPI } from '@/src/lib/api';
+import toast from 'react-hot-toast';
+
 
 export default function TestDashboard() {
   const router = useRouter();
   const [tests, setTests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [deletingTestId, setDeletingTestId] = useState<number | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -55,6 +58,24 @@ export default function TestDashboard() {
       </div>
     );
   }
+
+  const handleDeleteTest = async (testId: number) => {
+    if (!window.confirm('Are you sure you want to delete this test? This action cannot be undone.')) {
+      return;
+    }
+
+    setDeletingTestId(testId);
+    try {
+      await testAPI.deleteTest(testId);
+      fetchTests();
+      toast.success('Test deleted successfully');
+    } catch (err) {
+      console.error('Failed to delete test');
+      alert('Failed to delete test. Please try again.');
+    } finally {
+      setDeletingTestId(null);
+    }
+  };
 
   return (
     <div className="min-h-screen px-4 py-20">
@@ -127,6 +148,7 @@ export default function TestDashboard() {
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Date & Time</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Score</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Action</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Delete</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -182,6 +204,21 @@ export default function TestDashboard() {
                           <span className="text-gray-400 text-sm">Incomplete</span>
                         )}
                       </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => handleDeleteTest(test.id)}
+                          disabled={deletingTestId === test.id}
+                          className="flex items-center space-x-2 text-red-600 hover:text-red-700 font-semibold transition-colors disabled:opacity-50"
+                        >
+                          {deletingTestId === test.id ? (
+                            <div className="h-4 w-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+
+                          ) : (
+                            <Trash2 size={18} />
+                          )}
+                          <span>Delete</span>
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -231,6 +268,18 @@ export default function TestDashboard() {
                         <span>View</span>
                       </button>
                     )}
+                    <button
+                      onClick={() => handleDeleteTest(test.id)}
+                      disabled={deletingTestId === test.id}
+                      className="flex items-center space-x-1 text-red-600 hover:text-red-700 font-semibold text-sm disabled:opacity-50"
+                    >
+                      {deletingTestId === test.id ? (
+                        <div className="h-3 w-3 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+
+                      ) : (
+                        <Trash2 size={16} />
+                      )}
+                    </button>
                   </div>
                 </div>
               ))}

@@ -117,3 +117,24 @@ async def get_categories():
             {"value": "general", "label": "General Knowledge", "description": "General knowledge tests"}
         ]
     }
+
+@router.delete("/delete/{test_id}")
+async def delete_test(
+    test_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Delete a test attempt"""
+    
+    test = db.query(TestAttempt).filter(
+        TestAttempt.id == test_id,
+        TestAttempt.user_id == current_user.id
+    ).first()
+    
+    if not test:
+        raise HTTPException(status_code=404, detail="Test not found")
+    
+    db.delete(test)
+    db.commit()
+    
+    return {"message": "Test deleted successfully", "test_id": test_id}

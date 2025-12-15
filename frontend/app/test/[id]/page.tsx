@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Clock, Send, AlertCircle } from 'lucide-react';
 import { testAPI } from '@/src/lib/api';
+import toast from 'react-hot-toast';
 
 export default function TestPage() {
     const router = useRouter();
@@ -63,6 +64,7 @@ export default function TestPage() {
             });
 
             router.push(`/result/${testId}`);
+            toast.success('Test submitted successfully');
         } catch (err) {
             setError('Failed to submit test. Please try again.');
         } finally {

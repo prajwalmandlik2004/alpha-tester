@@ -46,6 +46,7 @@ export const testAPI = {
   submitTest: (data: { test_id: number; answers: Array<{ question_id: number; answer_text: string }> }) =>
     api.post('/api/test/submit', data),
   getDashboard: () => api.get('/api/test/dashboard'),
+  deleteTest: (testId: number) => api.delete(`/api/test/delete/${testId}`), 
 };
 
 // Result APIs

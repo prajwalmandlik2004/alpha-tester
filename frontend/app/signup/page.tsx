@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { UserPlus, Mail, Lock, User, AlertCircle } from 'lucide-react';
 import { authAPI } from '@/src/lib/api';
+import toast from 'react-hot-toast';
 
 export default function Signup() {
   const router = useRouter();
@@ -44,6 +45,7 @@ export default function Signup() {
       });
 
       localStorage.setItem('token', loginResponse.data.access_token);
+      toast.success('Signup successfully');
       router.push('/test-platform');
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Signup failed. Please try again.');

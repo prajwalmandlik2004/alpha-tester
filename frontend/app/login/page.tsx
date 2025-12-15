@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
 import { authAPI } from '@/src/lib/api';
+import toast from 'react-hot-toast';
 
 export default function Login() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export default function Login() {
       const response = await authAPI.login(formData);
       localStorage.setItem('token', response.data.access_token);
       router.push('/test-platform');
+      toast.success('Login successfully');
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
     } finally {
