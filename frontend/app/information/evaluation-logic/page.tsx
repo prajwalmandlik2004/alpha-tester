@@ -1,100 +1,69 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Clipboard, Monitor } from 'lucide-react';
 
 export default function EvaluationLogicPage() {
   return (
-    <div className="min-h-screen">
-      <section className="bg-gradient-to-br from-green-50 to-emerald-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white">
+      <section className="bg-blue-50 border-b border-blue-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <Link href="/information" className="inline-flex items-center text-green-600 hover:text-green-700 mb-6 font-semibold transition-colors">
-            <ArrowLeft size={20} className="mr-2" />
-            Back to Information
+          <Link href="/information" className="text-blue-800 hover:underline mb-4 inline-block">
+            ← Back to Information
           </Link>
-          <div className="flex items-center space-x-4 mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-3xl">
-              📋
-            </div>
-            <div>
-              <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold mb-2">
-                Page 6-7
-              </span>
-              <h1 className="text-4xl font-bold gradient-text">Evaluation Logic & Distribution</h1>
-            </div>
-          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mt-2">Evaluation Logic & Distribution</h1>
+          {/* <p className="text-sm text-gray-600 mt-1">Page 6-7</p> */}
         </div>
       </section>
 
-      <section className="py-12 px-4 sm:px-6 lg:px-8">
+      <section className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-8">
           
-          {/* PAGE 6: Evaluation Logic */}
-          <article className="card">
-            <div className="flex items-center space-x-3 mb-6">
-              <Clipboard size={32} className="text-green-600" />
-              <h2 className="text-3xl font-bold text-gray-900">Evaluation Logic and Nature of Tests</h2>
-            </div>
+          <article className="border border-gray-300 p-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Evaluation Logic and Nature of Tests</h2>
 
-            <p className="text-lg leading-relaxed text-gray-700 mb-6">
+            <p className="text-base leading-7 mb-4">
               INDX evaluations do not take the form of traditional exams, standardized questionnaires, or knowledge tests. 
               They rely on interactive situations designed to observe cognitive behaviors over time.
             </p>
 
-            <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg mb-6">
-              <h3 className="text-xl font-bold text-blue-900 mb-4">Tests aim to analyze:</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span className="text-gray-700">how an interaction is initiated,</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span className="text-gray-700">how results are interpreted,</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span className="text-gray-700">successive adjustments made,</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="inline-block w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  <span className="text-gray-700">overall coherence of the approach.</span>
-                </li>
+            <div className="bg-gray-50 border border-gray-300 p-4 mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-3">Tests aim to analyze:</h3>
+              <ul className="list-disc list-inside space-y-2 text-base">
+                <li>how an interaction is initiated,</li>
+                <li>how results are interpreted,</li>
+                <li>successive adjustments made,</li>
+                <li>overall coherence of the approach.</li>
               </ul>
             </div>
 
-            <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg p-6">
-              <p className="text-lg leading-relaxed font-medium">
+            <div className="bg-gray-100 border border-gray-300 p-4">
+              <p className="text-base leading-7 font-medium">
                 There is no correct or incorrect answer. Evaluation focuses on the structure and stability of cognitive steering.
               </p>
             </div>
           </article>
 
-          {/* PAGE 7: Distribution Modalities */}
-          <article className="card bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200">
-            <div className="flex items-center space-x-3 mb-6">
-              <Monitor size={32} className="text-purple-600" />
-              <h2 className="text-3xl font-bold text-purple-900">Distribution Modalities and Supports</h2>
-            </div>
+          <article className="bg-gray-50 border border-gray-300 p-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Distribution Modalities and Supports</h2>
 
-            <p className="text-lg leading-relaxed text-gray-700 mb-6">
+            <p className="text-base leading-7 mb-4">
               INDX can be deployed through various supports: digital platforms, dedicated applications, controlled evaluation 
               environments. These supports do not constitute the core of the system.
             </p>
 
-            <div className="bg-white rounded-lg p-6">
-              <p className="text-lg leading-relaxed text-gray-700 mb-4">
+            <div className="border border-gray-300 p-4 bg-white">
+              <p className="text-base leading-7">
                 The platform is designed as a neutral vector. It serves the method without altering its principles. 
                 This separation guarantees the independence and durability of the AIS framework.
               </p>
             </div>
           </article>
 
-          <div className="flex justify-between items-center pt-8 border-t">
-            <Link href="/information/methodological-principles" className="btn-secondary">
+          <div className="flex justify-between items-center pt-6 border-t border-gray-300">
+            <Link href="/information/methodological-principles" className="text-blue-800 hover:underline">
               ← Back
             </Link>
-            <Link href="/information/organizational-applications" className="btn-primary">
+            <Link href="/information/organizational-applications" className="text-blue-800 hover:underline">
               Next →
             </Link>
           </div>
