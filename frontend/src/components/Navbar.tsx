@@ -26,12 +26,12 @@ export default function Navbar() {
     { href: '/about', label: 'About', icon: Info },
     { href: '/demo', label: 'Test Platform', icon: Beaker },
     // { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
-    { href: '/test-dashboard', label: 'My Tests', icon: BarChart3 },
+    { href: '/test-dashboard', label: 'Test History', icon: BarChart3 },
     { href: '/information', label: 'Information', icon: Info },
   ];
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md shadow-lg sticky top-0 z-50">
+    <nav className="bg-blue-900 backdrop-blur-md shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -39,7 +39,7 @@ export default function Navbar() {
             {/* <div className="w-10 h-10 bg-gradient-to-br from-blue-900 to-blue-900 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl"><Brain /></span>
             </div> */}
-            <span className="text-2xl font-bold text-blue-900">INDX</span>
+            <span className="text-2xl font-bold text-white">INDX</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -48,7 +48,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center space-x-1 text-gray-700 hover:text-blue-900 transition-colors duration-300 font-medium"
+                className="flex items-center space-x-1 text-white transition-colors duration-300 font-medium"
               >
                 {/* <link.icon size={18} /> */}
                 <span>{link.label}</span>
@@ -62,14 +62,14 @@ export default function Navbar() {
               <>
                 <Link
                   href="/profile"
-                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-900 transition-colors duration-300"
+                  className="flex items-center space-x-2 text-white transition-colors duration-300"
                 >
                   <User size={20} />
                   <span>Profile</span>
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-300"
+                  className="flex items-center space-x-2 bg-white text-blue-900 px-4 py-2 rounded-lg transition-colors duration-300"
                 >
                   <LogOut size={18} />
                   <span>Logout</span>
@@ -90,7 +90,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className="md:hidden p-2 rounded-lg text-white transition-colors"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -99,13 +99,13 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t animate-fade-in">
+        <div className="md:hidden bg-blue-900 border-t animate-fade-in">
           <div className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center space-x-2 text-gray-700 hover:text-blue-900 py-2 transition-colors"
+                className="flex items-center space-x-2 text-white py-2 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
                 <link.icon size={18} />
@@ -116,7 +116,7 @@ export default function Navbar() {
               <>
                 <Link
                   href="/profile"
-                  className="flex items-center space-x-2 text-gray-700 hover:text-blue-900 py-2"
+                  className="flex items-center space-x-2 text-white py-2"
                   onClick={() => setIsOpen(false)}
                 >
                   <User size={18} />
@@ -127,7 +127,7 @@ export default function Navbar() {
                     handleLogout();
                     setIsOpen(false);
                   }}
-                  className="flex items-center space-x-2 text-red-600 hover:text-red-700 py-2 w-full"
+                  className="flex items-center space-x-2 text-white py-2 w-full"
                 >
                   <LogOut size={18} />
                   <span>Logout</span>

@@ -32,12 +32,11 @@ export default function Footer() {
 
           {/* Categories */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Categories</h3>
+            <h3 className="font-bold text-lg mb-4">Series</h3>
             <ul className="space-y-2 text-blue-100">
-              <li>School Tests</li>
-              <li>Professional Tests</li>
-              <li>Technical Assessments</li>
-              <li>Company Evaluations</li>
+              <li>Series S</li>
+              <li>Series B</li>
+              <li>Series C</li>
             </ul>
           </div>
 

@@ -358,19 +358,19 @@ export default function ResultPage() {
             <div className="mb-6 md:mb-0">
               <h1 className="text-3xl font-bold mb-2">{result.test_name}</h1>
               <div className="flex flex-wrap gap-2">
-                <span className="px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
+                {/* <span className="px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-700">
                   {result.category}
                 </span>
                 <span className="px-3 py-1 rounded-full text-sm font-semibold bg-purple-100 text-purple-700">
                   {result.level.replace('_', ' ')}
-                </span>
+                </span> */}
                 <span className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-700">
                   {new Date(result.completed_at).toLocaleDateString()}
                 </span>
               </div>
             </div>
 
-            {/* <div className="text-center">
+            <div className="text-center">
               <div
                 className={`w-32 h-32 rounded-full bg-gradient-to-br ${getScoreColor(
                   result.score
@@ -382,7 +382,7 @@ export default function ResultPage() {
                 </div>
               </div>
               <div className="font-bold text-lg gradient-text">{getScoreLabel(result.score)}</div>
-            </div> */}
+            </div>
           </div>
 
           {/* Action Buttons */}
@@ -399,7 +399,7 @@ export default function ResultPage() {
         </div>
 
         {/* Analysis Overview */}
-        {/* <div className="card mb-8 animate-slide-up">
+        <div className="card mb-8 animate-slide-up">
           <h2 className="text-2xl font-bold mb-4 flex items-center space-x-2">
             <Trophy className="text-blue-900" size={28} />
             <span>Performance Analysis</span>
@@ -407,7 +407,7 @@ export default function ResultPage() {
           <p className="text-gray-700 leading-relaxed text-lg">
             {result.analysis.detailed_analysis}
           </p>
-        </div> */}
+        </div>
 
         {/* Question Feedback */}
         <div className="card mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
@@ -427,7 +427,7 @@ export default function ResultPage() {
                     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-900 rounded-full flex items-center justify-center">
                       <span className="text-white font-bold">{feedback.question_number}</span>
                     </div>
-                    <h3 className="font-bold text-lg">Question {feedback.question_number}</h3>
+                    <h3 className="font-bold text-lg">Sequence {feedback.question_number}</h3>
                   </div>
                   <div className="flex items-center space-x-2">
                     {feedback.score >= 70 ? (
