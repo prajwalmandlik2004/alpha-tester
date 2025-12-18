@@ -95,14 +95,14 @@ export default function DemoTestPage() {
                 </div>
 
                 {/* Question Card */}
-                <div className="card mb-8">
+                <div className="card mb-8 rounded-none">
                     <div className="flex items-start space-x-4 mb-6">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-900 to-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-900 to-blue-900  flex items-center justify-center flex-shrink-0">
                             <span className="text-white font-bold text-lg">{currentQuestionIndex + 1}</span>
                         </div>
                         <div className="flex-grow">
-                            <h2 className="text-xl text-blue-900 mb-4">
-                                {currentQuestion?.question_text}
+                            <h2 className="whitespace-pre-line text-lg text-blue-900 mb-4">
+                                {currentQuestion?.question_text.replace(/\n\s*/g, '\n\n')}
                             </h2>
                         </div>
                     </div>

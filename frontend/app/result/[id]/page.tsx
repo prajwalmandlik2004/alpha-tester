@@ -381,7 +381,7 @@ export default function ResultPage() {
                   <div className="text-sm text-white/90">Score</div>
                 </div>
               </div>
-              <div className="font-bold text-lg gradient-text">{getScoreLabel(result.score)}</div>
+              {/* <div className="font-bold text-lg text-blue-900">{getScoreLabel(result.score)}</div> */}
             </div>
           </div>
 
@@ -401,7 +401,7 @@ export default function ResultPage() {
         {/* Analysis Overview */}
         <div className="card mb-8 animate-slide-up">
           <h2 className="text-2xl font-bold mb-4 flex items-center space-x-2">
-            <Trophy className="text-blue-900" size={28} />
+            {/* <Trophy className="text-blue-900" size={28} /> */}
             <span>Performance Analysis</span>
           </h2>
           <p className="text-gray-700 leading-relaxed text-lg">
@@ -412,7 +412,7 @@ export default function ResultPage() {
         {/* Question Feedback */}
         <div className="card mb-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
           <h2 className="text-2xl font-bold mb-6 flex items-center space-x-2">
-            <Target className="text-blue-900" size={28} />
+            {/* <Target className="text-blue-900" size={28} /> */}
             <span>Complete Analysis</span>
           </h2>
 
@@ -420,13 +420,13 @@ export default function ResultPage() {
             {result.analysis.question_feedback.map((feedback: any, index: number) => (
               <div
                 key={index}
-                className="border-2 border-gray-200 rounded-lg p-6 hover:border-blue-300 transition-colors"
+                className="border-2 border-gray-200  p-6 hover:border-blue-300 transition-colors"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-900 rounded-full flex items-center justify-center">
+                    {/* <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-900 rounded-full flex items-center justify-center">
                       <span className="text-white font-bold">{feedback.question_number}</span>
-                    </div>
+                    </div> */}
                     <h3 className="font-bold text-lg">Sequence {feedback.question_number}</h3>
                   </div>
                   <div className="flex items-center space-x-2">

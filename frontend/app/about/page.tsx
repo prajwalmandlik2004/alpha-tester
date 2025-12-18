@@ -55,11 +55,14 @@ export default function About() {
                 and areas for improvement.
               </p>
             </div>
-            {/* <div className="relative">
-              <div className="w-full h-96 bg-gradient-to-br from-blue-900 to-blue-900 rounded-3xl shadow-2xl flex items-center justify-center">
-                <Globe className="text-white" size={120} />
-              </div>
-            </div> */}
+           {/* University Building Image */}
+            <div className="relative h-[300px] lg:h-[400px] overflow-hidden shadow-xl">
+              <img
+                src="/home_one.jpg"
+                alt="University Campus"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -74,7 +77,7 @@ export default function About() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="card text-center space-y-4">
+              <div key={index} className="card text-center space-y-4 rounded-none">
                 {/* <div className="w-16 h-16 bg-gradient-to-br from-blue-900 to-blue-900 rounded-xl flex items-center justify-center mx-auto">
                   <value.icon className="text-white" size={32} />
                 </div> */}
@@ -121,7 +124,7 @@ export default function About() {
               },
             ].map((feature, index) => (
               <div key={index} className="card">
-                <div className="flex items-start space-x-4">
+                <div className="flex items-start space-x-4 rounded-none">
                   {/* <div className="flex-shrink-0">
                     <Award className="text-blue-900" size={24} />
                   </div> */}

@@ -71,13 +71,13 @@ export default function DemoPage() {
       </section>
 
       {/* Series Cards */}
-      <section className="py-5 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             {series.map((s, index) => (
               <div
                 key={s.id}
-                className="card hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
+                className="card hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer rounded-none"
                 onClick={() => handleStartTest(s.id)}
               >
                 <div className="flex flex-col h-full">

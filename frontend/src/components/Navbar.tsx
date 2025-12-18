@@ -26,7 +26,7 @@ export default function Navbar() {
     { href: '/about', label: 'About', icon: Info },
     { href: '/demo', label: 'Test Platform', icon: Beaker },
     // { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
-    { href: '/test-dashboard', label: 'Test History', icon: BarChart3 },
+    { href: '/test-dashboard', label: 'Test Dashboard', icon: BarChart3 },
     { href: '/information', label: 'Information', icon: Info },
   ];
 
@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            {/* <div className="w-10 h-10 bg-gradient-to-br from-blue-900 to-blue-900 rounded-lg flex items-center justify-center">
+            {/* <div className="w-10 h-10 bg-gradient-to-br from-blue-900 to-blue-900  flex items-center justify-center">
               <span className="text-white font-bold text-xl"><Brain /></span>
             </div> */}
             <span className="text-2xl font-bold text-white">INDX</span>
@@ -69,7 +69,7 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 bg-white text-blue-900 px-4 py-2 rounded-lg transition-colors duration-300"
+                  className="flex items-center space-x-2 bg-white text-blue-900 px-4 py-2  transition-colors duration-300"
                 >
                   <LogOut size={18} />
                   <span>Logout</span>
@@ -77,10 +77,10 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/login" className="btn-secondary">
+                <Link href="/login" className="btn-secondary rounded-none">
                   Login
                 </Link>
-                <Link href="/signup" className="btn-primary">
+                <Link href="/signup" className="btn-primary rounded-none">
                   Sign Up
                 </Link>
               </>
@@ -90,7 +90,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg text-white transition-colors"
+            className="md:hidden p-2  text-white transition-colors"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -135,10 +135,10 @@ export default function Navbar() {
               </>
             ) : (
               <div className="space-y-2 pt-2">
-                <Link href="/login" className="block w-full btn-secondary text-center" onClick={() => setIsOpen(false)}>
+                <Link href="/login" className="block w-full btn-secondary text-center rounded-none" onClick={() => setIsOpen(false)}>
                   Login
                 </Link>
-                <Link href="/signup" className="block w-full btn-primary text-center" onClick={() => setIsOpen(false)}>
+                <Link href="/signup" className="block w-full btn-primary text-center rounded-none" onClick={() => setIsOpen(false)}>
                   Sign Up
                 </Link>
               </div>

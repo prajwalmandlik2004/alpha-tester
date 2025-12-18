@@ -70,7 +70,7 @@ export default function Signup() {
         <div className="card">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center space-x-2 text-red-700">
+              <div className="bg-red-50 border border-red-200  p-4 flex items-center space-x-2 text-red-700">
                 <AlertCircle size={20} />
                 <span>{error}</span>
               </div>

@@ -36,48 +36,48 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-blue-200/30 to-blue-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tr from-blue-300/20 to-blue-300/20 rounded-full blur-3xl"></div>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto text-center space-y-8 animate-fade-in">
-          <div className="inline-block">
-            <span className="bg-blue-100 text-blue-900 px-4 py-2 rounded-full text-sm font-semibold">
-              AI-Powered Testing Platform
-            </span>
-          </div>
-
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight text-blue-900">
-            Welcome to{' '}
-            <span className="text-blue-900">INDX</span>
-          </h1>
-
-          <p className="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Transform your learning journey with intelligent, adaptive testing powered by cutting-edge AI technology
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
-            <Link href="/signup" className="btn-primary flex items-center space-x-2 text-lg">
-              <span>Get Started Free</span>
-              <ArrowRight size={20} />
-            </Link>
-            <Link href="/about" className="btn-secondary text-lg">
-              Learn More
-            </Link>
-          </div>
-
-          {/* Stats */}
-          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-16">
-            {stats.map((stat, index) => (
-              <div key={index} className="space-y-2 animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
-                <div className="text-4xl font-bold text-blue-900">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
+      {/* Hero Section - Compact with Contained Image */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            {/* Text Content */}
+            <div className="space-y-6">
+              <div className="text-gray-600 text-sm">
+                Home / Test Platform
               </div>
-            ))}
-          </div> */}
+
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-gray-900">
+                Intelligent assessment solutions for modern education
+              </h1>
+
+              <div className="space-y-4 text-gray-600 text-lg">
+                <p>
+                  INDX delivers AI-powered testing and analytics for educational institutions and professional organizations.
+                </p>
+                <p>
+                  From adaptive assessments to detailed performance insights, our platform supports measurable learning outcomes.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Link href="/signup" className="bg-blue-900 text-white font-semibold py-3 px-6 rounded-none hover:bg-blue-900 transition-all duration-300 text-center">
+                  Get Started
+                </Link>
+                <Link href="/about" className="bg-white text-gray-900 font-semibold py-3 px-6 rounded-none hover:bg-gray-100 transition-all duration-300 border border-gray-300 text-center">
+                  Learn More
+                </Link>
+              </div>
+            </div>
+
+            {/* University Building Image */}
+            <div className="relative h-[400px] lg:h-[500px] overflow-hidden shadow-xl">
+              <img
+                src="/home_two.jpg"
+                alt="University Campus"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -86,7 +86,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-blue-900">
-              Why Choose INDX?
+              About INDX
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Experience the future of online testing with our intelligent platform
@@ -97,7 +97,7 @@ export default function Home() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="card hover:scale-105 transition-transform duration-300 animate-slide-up"
+                className="card hover:scale-105 transition-transform duration-300 animate-slide-up rounded-none"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-900 rounded-xl flex items-center justify-center mb-4">
@@ -145,7 +145,7 @@ export default function Home() {
               },
             ].map((item, index) => (
               <div key={index} className="relative">
-                <div className="card text-center space-y-4">
+                <div className="card text-center space-y-4 rounded-none">
                   {/* <div className="text-6xl font-bold text-blue-100">{item.step}</div> */}
                   {/* <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-900 rounded-full flex items-center justify-center mx-auto">
                     <item.icon className="text-white" size={32} />

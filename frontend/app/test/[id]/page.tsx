@@ -98,7 +98,7 @@ export default function TestPage() {
                 </div>
 
                 {error && (
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center space-x-2 text-red-700 mb-8">
+                    <div className="bg-red-50 border border-red-200  p-4 flex items-center space-x-2 text-red-700 mb-8">
                         <AlertCircle size={20} />
                         <span>{error}</span>
                     </div>

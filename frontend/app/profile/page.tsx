@@ -80,14 +80,14 @@ export default function Profile() {
 
           {/* Messages */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center space-x-2 text-red-700">
+            <div className="bg-red-50 border border-red-200  p-4 flex items-center space-x-2 text-red-700">
               <AlertCircle size={20} />
               <span>{error}</span>
             </div>
           )}
 
           {success && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-700">
+            <div className="bg-blue-50 border border-blue-200  p-4 text-blue-700">
               {success}
             </div>
           )}
