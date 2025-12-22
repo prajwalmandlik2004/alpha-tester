@@ -22,12 +22,14 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: '/', label: 'Home', icon: Home },
-    { href: '/about', label: 'About', icon: Info },
-    { href: '/demo', label: 'Test Platform', icon: Beaker },
+    { href: '/', label: 'Accueil', icon: Home },
+    { href: '/mission', label: 'Mission/Vision', icon: Home },
+    // { href: '/informations', label: 'Information', icon: Info },
+    { href: '/partnerships', label: 'Partenariats', icon: Info },
+    { href: '/demo', label: 'Plateforme', icon: Beaker },
     // { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
-    { href: '/test-dashboard', label: 'Test Dashboard', icon: BarChart3 },
-    { href: '/information', label: 'Information', icon: Info },
+    { href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 },
+
   ];
 
   return (
@@ -65,23 +67,23 @@ export default function Navbar() {
                   className="flex items-center space-x-2 text-white transition-colors duration-300"
                 >
                   <User size={20} />
-                  <span>Profile</span>
+                  <span>Profil</span>
                 </Link>
                 <button
                   onClick={handleLogout}
                   className="flex items-center space-x-2 bg-white text-[#050E3C] px-4 py-2  transition-colors duration-300"
                 >
                   <LogOut size={18} />
-                  <span>Logout</span>
+                  <span>Déconnexion</span>
                 </button>
               </>
             ) : (
               <>
                 <Link href="/login" className="btn-secondary rounded-none">
-                  Login
+                  Connexion
                 </Link>
                 <Link href="/signup" className="btn-primary rounded-none">
-                  Sign Up
+                  Inscription
                 </Link>
               </>
             )}
@@ -108,7 +110,7 @@ export default function Navbar() {
                 className="flex items-center space-x-2 text-white py-2 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                <link.icon size={18} />
+                {/* <link.icon size={18} /> */}
                 <span>{link.label}</span>
               </Link>
             ))}
@@ -120,7 +122,7 @@ export default function Navbar() {
                   onClick={() => setIsOpen(false)}
                 >
                   <User size={18} />
-                  <span>Profile</span>
+                  <span>Profil</span>
                 </Link>
                 <button
                   onClick={() => {
@@ -130,16 +132,16 @@ export default function Navbar() {
                   className="flex items-center space-x-2 text-white py-2 w-full"
                 >
                   <LogOut size={18} />
-                  <span>Logout</span>
+                  <span>Déconnexion</span>
                 </button>
               </>
             ) : (
               <div className="space-y-2 pt-2">
                 <Link href="/login" className="block w-full btn-secondary text-center rounded-none" onClick={() => setIsOpen(false)}>
-                  Login
+                  Connexion
                 </Link>
                 <Link href="/signup" className="block w-full btn-primary text-center rounded-none" onClick={() => setIsOpen(false)}>
-                  Sign Up
+                  Inscription
                 </Link>
               </div>
             )}

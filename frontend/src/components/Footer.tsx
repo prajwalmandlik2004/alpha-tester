@@ -14,29 +14,37 @@ export default function Footer() {
               </div> */}
               <span className="text-2xl font-bold">INDX</span>
             </div>
-            <p className="text-blue-100">
-              AI-powered testing platform for modern education and professional development.
-            </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+            <h3 className="font-bold text-lg mb-4">Liens rapides</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="text-blue-100 hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" className="text-blue-100 hover:text-white transition-colors">About</Link></li>
-              <li><Link href="/demo" className="text-blue-100 hover:text-white transition-colors">Test Platform</Link></li>
-              <li><Link href="/test-dashboard" className="text-blue-100 hover:text-white transition-colors">Dashboard</Link></li>
+              <li><Link href="/" className="text-blue-100 hover:text-white transition-colors">Accueil</Link></li>
+              <li><Link href="/mission" className="text-blue-100 hover:text-white transition-colors">Mission/Vision</Link></li>
+              {/* <li><Link href="/informations" className="text-blue-100 hover:text-white transition-colors">Information</Link></li> */}
+              <li><Link href="/partnerships" className="text-blue-100 hover:text-white transition-colors">Partenariats</Link></li>
             </ul>
           </div>
 
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-bold text-lg mb-4">Liens rapides</h3>
+            <ul className="space-y-2">
+              <li><Link href="/demo" className="text-blue-100 hover:text-white transition-colors">Plateforme</Link></li>
+              <li><Link href="/test-dashboard" className="text-blue-100 hover:text-white transition-colors">Dashboard</Link></li>
+              <li><Link href="/profile" className="text-blue-100 hover:text-white transition-colors">Profil</Link></li>
+            </ul>
+          </div>
+
+
           {/* Categories */}
           <div>
-            <h3 className="font-bold text-lg mb-4">Series</h3>
+            <h3 className="font-bold text-lg mb-4">Serie</h3>
             <ul className="space-y-2 text-blue-100">
-              <li>Series S</li>
-              <li>Series B</li>
-              <li>Series C</li>
+              <li><Link href="/demo">Serie 1</Link></li>
+              <li><Link href="/demo">Serie 2</Link></li>
+              <li><Link href="/demo">Serie 3</Link></li>
             </ul>
           </div>
 
@@ -61,7 +69,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[#050E3C] mt-8 pt-8 text-center text-blue-100">
-          <p>&copy; 2025 INDX Test Platform. All rights reserved.</p>
+          <p>&copy; 2025 INDX. Tous droits réservés.</p>
         </div>
       </div>
     </footer>
