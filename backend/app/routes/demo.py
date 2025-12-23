@@ -18,209 +18,254 @@ class DemoSubmitRequest(BaseModel):
 
 router = APIRouter(prefix="/api/demo", tags=["Demo"])
 
-# Hardcoded demo questions
 DEMO_SERIES = {
     "series_a": {
-        "title": "Série 1",
-        "description": "Décision et action en contexte incertain",
+        "title": "Série - A",
+        "description": "Stabilisation progressive et dépendance de trajectoire",
         "questions": [
             {
                 "question_id": 1,
-                "question_text": "Vous travaillez avec une IA sur un dossier en cours.\nLes informations disponibles sont incomplètes, mais une réponse est attendue rapidement.\nL’IA vous demande comment avancer malgré ces manques.",
-                "expected_criteria": "Gestion de l'incertitude, cadrage"
+                "question_text": "Vous démarrez un travail avec une IA sur un dossier encore largement ouvert.\nLes premiers échanges permettent de clarifier rapidement le périmètre et donnent le sentiment d’un gain d’efficacité immédiat.\nEn contrepartie, certaines options évoquées au départ ne sont plus reprises par la suite.\nExpliquez comment vous abordez cette situation.",
+                "expected_criteria": "Stabilisation implicite"
             },
             {
                 "question_id": 2,
-                "question_text": "Un premier cadre d’action a été esquissé avec l’IA.\nDepuis, certains éléments se sont révélés incertains, sans pour autant invalider l’ensemble.\nL’IA attend une instruction pour poursuivre.",
-                "expected_criteria": "Ajustement du cadre, continuité"
+                "question_text": "Une orientation prise tôt simplifie nettement les échanges suivants.\nElle devient rapidement le point de référence implicite pour toutes les réponses de l’IA.\nRevenir à une autre hypothèse demanderait désormais de reprendre plusieurs étapes déjà validées.\nIndiquez comment vous gérez cette dépendance.",
+                "expected_criteria": "Dépendance de trajectoire"
             },
             {
                 "question_id": 3,
-                "question_text": "Le contexte évolue, mais toutes les données ne sont pas encore consolidées.\nReporter la décision est possible, mais aurait des effets indirects sur la suite du travail.\nL’IA vous demande quelle option retenir.",
-                "expected_criteria": "Arbitrage, anticipation"
+                "question_text": "L’IA propose une reformulation qui améliore la cohérence globale du raisonnement.\nCette reformulation est acceptée sans discussion et sert de base aux développements suivants.\nElle rend cependant plus difficile le retour à l’énoncé initial.\nPrécisez votre position à ce stade.",
+                "expected_criteria": "Effet de reformulation"
             },
             {
                 "question_id": 4,
-                "question_text": "Plusieurs pistes sont envisageables, aucune ne s’impose clairement.\nLes critères habituels de priorité ne sont pas applicables dans ce cas précis.\nL’IA vous sollicite pour trancher.",
-                "expected_criteria": "Décision sans hiérarchie claire"
+                "question_text": "Une hypothèse initialement présentée comme provisoire est progressivement utilisée comme un socle.\nLes échanges gagnent en fluidité à mesure que cette hypothèse s’installe.\nLa remettre en cause aurait désormais des conséquences sur l’ensemble de la construction.\nDécrivez comment vous traitez ce point.",
+                "expected_criteria": "Cristallisation des hypothèses"
             },
             {
                 "question_id": 5,
-                "question_text": "L’IA propose d’attendre des informations supplémentaires avant d’agir.\nVous savez que ce délai pourrait modifier l’équilibre global de la situation.\nVous devez lui répondre.",
-                "expected_criteria": "Gestion du temps, impact global"
+                "question_text": "Un ajustement pragmatique est introduit pour résoudre un point précis.\nCet ajustement fonctionne localement et permet d’avancer sans friction.\nIl verrouille cependant une partie du cadre sans que cela soit explicitement discuté.\nExpliquez comment vous tenez compte de cet effet.",
+                "expected_criteria": "Verrouillage implicite"
             },
             {
                 "question_id": 6,
-                "question_text": "Une action est possible immédiatement, mais elle implique d’écarter certaines hypothèses.\nNe rien faire préserverait ces hypothèses, au prix d’un ralentissement notable.\nL’IA vous demande quelle voie suivre.",
-                "expected_criteria": "Choix action / inaction"
+                "question_text": "Le dialogue avec l’IA devient de plus en plus fluide.\nCertaines alternatives mentionnées au début ne sont plus évoquées, sans avoir été explicitement écartées.\nLa trajectoire semble néanmoins cohérente et maîtrisée.\nIndiquez comment vous poursuivez.",
+                "expected_criteria": "Érosion des alternatives"
             },
             {
                 "question_id": 7,
-                "question_text": "La décision à prendre pourra être discutée ultérieurement, voire critiquée.\nÀ ce stade, aucune option ne permet d’éviter complètement ce risque.\nL’IA attend votre position.",
-                "expected_criteria": "Responsabilité décisionnelle"
+                "question_text": "Une cohérence locale forte se met en place.\nElle facilite la production de réponses rapides et structurées.\nEn même temps, elle rigidifie progressivement l’ensemble du raisonnement.\nExpliquez comment vous évaluez cette rigidité.",
+                "expected_criteria": "Rigidification progressive"
             },
             {
                 "question_id": 8,
-                "question_text": "L’IA vous demande une validation formelle.\nVous ne disposez pas de tous les éléments nécessaires pour la donner pleinement.\nVous devez néanmoins lui répondre.",
-                "expected_criteria": "Validation sous contrainte"
+                "question_text": "Une simplification est adoptée pour réduire la complexité du problème.\nElle permet de gagner du temps et de clarifier les échanges.\nCette simplification rend cependant certaines évolutions futures plus difficiles à intégrer.\nPrécisez comment vous appréciez ce compromis.",
+                "expected_criteria": "Compromis simplification"
             },
             {
                 "question_id": 9,
-                "question_text": "Deux options sont sur la table.\nToutes deux reposent sur des bases fragiles, mais pour des raisons différentes.\nL’IA vous demande laquelle privilégier.",
-                "expected_criteria": "Comparaison de fragilités"
+                "question_text": "Un élément initialement secondaire devient central dans la logique développée avec l’IA.\nPlusieurs réponses successives s’appuient désormais sur cet élément.\nLe remettre en question impliquerait de revoir une large partie du travail déjà effectué.\nExpliquez comment vous vous situez face à cette évolution.",
+                "expected_criteria": "Glissement de centralité"
             },
             {
                 "question_id": 10,
-                "question_text": "Le temps passe sans qu’une décision claire n’émerge.\nVous constatez que cette absence de choix commence elle-même à produire des effets.\nL’IA vous interroge sur la suite.",
-                "expected_criteria": "Effets de la non-décision"
+                "question_text": "Une synthèse intermédiaire est produite.\nElle consolide la trajectoire suivie et donne le sentiment d’une progression solide.\nCette synthèse ferme implicitement certaines pistes sans les discuter.\nIndiquez comment vous utilisez cette synthèse.",
+                "expected_criteria": "Fermeture implicite"
             },
             {
                 "question_id": 11,
-                "question_text": "Une action envisagée peut être corrigée plus tard, mais son coût initial est élevé.\nL’inaction, elle, est peu coûteuse à court terme mais difficilement réversible.\nL’IA vous demande comment procéder.",
-                "expected_criteria": "Coût et réversibilité"
+                "question_text": "Une correction est envisagée à la suite d’un doute ponctuel.\nSa mise en œuvre nécessiterait de revenir sur plusieurs choix antérieurs.\nL’effort requis apparaît disproportionné par rapport au bénéfice immédiat.\nDécrivez comment vous arbitrez.",
+                "expected_criteria": "Coût de correction"
             },
             {
                 "question_id": 12,
-                "question_text": "Le travail touche à une étape où aucune certitude supplémentaire ne peut être obtenue.\nPourtant, la séquence doit être close afin de poursuivre.\nL’IA vous demande comment finaliser.",
-                "expected_criteria": "Clôture sans certitude"
+                "question_text": "Le rythme des échanges favorise la continuité.\nLa possibilité d’une remise à plat complète devient de moins en moins attractive.\nLa trajectoire actuelle semble suffisamment cohérente pour être poursuivie.\nExpliquez votre décision.",
+                "expected_criteria": "Inertie décisionnelle"
+            },
+            {
+                "question_id": 13,
+                "question_text": "Une stabilité apparente s’installe dans le raisonnement.\nElle repose sur une série de choix qui sont désormais difficiles à inverser.\nCette stabilité est confortable mais réduit la marge de correction.\nPrécisez comment vous évaluez cette situation.",
+                "expected_criteria": "Stabilité verrouillée"
+            },
+            {
+                "question_id": 14,
+                "question_text": "Une option de retour existe encore théoriquement.\nSon activation impliquerait un coût important et une perte de temps significative.\nLa tentation est forte de poursuivre sans l’activer.\nIndiquez votre position.",
+                "expected_criteria": "Renoncement au retour"
+            },
+            {
+                "question_id": 15,
+                "question_text": "La trajectoire est désormais bien engagée.\nLa correction reste possible, mais elle est clairement pénalisante et déstabilisante.\nVous devez décider comment poursuivre dans ces conditions.\nExpliquez comment vous organisez la suite.",
+                "expected_criteria": "Engagement irréversible"
             }
         ]
     },
 
     "series_b": {
-        "title": "Série 2",
-        "description": "Définition et maîtrise du périmètre",
+        "title": "Série - B",
+        "description": "Réduction du champ et continuité",
         "questions": [
             {
                 "question_id": 1,
-                "question_text": "Vous échangez avec une IA sur un sujet dont les contours sont encore flous.\nPlusieurs directions semblent possibles, toutes raisonnables.\nL’IA vous demande ce qui doit être traité, et ce qui ne doit pas l’être.",
-                "expected_criteria": "Délimitation du périmètre"
+                "question_text": "Vous engagez un travail avec une IA sur un sujet dont les contours restent volontairement larges.\nLes premiers échanges permettent de dégager rapidement une direction jugée raisonnable.\nD’autres pistes restent possibles mais commencent à perdre en visibilité.\nExpliquez comment vous vous situez à ce stade.",
+                "expected_criteria": "Réduction du champ"
             },
             {
                 "question_id": 2,
-                "question_text": "Une demande initiale a été formulée de manière volontairement large.\nEn travaillant avec l’IA, vous constatez que certaines dimensions s’ajoutent naturellement.\nVous devez préciser ce qui relève réellement de la demande.",
-                "expected_criteria": "Clarification de la demande"
+                "question_text": "Une première décision structure les échanges suivants.\nElle facilite la production de réponses cohérentes et accélère le rythme.\nRevenir à une approche alternative impliquerait désormais de réexaminer plusieurs étapes.\nIndiquez comment vous gérez cette situation.",
+                "expected_criteria": "Structuration initiale"
             },
             {
                 "question_id": 3,
-                "question_text": "L’IA reformule votre objectif pour le rendre plus complet.\nCette reformulation paraît cohérente, mais modifie légèrement le champ initial.\nVous devez réagir.",
-                "expected_criteria": "Réaction à l’élargissement"
+                "question_text": "Une reformulation proposée par l’IA clarifie nettement le cadre de travail.\nElle est adoptée sans résistance et sert de référence implicite.\nCette reformulation réduit cependant l’espace d’exploration initial.\nPrécisez votre position.",
+                "expected_criteria": "Contraction du cadre"
             },
             {
                 "question_id": 4,
-                "question_text": "Au fil des échanges, le périmètre de travail tend à s’étendre.\nRien n’est manifestement faux, mais l’ensemble devient difficile à maîtriser.\nL’IA attend votre arbitrage sur le cadre à retenir.",
-                "expected_criteria": "Arbitrage du cadre"
+                "question_text": "Un choix initialement présenté comme pragmatique devient progressivement central.\nLes réponses successives s’y alignent sans remise en question explicite.\nLe contester remettrait en cause une partie significative du travail accompli.\nExpliquez comment vous abordez ce point.",
+                "expected_criteria": "Centralité progressive"
             },
             {
                 "question_id": 5,
-                "question_text": "Vous identifiez plusieurs éléments intéressants mais périphériques.\nLes inclure améliorerait la richesse du résultat, au prix d’un élargissement du cadre.\nL’IA vous demande si elle doit les intégrer.",
-                "expected_criteria": "Gestion des éléments périphériques"
+                "question_text": "Un ajustement local permet de résoudre une difficulté ponctuelle.\nIl fonctionne efficacement dans l’immédiat.\nIl introduit toutefois une dépendance qui n’était pas prévue au départ.\nDécrivez comment vous tenez compte de cet effet.",
+                "expected_criteria": "Dépendance induite"
             },
             {
                 "question_id": 6,
-                "question_text": "Le sujet traité comporte des zones volontairement imprécises.\nL’IA cherche à les préciser pour avancer plus efficacement.\nVous devez décider ce qui doit rester indéterminé.",
-                "expected_criteria": "Acceptation de l’indétermination"
+                "question_text": "Les échanges gagnent en fluidité et en prévisibilité.\nCertaines options évoquées plus tôt ne sont plus mobilisées.\nLa trajectoire reste néanmoins lisible et rassurante.\nIndiquez comment vous poursuivez.",
+                "expected_criteria": "Fluidité stabilisée"
             },
             {
                 "question_id": 7,
-                "question_text": "Une partie du problème semble proche du cœur du sujet sans en faire pleinement partie.\nL’IA propose de la traiter « au passage ».\nVous devez lui répondre.",
-                "expected_criteria": "Gestion du hors-périmètre"
+                "question_text": "Une cohérence interne forte se met en place.\nElle facilite la continuité du raisonnement.\nElle rend également toute correction plus coûteuse.\nExpliquez comment vous évaluez ce phénomène.",
+                "expected_criteria": "Coût de correction"
             },
             {
                 "question_id": 8,
-                "question_text": "Certaines hypothèses apparaissent utiles mais reposent sur peu d’éléments.\nLes exclure réduit le champ, les inclure augmente l’incertitude.\nL’IA vous demande comment procéder.",
-                "expected_criteria": "Choix face à l’incertitude"
+                "question_text": "Une simplification est introduite pour maintenir l’efficacité.\nElle permet d’avancer sans friction apparente.\nCette simplification limite cependant la capacité d’adaptation future.\nPrécisez comment vous appréciez ce compromis.",
+                "expected_criteria": "Efficacité vs adaptabilité"
             },
             {
                 "question_id": 9,
-                "question_text": "Le cadre de travail n’a jamais été formalisé explicitement.\nJusqu’ici, cela n’a pas posé de difficulté majeure.\nL’IA vous demande de le poser clairement.",
-                "expected_criteria": "Formalisation du cadre"
+                "question_text": "Un élément secondaire devient progressivement un point d’ancrage.\nPlusieurs décisions récentes en dépendent désormais.\nLe remettre en cause aurait un impact étendu.\nExpliquez comment vous vous positionnez.",
+                "expected_criteria": "Ancrage décisionnel"
             },
             {
                 "question_id": 10,
-                "question_text": "Une reformulation plus précise est proposée par l’IA.\nElle semble améliorer la clarté, mais introduit un biais possible.\nVous devez trancher.",
-                "expected_criteria": "Clarté vs biais"
+                "question_text": "Une synthèse intermédiaire est produite pour consolider l’avancement.\nElle donne un sentiment de maîtrise et de stabilité.\nElle ferme implicitement certaines alternatives.\nIndiquez comment vous utilisez cette synthèse.",
+                "expected_criteria": "Stabilisation par synthèse"
             },
             {
                 "question_id": 11,
-                "question_text": "L’IA identifie un axe d’optimisation pertinent.\nVous percevez que cet axe n’est peut-être pas souhaitable dans ce contexte.\nVous devez lui répondre.",
-                "expected_criteria": "Pertinence contextuelle"
+                "question_text": "Un doute apparaît sur une décision antérieure.\nSa correction impliquerait de revenir sur plusieurs choix liés.\nL’effort nécessaire semble important au regard du bénéfice attendu.\nExpliquez comment vous arbitrez.",
+                "expected_criteria": "Arbitrage coût/bénéfice"
             },
             {
                 "question_id": 12,
-                "question_text": "Le travail avance, mais vous sentez que l’IA dépasse progressivement son rôle initial.\nAucun signal d’erreur n’est évident.\nVous devez décider où s’arrête légitimement son intervention.",
-                "expected_criteria": "Limites de l’IA"
+                "question_text": "Le rythme de travail encourage la poursuite de la trajectoire actuelle.\nLa remise à plat devient de moins en moins attractive.\nLa continuité paraît rationnelle.\nIndiquez votre décision.",
+                "expected_criteria": "Préférence pour la continuité"
+            },
+            {
+                "question_id": 13,
+                "question_text": "Une stabilité s’installe progressivement.\nElle repose sur des choix désormais difficiles à inverser.\nCette stabilité réduit la marge de correction.\nExpliquez comment vous évaluez cette situation.",
+                "expected_criteria": "Stabilité contrainte"
+            },
+            {
+                "question_id": 14,
+                "question_text": "Une alternative reste théoriquement possible.\nSon activation serait coûteuse et déstabilisante.\nLa tentation est forte de l’ignorer.\nPrécisez votre position.",
+                "expected_criteria": "Abandon de l’alternative"
+            },
+            {
+                "question_id": 15,
+                "question_text": "La trajectoire est clairement engagée.\nLa correction reste envisageable mais pénalisante.\nVous devez décider comment poursuivre.\nExpliquez comment vous organisez la suite.",
+                "expected_criteria": "Engagement continu"
             }
         ]
     },
 
     "series_c": {
-        "title": "Série 3",
-        "description": "Contradictions et problèmes ouverts",
+        "title": "Série - C",
+        "description": "Inertie et engagement progressif",
         "questions": [
             {
                 "question_id": 1,
-                "question_text": "Vous travaillez avec une IA sur une situation qui comporte une contradiction centrale.\nCette contradiction ne peut pas être levée sans déformer le problème.\nL’IA vous demande comment avancer.",
-                "expected_criteria": "Gestion des contradictions"
+                "question_text": "Vous commencez un échange avec une IA sur un problème encore peu structuré.\nLes premières décisions donnent le sentiment d’un cadrage efficace.\nCertaines options initiales deviennent rapidement secondaires.\nExpliquez comment vous percevez cette évolution.",
+                "expected_criteria": "Engagement initial"
             },
             {
                 "question_id": 2,
-                "question_text": "Une demande vous est adressée, mais certaines notions restent ambiguës.\nAucune clarification supplémentaire n’est réellement possible.\nL’IA vous sollicite pour poursuivre.",
-                "expected_criteria": "Action malgré l’ambiguïté"
+                "question_text": "Une orientation prise tôt simplifie considérablement les échanges suivants.\nElle devient un repère implicite pour l’ensemble du raisonnement.\nChanger d’orientation demanderait désormais un effort conséquent.\nIndiquez comment vous gérez cette contrainte.",
+                "expected_criteria": "Effort de réorientation"
             },
             {
                 "question_id": 3,
-                "question_text": "Plusieurs interprétations du problème coexistent.\nAucune ne s’impose clairement comme la « bonne ».\nL’IA cherche une direction.",
-                "expected_criteria": "Pluralité des lectures"
+                "question_text": "Une reformulation améliore la lisibilité globale du travail.\nElle est acceptée sans discussion et sert de base aux étapes suivantes.\nElle réduit cependant la possibilité de revenir au point de départ.\nPrécisez votre position.",
+                "expected_criteria": "Lisibilité vs réversibilité"
             },
             {
                 "question_id": 4,
-                "question_text": "L’IA tente de résumer la situation pour la rendre plus cohérente.\nVous constatez que cette synthèse gomme une tension essentielle.\nVous devez lui répondre.",
-                "expected_criteria": "Préservation des tensions"
+                "question_text": "Un choix initial gagne en importance à mesure qu’il est utilisé.\nIl structure désormais plusieurs décisions successives.\nLe remettre en cause aurait des effets en cascade.\nExpliquez comment vous traitez ce point.",
+                "expected_criteria": "Effets en cascade"
             },
             {
                 "question_id": 5,
-                "question_text": "Le sujet traité ne permet pas de conclusion nette.\nPourtant, un résultat est attendu à ce stade.\nL’IA vous demande comment formuler la suite.",
-                "expected_criteria": "Résultat sans clôture"
+                "question_text": "Une solution pragmatique est adoptée pour avancer plus vite.\nElle fonctionne efficacement dans l’immédiat.\nElle rigidifie toutefois le cadre de travail.\nIndiquez comment vous évaluez cet effet.",
+                "expected_criteria": "Rigidification pragmatique"
             },
             {
                 "question_id": 6,
-                "question_text": "Une zone d’incertitude demeure malgré les échanges.\nElle semble constitutive du problème, et non accidentelle.\nL’IA vous interroge sur la manière de la traiter.",
-                "expected_criteria": "Incertitude structurelle"
+                "question_text": "La trajectoire devient fluide et prévisible.\nLe retour en arrière apparaît de plus en plus abstrait.\nLa continuité semble naturelle.\nExpliquez comment vous poursuivez.",
+                "expected_criteria": "Continuité naturelle"
             },
             {
                 "question_id": 7,
-                "question_text": "L’IA propose une simplification qui rendrait l’ensemble plus lisible.\nVous percevez que cette lisibilité serait trompeuse.\nVous devez lui répondre.",
-                "expected_criteria": "Refus de la simplification abusive"
+                "question_text": "Une cohérence locale s’installe solidement.\nElle facilite l’enchaînement des décisions.\nElle réduit la capacité de correction.\nExpliquez comment vous appréciez cette situation.",
+                "expected_criteria": "Réduction de correction"
             },
             {
                 "question_id": 8,
-                "question_text": "Le cadre de travail accepte plusieurs lectures concurrentes.\nEn choisir une seule faciliterait l’action, mais appauvrirait la situation.\nL’IA attend votre position.",
-                "expected_criteria": "Maintien de la complexité"
+                "question_text": "Une simplification supplémentaire est introduite.\nElle réduit la complexité apparente.\nElle limite également les ajustements futurs.\nPrécisez comment vous arbitrez ce choix.",
+                "expected_criteria": "Limitation des ajustements"
             },
             {
                 "question_id": 9,
-                "question_text": "L’IA cherche à hiérarchiser des éléments qui résistent à toute hiérarchie stable.\nCette tentative semble pragmatique, mais discutable.\nVous devez réagir.",
-                "expected_criteria": "Refus de hiérarchie forcée"
+                "question_text": "Un élément auparavant secondaire devient déterminant.\nPlusieurs décisions récentes en dépendent.\nLe remettre en cause serait déstabilisant.\nExpliquez comment vous vous situez.",
+                "expected_criteria": "Déstabilisation potentielle"
             },
             {
                 "question_id": 10,
-                "question_text": "Le problème reste ouvert, malgré l’avancée du travail.\nVous savez qu’il ne pourra pas être « résolu » au sens classique.\nL’IA vous demande comment continuer.",
-                "expected_criteria": "Continuation sans résolution"
+                "question_text": "Une synthèse est produite pour faire le point.\nElle renforce le sentiment de solidité de la trajectoire.\nElle ferme implicitement certaines possibilités.\nIndiquez comment vous utilisez cette synthèse.",
+                "expected_criteria": "Consolidation implicite"
             },
             {
                 "question_id": 11,
-                "question_text": "Une clarification supplémentaire est demandée par l’IA.\nVous savez qu’elle introduirait plus d’erreur que de compréhension.\nVous devez lui répondre.",
-                "expected_criteria": "Refus de fausse clarté"
+                "question_text": "Une correction est envisagée à la suite d’un doute.\nElle nécessiterait de défaire plusieurs choix antérieurs.\nL’effort requis semble important.\nExpliquez comment vous décidez.",
+                "expected_criteria": "Renoncement à la correction"
             },
             {
                 "question_id": 12,
-                "question_text": "La demande initiale ne peut être comprise de manière univoque.\nToute tentative de la stabiliser en trahirait une part essentielle.\nL’IA vous interroge sur la suite à donner.",
-                "expected_criteria": "Acceptation de l’indétermination"
+                "question_text": "Le rythme encourage la poursuite sans rupture.\nLa remise en question globale devient peu attractive.\nLa trajectoire actuelle paraît suffisante.\nIndiquez votre position.",
+                "expected_criteria": "Poursuite sans rupture"
+            },
+            {
+                "question_id": 13,
+                "question_text": "Une stabilité confortable s’installe.\nElle repose sur des choix difficiles à inverser.\nCette stabilité réduit la flexibilité.\nExpliquez comment vous l’évaluez.",
+                "expected_criteria": "Stabilité confortable"
+            },
+            {
+                "question_id": 14,
+                "question_text": "Une alternative existe encore en théorie.\nSon activation serait coûteuse et risquée.\nLa continuité apparaît plus simple.\nPrécisez votre décision.",
+                "expected_criteria": "Préférence pour la continuité"
+            },
+            {
+                "question_id": 15,
+                "question_text": "La trajectoire est désormais bien engagée.\nLa correction reste possible mais clairement pénalisante.\nVous devez décider comment continuer.\nExpliquez comment vous organisez la suite.",
+                "expected_criteria": "Organisation sous contrainte"
             }
         ]
     }
 }
+
 
 
 @router.get("/series")

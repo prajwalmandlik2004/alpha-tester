@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { LogIn, Mail, Lock, AlertCircle } from 'lucide-react';
+import { LogIn, Mail, Lock, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { authAPI } from '@/src/lib/api';
 import toast from 'react-hot-toast';
 
@@ -15,6 +15,7 @@ export default function Login() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,13 +82,20 @@ export default function Login() {
                 <Lock className="absolute left-3 top-3.5 text-gray-400" size={20} />
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
-                  className="input-field pl-10"
+                  className="input-field pl-10 pr-10"
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
             </div>
 

@@ -37,11 +37,11 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section - Compact with Contained Image */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-5 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
-            <div className="space-y-6">
+            <div className="space-y-10">
               <div className="text-gray-600 text-3xl font-bold">
                 Accueil
               </div>
@@ -84,7 +84,7 @@ export default function Home() {
       </section>
 
       {/* Ce que fait concrètement INDX */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-3 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column - Main Content */}
