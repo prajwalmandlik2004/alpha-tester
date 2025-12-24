@@ -37,6 +37,7 @@ export default function Navbar() {
       console.error('Failed to start test:', error);
     }
     setDropdownOpen(false);
+    setIsOpen(false);
   };
 
 
@@ -66,14 +67,14 @@ export default function Navbar() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (dropdownOpen && !target.closest('.relative')) {
+      if (dropdownOpen && !target.closest('.dropdown-container') && !isOpen) {
         setDropdownOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [dropdownOpen]);
+  }, [dropdownOpen, isOpen]);
 
   return (
     <nav className="bg-[#050E3C] backdrop-blur-md shadow-lg sticky top-0 z-50">
@@ -100,8 +101,8 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* INDX1000 Dropdown */}
-            <div className="relative">
+            {/* INDX1000 Dropdown - Desktop */}
+            <div className="relative dropdown-container">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="flex items-center space-x-1 text-white transition-colors duration-300 font-medium"
