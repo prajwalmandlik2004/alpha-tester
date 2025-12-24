@@ -4,6 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 const api = axios.create({
   baseURL: API_URL,
+  timeout: 45000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,6 +23,21 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      if (!window.location.pathname.includes('/login') &&
+        !window.location.pathname.includes('/signup')) {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 
 // Auth APIs
 export const authAPI = {
@@ -46,7 +62,7 @@ export const testAPI = {
   submitTest: (data: { test_id: number; answers: Array<{ question_id: number; answer_text: string }> }) =>
     api.post('/api/test/submit', data),
   getDashboard: () => api.get('/api/test/dashboard'),
-  deleteTest: (testId: number) => api.delete(`/api/test/delete/${testId}`), 
+  deleteTest: (testId: number) => api.delete(`/api/test/delete/${testId}`),
 };
 
 // Result APIs
