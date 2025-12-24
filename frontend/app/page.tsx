@@ -41,16 +41,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
-            <div className="space-y-10">
-              <div className="text-gray-600 text-3xl font-bold">
-                Accueil
+            <div className="space-y-4">
+              <div className="text-gray-900 text-3xl font-bold">
+                ACCUEIL
               </div>
 
-              <h3 className="text-2xl sm:text-3xl lg:text-3xl font-bold leading-tight text-gray-900">
+              <h3 className="text-3xl sm:text-3xl lg:text-3xl font-bold leading-tight text-gray-900">
                 INDX
               </h3>
 
-              <p className="text-2xl leading-tight text-gray-900">
+              <p className="text-2xl text-gray-600">
                 Human-AI Cognitive Trajectory Framework
               </p>
 
@@ -131,78 +131,93 @@ export default function Home() {
               <div className="bg-white p-8 rounded-lg sticky top-8">
                 <ul className="space-y-2 text-gray-700">
                   <li>
-                    <a href="#vue-generale" className="hover:text-[#00008B] transition-colors">
-                      - Vue générale
+                    -
+                    <a href="#vue-generale" className="hover:text-[#00008B] transition-colors underline ms-2">
+                      Vue générale
                     </a>
                   </li>
                   <li>
-                    <a href="#institutions-publiques" className="hover:text-[#00008B] transition-colors">
-                      - Institutions publiques
+                    -
+                    <a href="#institutions-publiques" className="hover:text-[#00008B] transition-colors underline ms-2">
+                      Institutions publiques
                     </a>
                   </li>
                   <li>
-                    <a href="#institutions-education" className="hover:text-[#00008B] transition-colors">
-                      - Institutions / Education
+                    -
+                    <a href="#institutions-education" className="hover:text-[#00008B] transition-colors underline ms-2">
+                      Institutions / Education
                     </a>
                   </li>
                   <li>
-                    <a href="#cas-usages-transsectoriels" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Cas d'usages transsectoriels
+                    -
+                    <a href="#cas-usages-transsectoriels" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Cas d'usages transsectoriels
                     </a>
                   </li>
                   <li>
-                    <a href="#applications-organisationnelles" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Applications organisationnelles
+                    -
+                    <a href="#applications-organisationnelles" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Applications organisationnelles
                     </a>
                   </li>
                   <li>
-                    <a href="#bases-scientifiques" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Bases scientifiques
+                    -
+                    <a href="#bases-scientifiques" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Bases scientifiques
                     </a>
                   </li>
                   <li>
-                    <a href="#logique-evaluation" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Logique d'évaluation
+                    -
+                    <a href="#logique-evaluation" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Logique d'évaluation
                     </a>
                   </li>
                   <li>
-                    <a href="#champ-mesures" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Champ de mesures
+                    -
+                    <a href="#champ-mesures" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Champ de mesures
                     </a>
                   </li>
                   <li>
-                    <a href="#integrations-systemes" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Intégrations systèmes
+                    -
+                    <a href="#integrations-systemes" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Intégrations systèmes
                     </a>
                   </li>
                   <li>
-                    <a href="#questions-generales" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Questions générales
+                    -
+                    <a href="#questions-generales" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Questions générales
                     </a>
                   </li>
                   <li>
-                    <a href="#principes-methodologiques" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Principes méthodologiques
+                    -
+                    <a href="#principes-methodologiques" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Principes méthodologiques
                     </a>
                   </li>
                   <li>
-                    <a href="#ethique-limites" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Éthique et limites
+                    -
+                    <a href="#ethique-limites" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Éthique et limites
                     </a>
                   </li>
                   <li>
-                    <a href="#scenarios-deploiement" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Scénarios de déploiement
+                    -
+                    <a href="#scenarios-deploiement" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Scénarios de déploiement
                     </a>
                   </li>
                   <li>
-                    <a href="#a-propos-indx" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - À propos d'INDX
+                    -
+                    <a href="#a-propos-indx" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      À propos d'INDX
                     </a>
                   </li>
                   <li>
-                    <a href="#origine-ais" className="hover:text-[#00008B] transition-colors cursor-pointer">
-                      - Origine et nécessité d'AIS
+                    -
+                    <a href="#origine-ais" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
+                      Origine et nécessité d'AIS
                     </a>
                   </li>
                 </ul>

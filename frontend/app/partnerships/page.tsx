@@ -29,13 +29,13 @@ export default function PartnershipsPage() {
             </div>
           </div>
 
+          <div className="h-px bg-gray-300 my-8"></div>
+
           {/* Contextes de partenariat */}
           <div className="mb-16">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">
               Contextes de partenariat
             </h2>
-
-            <div className="h-px bg-gray-300 my-8"></div>
 
             <p className="text-gray-700 text-lg leading-relaxed mb-6">
               Les collaborations peuvent concerner :
@@ -62,9 +62,10 @@ export default function PartnershipsPage() {
               </li>
             </ul>
 
-            <div className="h-px bg-gray-300 my-8"></div>
           </div>
 
+
+          <div className="h-px bg-gray-300 my-8"></div>
           {/* Indépendance et usage */}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-8">

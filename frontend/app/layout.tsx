@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/src/components/Navbar'
 import Footer from '@/src/components/Footer'
 import { Toaster } from 'react-hot-toast';
+import ScrollToTop from '@/src/components/ScrollTop'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -37,6 +38,7 @@ export default function RootLayout({
             />
           </main>
           <Footer />
+          <ScrollToTop />
         </div>
       </body>
     </html>
