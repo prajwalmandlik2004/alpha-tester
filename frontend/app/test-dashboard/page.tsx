@@ -143,8 +143,8 @@ export default function TestDashboard() {
                   <tr>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">S.No</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Test Name</th>
-                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Category</th>
-                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Level</th>
+                    {/* <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Category</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Level</th> */}
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Date & Time</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Score</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Action</th>
@@ -161,7 +161,7 @@ export default function TestDashboard() {
                       <td className="px-6 py-4">
                         <div className="font-semibold text-gray-900">{test.test_name}</div>
                       </td>
-                      <td className="px-6 py-4">
+                      {/* <td className="px-6 py-4">
                         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
                           {test.category}
                         </span>
@@ -170,7 +170,7 @@ export default function TestDashboard() {
                         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
                           {test.level.replace('_', ' ')}
                         </span>
-                      </td>
+                      </td> */}
                       <td className="px-6 py-4 text-sm text-gray-600">
                         <div className="flex items-center space-x-2">
                           <Calendar size={16} />
@@ -235,18 +235,18 @@ export default function TestDashboard() {
                         <span className="text-sm font-bold text-gray-500">#{index + 1}</span>
                         <span className="font-bold text-gray-900">{test.test_name}</span>
                       </div>
-                      <div className="flex flex-wrap gap-2 mt-2">
+                      {/* <div className="flex flex-wrap gap-2 mt-2">
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
                           {test.category}
                         </span>
                         <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
                           {test.level.replace('_', ' ')}
                         </span>
-                      </div>
+                      </div> */}
                     </div>
                     {test.score !== null && (
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${getScoreBadge(test.score)}`}>
-                        {test.score.toFixed(1)}%
+                        {test.score.toFixed(1)}
                       </span>
                     )}
                   </div>

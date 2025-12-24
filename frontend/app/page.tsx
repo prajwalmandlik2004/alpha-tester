@@ -50,6 +50,10 @@ export default function Home() {
                 INDX
               </h3>
 
+              <p className="text-2xl leading-tight text-gray-900">
+                Human-AI Cognitive Trajectory Framework
+              </p>
+
               <div className="space-y-4 text-gray-600 text-2xl">
                 <p>
                   INDX mesure la capacité humaine à piloter un

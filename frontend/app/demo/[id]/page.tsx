@@ -104,6 +104,13 @@ export default function DemoTestPage() {
                         </div>
                     </div>
 
+                    {/* Test Name */}
+                    <div className="mb-6">
+                        <h1 className="text-2xl font-bold text-[#050E3C]">
+                            {test.test_name}
+                        </h1>
+                    </div>
+
                     {/* Question Card */}
                     <div className="card mb-8 rounded-none">
                         <div className="flex items-start space-x-4 mb-6">

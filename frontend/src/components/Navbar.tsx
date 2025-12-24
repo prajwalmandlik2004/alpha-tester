@@ -4,16 +4,47 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Menu, X, User, LogOut, Home, BookOpen, BarChart3, Info, Beaker, Brain } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { ChevronDown } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [testSeries, setTestSeries] = useState([
+    { id: 'series_a', name: 'Série 15-A' },
+    { id: 'series_b', name: 'Série 15-B' },
+    { id: 'series_c', name: 'Série 15-C' },
+    { id: 'series_25_a', name: 'Série 25-A' },
+    { id: 'series_25_b', name: 'Série 25-B' },
+    { id: 'series_25_c', name: 'Série 25-C' },
+  ]);
+
+  const handleTestSelect = async (seriesId: string) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/demo/start/${seriesId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      router.push(`/demo/${data.id}?data=${encodeURIComponent(JSON.stringify(data))}`);
+    } catch (error) {
+      console.error('Failed to start test:', error);
+    }
+    setDropdownOpen(false);
+  };
+
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
   }, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -32,9 +63,21 @@ export default function Navbar() {
 
   ];
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (dropdownOpen && !target.closest('.relative')) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
+
   return (
     <nav className="bg-[#050E3C] backdrop-blur-md shadow-lg sticky top-0 z-50">
-     <div className="max-w-7xl mx-auto pl-4 md:pl-0 pr-4 sm:pr-6 lg:pr-8">
+      <div className="max-w-7xl mx-auto pl-4 md:pl-0 pr-4 sm:pr-6 lg:pr-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
@@ -56,6 +99,32 @@ export default function Navbar() {
                 <span>{link.label}</span>
               </Link>
             ))}
+
+            {/* INDX1000 Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center space-x-1 text-white transition-colors duration-300 font-medium"
+              >
+                <span>INDX1000</span>
+                <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+                  {testSeries.map((test) => (
+                    <button
+                      key={test.id}
+                      onClick={() => handleTestSelect(test.id)}
+                      className="w-full text-left px-4 py-2 text-[#050E3C] hover:bg-blue-50 transition-colors"
+                    >
+                      {test.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
           </div>
 
           {/* Auth Buttons */}
@@ -114,6 +183,34 @@ export default function Navbar() {
                 <span>{link.label}</span>
               </Link>
             ))}
+
+            {/* INDX1000 Dropdown - Mobile */}
+            <div className="border-t pt-3 mt-3">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center justify-between w-full text-white py-2"
+              >
+                <span>INDX1000</span>
+                <ChevronDown size={16} className={`transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {dropdownOpen && (
+                <div className="pl-4 mt-2 space-y-2">
+                  {testSeries.map((test) => (
+                    <button
+                      key={test.id}
+                      onClick={() => {
+                        handleTestSelect(test.id);
+                        setIsOpen(false);
+                      }}
+                      className="block w-full text-left text-white/80 py-1 text-sm"
+                    >
+                      {test.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {isLoggedIn ? (
               <>
                 <Link

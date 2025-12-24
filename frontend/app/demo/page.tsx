@@ -88,7 +88,7 @@ export default function DemoPage() {
                   </div> */}
 
                   <h2 className="text-2xl font-bold mb-3">{s.title}</h2>
-                  <p className="text-gray-600 mb-4 flex-grow">{s.description}</p>
+                  {/* <p className="text-gray-600 mb-4 flex-grow">{s.description}</p> */}
 
                   <div className="flex items-center justify-between pt-4 border-t">
                     <div className="flex items-center space-x-2 text-sm text-gray-600">
