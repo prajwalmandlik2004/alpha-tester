@@ -41,12 +41,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
-            <div className="space-y-4">
-              <div className="text-gray-900 text-3xl font-bold">
+            <div className="space-y-6">
+              <div className="text-[#00008B text-4xl font-bold">
                 ACCUEIL
               </div>
 
-              <h3 className="text-3xl sm:text-3xl lg:text-3xl font-bold leading-tight text-gray-900">
+              <h3 className="text-3xl sm:text-3xl lg:text-3xl font-bold leading-tight text-[#00008B">
                 INDX
               </h3>
 
@@ -54,7 +54,7 @@ export default function Home() {
                 Human-AI Cognitive Trajectory Framework
               </p>
 
-              <div className="space-y-4 text-gray-600 text-2xl">
+              <div className="space-y-4 text-gray-600 text-xl">
                 <p>
                   INDX mesure la capacité humaine à piloter un
                   projet impliquant une IA, dans la durée.
@@ -80,7 +80,7 @@ export default function Home() {
               <img
                 src="/home_one.jpg"
                 alt="University Campus"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover brightness-60"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2">
-              <div className="mb-12">
+              <div className="mb-8">
                 <div className="flex items-start space-x-4">
                   <div className="w-2 h-12 bg-[#00008B] flex-shrink-0"></div>
                   <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
