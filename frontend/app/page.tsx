@@ -41,7 +41,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="text-[#00008B text-4xl font-bold">
                 ACCUEIL
               </div>
@@ -50,15 +50,15 @@ export default function Home() {
                 INDX
               </h3>
 
-              <p className="text-2xl text-gray-600">
+              <p className="text-xl text-gray-600">
                 Human-AI Cognitive Trajectory Framework
               </p>
 
-              <div className="space-y-4 text-gray-600 text-xl">
+              <div className="space-y-3 text-gray-600 text-base">
                 <p>
                   INDX mesure la capacité humaine à piloter un
                   projet impliquant une IA, dans la durée.
-                  Il s’intéresse à la manière dont l’interaction est
+                  Il s'intéresse à la manière dont l'interaction est
                   structurée et ajustée au fil du projet, en tenant
                   compte des spécificités des systèmes artificiels
                   et de la maîtrise des décisions.
@@ -93,7 +93,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2">
-              <div className="mb-8">
+              <div className="mb-6">
                 <div className="flex items-start space-x-4">
                   <div className="w-2 h-12 bg-[#00008B] flex-shrink-0"></div>
                   <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
@@ -102,7 +102,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div id="#vue-generale" className="space-y-6 text-gray-700 text-lg leading-relaxed">
+              <div id="#vue-generale" className="space-y-3 text-gray-700 text-base leading-relaxed">
                 <p>
                   INDX fournit un cadre structuré permettant d'observer, de comparer et d'analyser des trajectoires de pilotage humain face à l'IA, dans des situations réelles ou simulées.
                 </p>
@@ -111,11 +111,11 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="mt-16">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+              <div className="mt-10">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
                   Ce que mesure / ne mesure pas INDX
                 </h3>
-                <div className="space-y-4 text-gray-700 text-lg leading-relaxed">
+                <div className="space-y-3 text-gray-700 text-base leading-relaxed">
                   <p>
                     - INDX ne mesure ni la performance des systèmes d'IA, ni le niveau technique des outils utilisés.
                   </p>
@@ -228,9 +228,9 @@ export default function Home() {
       </section>
 
       {/* À qui s'adresse INDX */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
+          <div className="mb-8">
             <div className="flex items-start space-x-4">
               <div className="w-2 h-12 bg-[#8B0000] flex-shrink-0"></div>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
@@ -239,18 +239,18 @@ export default function Home() {
             </div>
           </div>
 
-          <div id="institutions-publiques" className="space-y-6 text-gray-700 text-lg leading-relaxed mb-12">
+          <div id="institutions-publiques" className="space-y-3 text-gray-700 text-base leading-relaxed mb-8">
             <p>
               INDX s'adresse aux individus, organisations et institutions confrontés à l'intégration croissante de l'IA dans leurs processus de réflexion, de décision ou d'action, et qui souhaitent disposer d'un cadre d'analyse rigoureux pour en évaluer les usages.
             </p>
           </div>
 
           {/* Institutions publiques */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
               Institutions publiques
             </h3>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 L'introduction de l'intelligence artificielle dans les institutions publiques concerne des domaines à fort impact : aide à la décision, analyse de données complexes, orientation des politiques publiques, gestion de services sensibles ou régulés.
               </p>
@@ -264,11 +264,11 @@ export default function Home() {
           </div>
 
           {/* Institutions / Education */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
               Institutions / Education - Enseignement supérieur et organismes académiques
             </h3>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 L'enseignement supérieur est confronté à une transformation profonde de ses modes d'évaluation et de production intellectuelle, liée à l'usage massif de l'IA par les étudiants comme par les enseignants. Dans ce contexte, l'enjeu n'est pas seulement la détection d'usages inappropriés ou la préservation de formes académiques existantes.
               </p>
@@ -286,10 +286,10 @@ export default function Home() {
 
           {/* Applications organisationnelles */}
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
               Applications organisationnelles
             </h3>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 Dans les organisations, l'IA est de plus en plus mobilisée dans des fonctions d'analyse, de recommandation, de synthèse ou d'aide à la décision, souvent au cœur de processus stratégiques ou opérationnels. Dans ces contextes, la valeur produite dépend moins des performances brutes des outils que de la qualité du pilotage cognitif exercé par les individus et les équipes qui les utilisent.
               </p>
@@ -305,15 +305,15 @@ export default function Home() {
       </section>
 
       {/* Cas d'usages transsectoriels */}
-      <section id="cas-usages-transsectoriels" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="cas-usages-transsectoriels" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
+          <div className="mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
               Cas d'usages transsectoriels
             </h2>
           </div>
 
-          <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+          <div className="space-y-3 text-gray-700 text-base leading-relaxed">
             <p>
               INDX a été conçu dès l'origine comme un cadre transversal, applicable à des secteurs, des métiers et des environnements très différents, dès lors que l'enjeu porte sur la conduite humaine d'une interaction cognitive avec des systèmes d'IA.
             </p>
@@ -337,20 +337,20 @@ export default function Home() {
       </section>
 
       {/* Le cadre et la méthode */}
-      <section id="bases-scientifiques" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="bases-scientifiques" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-12">
+          <div className="mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
               Le cadre et la méthode
             </h2>
           </div>
 
           {/* Bases scientifiques */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
               Bases scientifiques
             </h3>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 INDX s'appuie sur des apports issus de plusieurs champs théoriques, notamment les sciences cognitives, l'épistémologie, la théorie des systèmes et l'analyse de la décision.
               </p>
@@ -364,11 +364,11 @@ export default function Home() {
           </div>
 
           {/* Principes méthodologiques */}
-          <div className="mb-12">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
               Principes méthodologiques
             </h3>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 Le cadre INDX repose sur un ensemble de principes méthodologiques stables, indépendants des contextes d'application.
               </p>
@@ -387,10 +387,10 @@ export default function Home() {
 
           {/* Logique d'évaluation */}
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-4">
               Logique d'évaluation
             </h3>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 INDX ne cherche pas à produire un verdict, une note isolée ou un classement.
               </p>
@@ -409,14 +409,14 @@ export default function Home() {
       </section>
 
       {/* Champ de mesures, Éthique et limites, Scénarios de déploiement */}
-      <section id="champ-mesures" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="champ-mesures" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* Champ de mesures */}
-          <div className="mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+          <div className="mb-10">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
               Champ de mesures
             </h2>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 Le champ de mesures d'INDX porte sur des capacités cognitives spécifiques, mobilisées dans l'interaction avec des systèmes d'IA.
               </p>
@@ -434,11 +434,11 @@ export default function Home() {
           </div>
 
           {/* Éthique et limites */}
-          <div className="mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+          <div className="mb-10">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
               Éthique et limites
             </h2>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 INDX est un cadre d'évaluation, non un instrument de jugement normatif.
               </p>
@@ -468,10 +468,10 @@ export default function Home() {
 
           {/* Scénarios de déploiement */}
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
               Scénarios de déploiement
             </h2>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 INDX a été conçu pour pouvoir être déployé selon des modalités variées, adaptées aux contextes institutionnels, académiques ou organisationnels dans lesquels il est mobilisé.
               </p>
@@ -496,14 +496,14 @@ export default function Home() {
       </section>
 
       {/* À propos d'INDX et Origine d'AIS */}
-      <section id="a-propos-indx" className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="a-propos-indx" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* À propos d'INDX */}
-          <div className="mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+          <div className="mb-10">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
               À propos d'INDX
             </h2>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 INDX est un cadre d'évaluation indépendant, conçu pour analyser une capacité humaine spécifique : la manière dont un individu structure, conduit et stabilise son interaction cognitive avec une intelligence artificielle.
               </p>
@@ -524,13 +524,13 @@ export default function Home() {
 
           {/* Origine d'AIS */}
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
               Origine d'AIS
             </h2>
-            <h3 className="text-xl font-semibold text-gray-700 mb-4">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">
               Adaptive Intelligence Steering
             </h3>
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
+            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
                 AIS est né d'une observation structurante : les cadres d'évaluation existants sont devenus insuffisants face à l'essor rapide des systèmes d'intelligence artificielle.
               </p>
