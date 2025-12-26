@@ -228,80 +228,79 @@ export default function Home() {
       </section>
 
       {/* À qui s'adresse INDX */}
-     <section id="a-propos-indx" className="-mt-38 py-4 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8">
-            <div className="flex items-start space-x-4">
-              <div className="w-2 h-12 bg-[#8B0000] flex-shrink-0"></div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
-                À qui s'adresse INDX
-              </h2>
-            </div>
-          </div>
-
-          <div id="institutions-publiques" className="space-y-3 text-gray-700 text-base leading-relaxed mb-8">
-            <p>
-              INDX s'adresse aux individus, organisations et institutions confrontés à l'intégration croissante de l'IA dans leurs processus de réflexion, de décision ou d'action, et qui souhaitent disposer d'un cadre d'analyse rigoureux pour en évaluer les usages.
-            </p>
-          </div>
-
-          {/* Institutions publiques */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
-              Institutions publiques
-            </h3>
-            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
-              <p>
-                L'introduction de l'intelligence artificielle dans les institutions publiques concerne des domaines à fort impact : aide à la décision, analyse de données complexes, orientation des politiques publiques, gestion de services sensibles ou régulés.
-              </p>
-              <p>
-                Dans ces environnements, les risques ne tiennent pas uniquement à la fiabilité technique des systèmes. Ils relèvent largement de la manière dont les résultats sont interprétés, contextualisés, corrigés et intégrés dans des chaînes décisionnelles humaines, souvent longues, distribuées et hiérarchisées. INDX permet d'éclairer ces usages en se concentrant sur les conditions humaines du pilotage cognitif : la capacité à maintenir une cohérence décisionnelle, à gérer l'incertitude produite par des systèmes non déterministes, et à éviter les effets de délégation implicite ou de sur-confiance.
-              </p>
-              <p id="institutions-education">
-                Le cadre s'inscrit dans une logique de lisibilité, de prévention et de gouvernance, et non dans une logique de contrôle automatisé.
-              </p>
-            </div>
-          </div>
-
-          {/* Institutions / Education */}
-          <div className="mb-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
-              Institutions / Education - Enseignement supérieur et organismes académiques
-            </h3>
-            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
-              <p>
-                L'enseignement supérieur est confronté à une transformation profonde de ses modes d'évaluation et de production intellectuelle, liée à l'usage massif de l'IA par les étudiants comme par les enseignants. Dans ce contexte, l'enjeu n'est pas seulement la détection d'usages inappropriés ou la préservation de formes académiques existantes.
-              </p>
-              <p>
-                Il porte sur l'identification de ce qui constitue désormais une différenciation intellectuelle réelle : la capacité à structurer un raisonnement, à maintenir une cohérence cognitive et à conduire une interaction avec l'IA sans perte de maîtrise.
-              </p>
-              <p>
-                INDX offre un cadre permettant d'observer ces capacités de manière transversale, indépendamment des disciplines et des outils utilisés.
-              </p>
-              <p id="applications-organisationnelles">
-                Il peut servir de repère en fin de cycle, de support à des cursus intégrant l'IA de façon structurelle, ou d'outil de réflexion institutionnelle sur l'évolution des critères d'excellence académique.
-              </p>
-            </div>
-          </div>
-
-          {/* Applications organisationnelles */}
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
-              Applications organisationnelles
-            </h3>
-            <div className="space-y-3 text-gray-700 text-base leading-relaxed">
-              <p>
-                Dans les organisations, l'IA est de plus en plus mobilisée dans des fonctions d'analyse, de recommandation, de synthèse ou d'aide à la décision, souvent au cœur de processus stratégiques ou opérationnels. Dans ces contextes, la valeur produite dépend moins des performances brutes des outils que de la qualité du pilotage cognitif exercé par les individus et les équipes qui les utilisent.
-              </p>
-              <p>
-                INDX permet d'observer cette capacité à structurer l'interaction, à ajuster une trajectoire dans le temps et à maintenir un contrôle intellectuel sur des systèmes dont les réponses évoluent.
-              </p>
-              <p>
-                Le cadre peut être utilisé pour comparer des postures, identifier des dérives ou des stabilités, et éclairer des décisions en matière de formation, d'accompagnement ou de gouvernance interne.
-              </p>
-            </div>
+      <section id="a-propos-indx" className="lg:-mt-38 py-4 px-4 sm:px-6 lg:px-8 bg-white">   <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <div className="flex items-start space-x-4">
+            <div className="w-2 h-12 bg-[#8B0000] flex-shrink-0"></div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              À qui s'adresse INDX
+            </h2>
           </div>
         </div>
+
+        <div id="institutions-publiques" className="space-y-3 text-gray-700 text-base leading-relaxed mb-8">
+          <p>
+            INDX s'adresse aux individus, organisations et institutions confrontés à l'intégration croissante de l'IA dans leurs processus de réflexion, de décision ou d'action, et qui souhaitent disposer d'un cadre d'analyse rigoureux pour en évaluer les usages.
+          </p>
+        </div>
+
+        {/* Institutions publiques */}
+        <div className="mb-8">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
+            Institutions publiques
+          </h3>
+          <div className="space-y-3 text-gray-700 text-base leading-relaxed">
+            <p>
+              L'introduction de l'intelligence artificielle dans les institutions publiques concerne des domaines à fort impact : aide à la décision, analyse de données complexes, orientation des politiques publiques, gestion de services sensibles ou régulés.
+            </p>
+            <p>
+              Dans ces environnements, les risques ne tiennent pas uniquement à la fiabilité technique des systèmes. Ils relèvent largement de la manière dont les résultats sont interprétés, contextualisés, corrigés et intégrés dans des chaînes décisionnelles humaines, souvent longues, distribuées et hiérarchisées. INDX permet d'éclairer ces usages en se concentrant sur les conditions humaines du pilotage cognitif : la capacité à maintenir une cohérence décisionnelle, à gérer l'incertitude produite par des systèmes non déterministes, et à éviter les effets de délégation implicite ou de sur-confiance.
+            </p>
+            <p id="institutions-education">
+              Le cadre s'inscrit dans une logique de lisibilité, de prévention et de gouvernance, et non dans une logique de contrôle automatisé.
+            </p>
+          </div>
+        </div>
+
+        {/* Institutions / Education */}
+        <div className="mb-8">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
+            Institutions / Education - Enseignement supérieur et organismes académiques
+          </h3>
+          <div className="space-y-3 text-gray-700 text-base leading-relaxed">
+            <p>
+              L'enseignement supérieur est confronté à une transformation profonde de ses modes d'évaluation et de production intellectuelle, liée à l'usage massif de l'IA par les étudiants comme par les enseignants. Dans ce contexte, l'enjeu n'est pas seulement la détection d'usages inappropriés ou la préservation de formes académiques existantes.
+            </p>
+            <p>
+              Il porte sur l'identification de ce qui constitue désormais une différenciation intellectuelle réelle : la capacité à structurer un raisonnement, à maintenir une cohérence cognitive et à conduire une interaction avec l'IA sans perte de maîtrise.
+            </p>
+            <p>
+              INDX offre un cadre permettant d'observer ces capacités de manière transversale, indépendamment des disciplines et des outils utilisés.
+            </p>
+            <p id="applications-organisationnelles">
+              Il peut servir de repère en fin de cycle, de support à des cursus intégrant l'IA de façon structurelle, ou d'outil de réflexion institutionnelle sur l'évolution des critères d'excellence académique.
+            </p>
+          </div>
+        </div>
+
+        {/* Applications organisationnelles */}
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
+            Applications organisationnelles
+          </h3>
+          <div className="space-y-3 text-gray-700 text-base leading-relaxed">
+            <p>
+              Dans les organisations, l'IA est de plus en plus mobilisée dans des fonctions d'analyse, de recommandation, de synthèse ou d'aide à la décision, souvent au cœur de processus stratégiques ou opérationnels. Dans ces contextes, la valeur produite dépend moins des performances brutes des outils que de la qualité du pilotage cognitif exercé par les individus et les équipes qui les utilisent.
+            </p>
+            <p>
+              INDX permet d'observer cette capacité à structurer l'interaction, à ajuster une trajectoire dans le temps et à maintenir un contrôle intellectuel sur des systèmes dont les réponses évoluent.
+            </p>
+            <p>
+              Le cadre peut être utilisé pour comparer des postures, identifier des dérives ou des stabilités, et éclairer des décisions en matière de formation, d'accompagnement ou de gouvernance interne.
+            </p>
+          </div>
+        </div>
+      </div>
       </section>
 
       {/* Cas d'usages transsectoriels */}
