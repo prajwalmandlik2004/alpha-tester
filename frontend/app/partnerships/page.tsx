@@ -6,12 +6,12 @@ export default function PartnershipsPage() {
       {/* Partenariats Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-16">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-8">
             Partenariats
           </h1>
 
           {/* Une logique de collaboration construite */}
-          <div className="mb-16">
+          <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">
               Une logique de collaboration construite
             </h2>
@@ -19,11 +19,7 @@ export default function PartnershipsPage() {
             <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
               <p>
                 INDX se développe par des collaborations avec des acteurs confrontés à des usages concrets de l'intelligence artificielle, dans des contextes où la qualité d'analyse et la comparabilité des trajectoires sont déterminantes.
-              </p>
-              <p>
                 Les partenariats sont conçus comme des cadres de travail structurés, permettant de déployer, d'éprouver et d'exploiter le dispositif dans des contextes réels, plutôt que comme des intégrations génériques.
-              </p>
-              <p>
                 La priorité est donnée à la qualité des situations analysées, à la comparabilité des trajectoires et à la clarté des objectifs poursuivis.
               </p>
             </div>
@@ -32,7 +28,7 @@ export default function PartnershipsPage() {
           <div className="h-px bg-gray-300 my-8"></div>
 
           {/* Contextes de partenariat */}
-          <div className="mb-16">
+          <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-8">
               Contextes de partenariat
             </h2>
@@ -41,7 +37,7 @@ export default function PartnershipsPage() {
               Les collaborations peuvent concerner :
             </p>
 
-            <ul className="space-y-4 text-gray-700 text-lg leading-relaxed ml-8">
+            <ul className="text-gray-700 text-lg leading-relaxed ml-8">
               <li className="flex items-start">
                 <span className="mr-3">•</span>
                 <span>
@@ -74,19 +70,12 @@ export default function PartnershipsPage() {
 
             <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
               <p>
-                INDX est conçu pour fonctionner indépendamment des modèles, des fournisseurs et des architectures techniques.
-              </p>
-              <p>
-                Cette indépendance garantit la stabilité des évaluations, la comparabilité dans le temps et l'absence d'alignement implicite sur une technologie donnée.
-              </p>
-              <p>
+                INDX est conçu pour fonctionner indépendamment des modèles, des fournisseurs et des architectures techniques.            
+                Cette indépendance garantit la stabilité des évaluations, la comparabilité dans le temps et l'absence d'alignement implicite sur une technologie donnée.          
                 Les partenariats s'inscrivent dans une logique de durée, avec un objectif clair :
-              </p>
-              <p>
                 <strong>fournir des éléments de lecture fiables, comparables et exploitables</strong>, sans réduire la complexité des situations observées.
               </p>
             </div>
-
             <div className="h-px bg-gray-300 my-8"></div>
           </div>
         </div>

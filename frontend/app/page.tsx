@@ -41,8 +41,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
-            <div className="space-y-4">
-              <div className="text-[#00008B text-4xl font-bold">
+            <div className="space-y-6">
+              <div className="text-[#00008B text-3xl font-bold">
                 ACCUEIL
               </div>
 
@@ -228,7 +228,7 @@ export default function Home() {
       </section>
 
       {/* À qui s'adresse INDX */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+     <section id="a-propos-indx" className="-mt-38 py-4 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <div className="flex items-start space-x-4">
@@ -305,7 +305,7 @@ export default function Home() {
       </section>
 
       {/* Cas d'usages transsectoriels */}
-      <section id="cas-usages-transsectoriels" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="cas-usages-transsectoriels" className="py-6 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
@@ -337,7 +337,7 @@ export default function Home() {
       </section>
 
       {/* Le cadre et la méthode */}
-      <section id="bases-scientifiques" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="bases-scientifiques" className="py-6 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
@@ -409,11 +409,11 @@ export default function Home() {
       </section>
 
       {/* Champ de mesures, Éthique et limites, Scénarios de déploiement */}
-      <section id="champ-mesures" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="champ-mesures" className="py-3 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* Champ de mesures */}
           <div className="mb-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
               Champ de mesures
             </h2>
             <div className="space-y-3 text-gray-700 text-base leading-relaxed">
@@ -435,7 +435,7 @@ export default function Home() {
 
           {/* Éthique et limites */}
           <div className="mb-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
               Éthique et limites
             </h2>
             <div className="space-y-3 text-gray-700 text-base leading-relaxed">
@@ -468,7 +468,7 @@ export default function Home() {
 
           {/* Scénarios de déploiement */}
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
               Scénarios de déploiement
             </h2>
             <div className="space-y-3 text-gray-700 text-base leading-relaxed">
@@ -496,11 +496,11 @@ export default function Home() {
       </section>
 
       {/* À propos d'INDX et Origine d'AIS */}
-      <section id="a-propos-indx" className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="a-propos-indx" className="py-4 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           {/* À propos d'INDX */}
           <div className="mb-10">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
               À propos d'INDX
             </h2>
             <div className="space-y-3 text-gray-700 text-base leading-relaxed">
@@ -524,10 +524,10 @@ export default function Home() {
 
           {/* Origine d'AIS */}
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
               Origine d'AIS
             </h2>
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">
               Adaptive Intelligence Steering
             </h3>
             <div className="space-y-3 text-gray-700 text-base leading-relaxed">
