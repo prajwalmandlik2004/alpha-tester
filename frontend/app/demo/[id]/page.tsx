@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowRight, Send } from 'lucide-react';
-import { demoAPI } from '@/src/lib/api';
+import { demoAPI, testAPI } from '@/src/lib/api';
+import toast from 'react-hot-toast';
 
 export default function DemoTestPage() {
     const router = useRouter();
@@ -19,6 +20,19 @@ export default function DemoTestPage() {
     const currentQuestion = test?.questions[currentQuestionIndex];
     const isLastQuestion = currentQuestionIndex === (test?.questions.length - 1);
     const canProceed = answers[currentQuestion?.question_id]?.trim().length > 0;
+
+    const [showCancelModal, setShowCancelModal] = useState(false);
+
+    const handleCancelTest = async () => {
+        try {
+            await testAPI.deleteTest(testId);
+            router.push('/demo');
+            toast.success('Test cancelled successfully');
+        } catch (err) {
+            console.error('Failed to cancel test');
+            alert('Failed to cancel test. Please try again.');
+        }
+    };
 
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
@@ -128,6 +142,34 @@ export default function DemoTestPage() {
                 </div>
             )}
 
+            {/* Cancel Confirmation Modal */}
+            {showCancelModal && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white p-8 max-w-md mx-4">
+                        <h2 className="text-2xl font-bold text-[#050E3C] mb-4">
+                            Cancel Test?
+                        </h2>
+                        <p className="text-gray-600 mb-6">
+                            Are you sure you want to cancel this test? All your progress will be lost and cannot be recovered.
+                        </p>
+                        <div className="flex space-x-4">
+                            <button
+                                onClick={() => setShowCancelModal(false)}
+                                className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold hover:bg-gray-50 transition-colors"
+                            >
+                                No, Continue
+                            </button>
+                            <button
+                                onClick={handleCancelTest}
+                                className="flex-1 px-6 py-3 bg-red-500 text-white font-semibold hover:bg-red-600 transition-colors"
+                            >
+                                Yes, Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="min-h-screen px-4 py-20">
                 <div className="max-w-4xl mx-auto">
                     {/* Progress */}
@@ -149,10 +191,18 @@ export default function DemoTestPage() {
                     </div>
 
                     {/* Test Name */}
-                    <div className="mb-6">
+                    <div className="mb-6 flex items-center justify-between">
                         <h1 className="text-2xl font-bold text-[#050E3C]">
                             {test.test_name}
                         </h1>
+
+                        {/* Cancel Button */}
+                        <button
+                            onClick={() => setShowCancelModal(true)}
+                            className="px-3 py-2 border-2 border-red-500 text-red-500 font-semibold hover:bg-red-50 transition-colors"
+                        >
+                            Cancel Test
+                        </button>
                     </div>
 
                     {/* Question Card */}
