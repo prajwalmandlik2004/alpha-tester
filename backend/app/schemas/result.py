@@ -9,11 +9,17 @@ class ResultAnalysis(BaseModel):
     improvements: List[str]
     recommendations: List[str]
 
+class MultiAIAnalysis(BaseModel):
+    gpt4o: ResultAnalysis
+    claude: ResultAnalysis
+    grok: ResultAnalysis
+    mistral: ResultAnalysis
+
 class ResultResponse(BaseModel):
     test_id: int
     test_name: str
     category: str
     level: str
     score: float
-    analysis: ResultAnalysis
+    analyses: Dict[str, Any]
     completed_at: str

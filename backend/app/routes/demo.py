@@ -9,6 +9,7 @@ from ..models.test import TestAttempt, TestCategory, TestLevel
 from ..schemas.test import AnswerSchema as Answer
 from ..utils.auth import get_current_user
 from ..utils.ai_analyzer import analyze_test_results
+from ..utils.ai_orchestrator import orchestrate_analysis
 
 from pydantic import BaseModel
 
@@ -740,18 +741,63 @@ async def start_demo_test(
     }
 
 
-# Then change the endpoint to:
+# # Then change the endpoint to:
+# @router.post("/submit")
+# async def submit_demo_test(
+#     request: DemoSubmitRequest,  # Change this line
+#     current_user: User = Depends(get_current_user),
+#     db: Session = Depends(get_db)
+# ):
+#     """Submit demo test answers and get analysis"""
+    
+#     # Access via request.test_id and request.answers
+#     test = db.query(TestAttempt).filter(
+#         TestAttempt.id == request.test_id,  # Change this
+#         TestAttempt.user_id == current_user.id
+#     ).first()
+    
+#     if not test:
+#         raise HTTPException(status_code=404, detail="Test not found")
+    
+#     if test.completed:
+#         raise HTTPException(status_code=400, detail="Test already completed")
+    
+#     # Store answers
+#     answers_list = [{"question_id": a.question_id, "answer_text": a.answer_text} for a in request.answers]  # Change this
+#     test.answers = answers_list
+    
+#     # Analyze results using AI (will auto-detect French and respond in French)
+#     analysis = await analyze_test_results(
+#         questions=test.questions,
+#         answers=answers_list,
+#         category="demo",
+#         level="évaluation"
+#     )
+    
+#     # Update test with results
+#     test.score = analysis["overall_score"]
+#     test.analysis = json.dumps(analysis)
+#     test.completed = datetime.utcnow()
+    
+#     db.commit()
+#     db.refresh(test)
+    
+#     return {
+#         "message": "Test submitted successfully",
+#         "test_id": test.id,
+#         "score": test.score
+#     }
+
 @router.post("/submit")
 async def submit_demo_test(
-    request: DemoSubmitRequest,  # Change this line
+    request: DemoSubmitRequest,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Submit demo test answers and get analysis"""
+    """Submit demo test answers and get multi-AI analysis"""
     
-    # Access via request.test_id and request.answers
     test = db.query(TestAttempt).filter(
-        TestAttempt.id == request.test_id,  # Change this
+        TestAttempt.id == request.test_id,
         TestAttempt.user_id == current_user.id
     ).first()
     
@@ -762,44 +808,70 @@ async def submit_demo_test(
         raise HTTPException(status_code=400, detail="Test already completed")
     
     # Store answers
-    answers_list = [{"question_id": a.question_id, "answer_text": a.answer_text} for a in request.answers]  # Change this
+    answers_list = [{"question_id": a.question_id, "answer_text": a.answer_text} for a in request.answers]
     test.answers = answers_list
     
-    # Analyze results using AI (will auto-detect French and respond in French)
-    analysis = await analyze_test_results(
-        questions=test.questions,
-        answers=answers_list,
-        category="demo",
-        level="évaluation"
-    )
-    
-    # Update test with results
-    test.score = analysis["overall_score"]
-    test.analysis = json.dumps(analysis)
-    test.completed = datetime.utcnow()
-    
-    db.commit()
-    db.refresh(test)
-    
-    return {
-        "message": "Test submitted successfully",
-        "test_id": test.id,
-        "score": test.score
-    }
-
-@router.get("/test/{test_id}")
-async def get_demo_test(
-    test_id: int,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """Get demo test by ID"""
-    test = db.query(TestAttempt).filter(
-        TestAttempt.id == test_id,
-        TestAttempt.user_id == current_user.id
-    ).first()
-    
-    if not test:
-        raise HTTPException(status_code=404, detail="Test not found")
-    
-    return test
+    try:
+        # Get multi-AI analysis
+        analysis = await orchestrate_analysis(
+            questions=test.questions,
+            answers=answers_list,
+            category="demo",
+            level="évaluation"
+        )
+        
+        # Calculate average score from GPT-4o for backward compatibility
+        gpt4o_analysis = json.loads(analysis["analyses"]["gpt4o"])
+        test.score = gpt4o_analysis["overall_score"]
+        
+        # Store all analyses
+        test.analysis = json.dumps(analysis)
+        test.completed = datetime.utcnow()
+        
+        db.commit()
+        db.refresh(test)
+        
+        return {
+            "message": "Test submitted successfully",
+            "test_id": test.id,
+            "score": test.score
+        }
+        
+    except Exception as e:
+        print(f"Multi-AI analysis failed: {e}")
+        # Rollback any partial changes
+        db.rollback()
+        
+        # Re-fetch test
+        test = db.query(TestAttempt).filter(
+            TestAttempt.id == request.test_id,
+            TestAttempt.user_id == current_user.id
+        ).first()
+        
+        # Fallback to single AI (GPT-4o only) if multi-AI fails
+        from ..utils.ai_analyzer import analyze_test_results
+        fallback_analysis = await analyze_test_results(
+            questions=test.questions,
+            answers=answers_list,
+            category="demo",
+            level="évaluation"
+        )
+        
+        test.score = fallback_analysis["overall_score"]
+        test.analysis = json.dumps({
+            "analyses": {
+                "gpt4o": json.dumps(fallback_analysis),
+                "claude": json.dumps({"error": "Analysis timeout"}),
+                "mistral": json.dumps({"error": "Analysis timeout"})
+            }
+        })
+        test.completed = datetime.utcnow()
+        
+        db.commit()
+        db.refresh(test)
+        
+        return {
+            "message": "Test submitted successfully",
+            "test_id": test.id,
+            "score": test.score
+        }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowRight, Send } from 'lucide-react';
+import { ArrowRight, Send, X } from 'lucide-react';
 import { demoAPI } from '@/src/lib/api';
 
 export default function DemoTestPage() {
@@ -14,6 +14,7 @@ export default function DemoTestPage() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<{ [key: number]: string }>({});
     const [loading, setLoading] = useState(false);
+    const [analysisStatus, setAnalysisStatus] = useState('');
 
     const currentQuestion = test?.questions[currentQuestionIndex];
     const isLastQuestion = currentQuestionIndex === (test?.questions.length - 1);
@@ -45,21 +46,61 @@ export default function DemoTestPage() {
         }
     };
 
+    // const handleSubmit = async () => {
+    //     if (!canProceed) return;
+
+    //     setLoading(true);
+    //     try {
+    //         const formattedAnswers = Object.entries(answers).map(([questionId, answerText]) => ({
+    //             question_id: parseInt(questionId),
+    //             answer_text: answerText,
+    //         }));
+
+    //         await demoAPI.submitTest(testId, formattedAnswers);
+    //         router.push(`/demo/thank-you/${testId}`);
+    //     } catch (err) {
+    //         console.error('Failed to submit test');
+    //         alert('Failed to submit test. Please try again.');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
     const handleSubmit = async () => {
         if (!canProceed) return;
 
         setLoading(true);
+        setAnalysisStatus('Submitting your answers...');
+
         try {
             const formattedAnswers = Object.entries(answers).map(([questionId, answerText]) => ({
                 question_id: parseInt(questionId),
                 answer_text: answerText,
             }));
 
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 120000);
+
+            // Show progress messages
+            setTimeout(() => setAnalysisStatus('Analyzing with GPT-4o...'), 2000);
+            setTimeout(() => setAnalysisStatus('Analyzing with Claude...'), 20000);
+            setTimeout(() => setAnalysisStatus('Analyzing with Mistral...'), 40000);
+            setTimeout(() => setAnalysisStatus('Finalizing results...'), 50000);
+
             await demoAPI.submitTest(testId, formattedAnswers);
+
+            clearTimeout(timeoutId);
             router.push(`/demo/thank-you/${testId}`);
-        } catch (err) {
-            console.error('Failed to submit test');
-            alert('Failed to submit test. Please try again.');
+        } catch (err: any) {
+            console.error('Failed to submit test:', err);
+
+            if (err.name === 'AbortError') {
+                alert('Analysis is taking longer than expected. Please check results page in a few moments.');
+                router.push(`/demo/thank-you/${testId}`);
+            } else {
+                alert('Analysis is taking longer than expected. Please check results page in a few moments.');
+                router.push(`/demo/thank-you/${testId}`);
+            }
         } finally {
             setLoading(false);
         }
@@ -77,13 +118,28 @@ export default function DemoTestPage() {
         <>
             {loading && (
                 <div className="fixed inset-0 bg-gray-800/20 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-8 flex flex-col items-center space-y-4">
+                    <div className="bg-white rounded-lg p-8 flex flex-col items-center space-y-4 max-w-md relative">
+                        {/* Close button with lucide icon */}
+                        <button
+                            onClick={() => {
+                                setLoading(false);
+                                router.push('/demo');
+                            }}
+                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+                            aria-label="Close"
+                        >
+                            <X size={24} />
+                        </button>
+
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#050E3C]"></div>
-                        <p className="text-lg font-semibold text-[#050E3C]">Submitting test...</p>
+                        <p className="text-lg font-semibold text-[#050E3C]">{analysisStatus}</p>
+                        <p className="text-sm text-gray-600 text-center">
+                            This may take up to 3 minutes. You can close this and check results later.
+                        </p>
                     </div>
                 </div>
             )}
-
+            
             <div className="min-h-screen px-4 py-20">
                 <div className="max-w-4xl mx-auto">
                     {/* Progress */}
