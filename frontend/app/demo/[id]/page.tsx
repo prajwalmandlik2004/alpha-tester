@@ -100,8 +100,10 @@ export default function DemoTestPage() {
             // Show progress messages
             setTimeout(() => setAnalysisStatus('Analyzing with GPT-4o...'), 2000);
             setTimeout(() => setAnalysisStatus('Analyzing with Claude...'), 20000);
-            setTimeout(() => setAnalysisStatus('Analyzing with Mistral...'), 40000);
-            setTimeout(() => setAnalysisStatus('Finalizing results...'), 50000);
+            setTimeout(() => setAnalysisStatus('Analyzing with Grok...'), 30000);
+            setTimeout(() => setAnalysisStatus('Analyzing with Gemini...'), 40000);
+            setTimeout(() => setAnalysisStatus('Analyzing with Mistral...'), 50000);
+            setTimeout(() => setAnalysisStatus('Finalizing results...'), 60000);
 
             await demoAPI.submitTest(testId, formattedAnswers);
 

@@ -8,8 +8,9 @@ import { resultAPI } from '@/src/lib/api';
 const AI_MODELS = [
   { id: 'gpt4o', name: 'GPT-4o', color: 'from-green-500 to-emerald-600' },
   { id: 'claude', name: 'Claude', color: 'from-orange-500 to-red-600' },
-  // { id: 'groq', name: 'Groq (LLaMA-3.1)', color: 'from-blue-500 to-indigo-600' },
-  { id: 'mistral', name: 'Mistral', color: 'from-blue-500 to-blue-600' },
+  { id: 'grok', name: 'Grok', color: 'from-black to-black' },
+  { id: 'groq', name: 'Gemini', color: 'from-blue-500 to-blue-600' },
+  { id: 'mistral', name: 'Mistral', color: 'from-violet-500 to-violet-600' },
 ];
 
 export default function ResultPage() {
@@ -97,7 +98,7 @@ export default function ResultPage() {
         {/* AI Model Selector */}
         <div className="card mb-8">
           <h2 className="text-xl font-bold mb-4">Select AI Analysis:</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {AI_MODELS.map((model) => (
               <button
                 key={model.id}

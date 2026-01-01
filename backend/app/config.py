@@ -8,8 +8,9 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 10080
     OPENAI_API_KEY: str
     ANTHROPIC_API_KEY: str  
-    # GEMINI_API_KEY: str 
-    # GROQ_API_KEY: str
+    # GEMINI_API_KEY: str  
+    GROQ_API_KEY: str
+    XAI_API_KEY: str  
     MISTRAL_API_KEY: str
     
     class Config:
