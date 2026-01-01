@@ -789,7 +789,139 @@ DEMO_SERIES = {
                 "expected_criteria": "Cristallisation de la référence"
             },
         ]
-    }
+    },
+    "series_25_e": {
+    "title": "Série 25 - T3 - CTX0",
+    "description": "Pilotage stratégique, jugement critique et co-décision avec l’IA",
+    "questions": [
+        {
+            "question_id": 1,
+            "question_text": "Un signal faible apparaît dans les indicateurs globaux. L’IA estime qu’il est statistiquement non significatif.\nComment abordez-vous cette situation ?",
+            "expected_criteria": "Prise en compte des signaux faibles"
+        },
+        {
+            "question_id": 2,
+            "question_text": "L’IA fournit une recommandation claire mais ne peut expliquer précisément son raisonnement.\nQuelle est votre réaction ?",
+            "expected_criteria": "Exigence d’explicabilité"
+        },
+        {
+            "question_id": 3,
+            "question_text": "Deux scénarios sont proposés : l’un optimisé par l’IA, l’autre plus prudent mais moins performant.\nComment arbitrez-vous ?",
+            "expected_criteria": "Arbitrage performance / prudence"
+        },
+        {
+            "question_id": 4,
+            "question_text": "Une donnée clé utilisée par l’IA est ancienne mais cohérente avec les tendances actuelles.\nComment traitez-vous cette information ?",
+            "expected_criteria": "Actualité et validité des données"
+        },
+        {
+            "question_id": 5,
+            "question_text": "L’IA suggère une décision rapide pour limiter l’exposition au risque, sans laisser de temps à la concertation.\nQue décidez-vous ?",
+            "expected_criteria": "Gestion du temps décisionnel"
+        },
+        {
+            "question_id": 6,
+            "question_text": "Un expert humain contredit l’analyse de l’IA sans pouvoir la quantifier.\nComment intégrez-vous cet avis ?",
+            "expected_criteria": "Confrontation expertise humaine / IA"
+        },
+        {
+            "question_id": 7,
+            "question_text": "L’IA détecte une anomalie isolée et recommande une action lourde.\nQuelle est votre position ?",
+            "expected_criteria": "Proportionnalité de la réponse"
+        },
+        {
+            "question_id": 8,
+            "question_text": "Une décision antérieure validée par l’IA produit aujourd’hui des effets inattendus.\nComment réévaluez-vous la situation ?",
+            "expected_criteria": "Révision des décisions passées"
+        },
+        {
+            "question_id": 9,
+            "question_text": "L’IA reformule le problème en modifiant subtilement les priorités initiales.\nComment réagissez-vous ?",
+            "expected_criteria": "Glissement du cadre décisionnel"
+        },
+        {
+            "question_id": 10,
+            "question_text": "Plusieurs équipes interprètent différemment la même recommandation de l’IA.\nQuelle est votre démarche ?",
+            "expected_criteria": "Alignement collectif"
+        },
+        {
+            "question_id": 11,
+            "question_text": "L’IA propose une solution conforme aux règles mais contraire aux usages internes.\nComment tranchez-vous ?",
+            "expected_criteria": "Règles vs pratiques organisationnelles"
+        },
+        {
+            "question_id": 12,
+            "question_text": "Un indicateur clé est exclu du modèle de l’IA car jugé trop qualitatif.\nQue faites-vous ?",
+            "expected_criteria": "Intégration du qualitatif"
+        },
+        {
+            "question_id": 13,
+            "question_text": "L’IA recommande une action cohérente localement mais risquée à l’échelle globale.\nComment évaluez-vous cette recommandation ?",
+            "expected_criteria": "Vision systémique"
+        },
+        {
+            "question_id": 14,
+            "question_text": "La confiance dans l’IA est élevée après plusieurs succès récents.\nComment évitez-vous un excès de confiance collective ?",
+            "expected_criteria": "Biais de surconfiance"
+        },
+        {
+            "question_id": 15,
+            "question_text": "Une décision doit être prise alors que les données sont volontairement incomplètes.\nQuelle est votre approche ?",
+            "expected_criteria": "Décision en environnement contraint"
+        },
+        {
+            "question_id": 16,
+            "question_text": "L’IA identifie un risque improbable mais à fort impact.\nComment le traitez-vous ?",
+            "expected_criteria": "Gestion des risques extrêmes"
+        },
+        {
+            "question_id": 17,
+            "question_text": "Un désaccord persiste entre votre intuition et la recommandation de l’IA.\nComment avancez-vous ?",
+            "expected_criteria": "Tension intuition / modélisation"
+        },
+        {
+            "question_id": 18,
+            "question_text": "L’IA propose d’automatiser une décision jusqu’ici humaine.\nComment évaluez-vous cette évolution ?",
+            "expected_criteria": "Limites de l’automatisation"
+        },
+        {
+            "question_id": 19,
+            "question_text": "Une métrique s’améliore nettement mais d’autres se dégradent légèrement.\nComment interprétez-vous la situation ?",
+            "expected_criteria": "Lecture multidimensionnelle des indicateurs"
+        },
+        {
+            "question_id": 20,
+            "question_text": "L’IA recommande de maintenir une stratégie malgré des retours terrain négatifs.\nQuelle est votre décision ?",
+            "expected_criteria": "Prise en compte du terrain"
+        },
+        {
+            "question_id": 21,
+            "question_text": "Une simplification du problème améliore la clarté mais réduit la précision.\nComment arbitrez-vous ?",
+            "expected_criteria": "Clarté vs précision"
+        },
+        {
+            "question_id": 22,
+            "question_text": "L’IA met en avant des tendances longues alors que le contexte immédiat évolue rapidement.\nComment ajustez-vous votre décision ?",
+            "expected_criteria": "Court terme vs long terme"
+        },
+        {
+            "question_id": 23,
+            "question_text": "Un consensus se forme rapidement autour de la recommandation de l’IA.\nComment vérifiez-vous sa solidité ?",
+            "expected_criteria": "Effet de consensus artificiel"
+        },
+        {
+            "question_id": 24,
+            "question_text": "L’IA conclut que le risque est maîtrisé alors que certaines hypothèses restent implicites.\nQue faites-vous ?",
+            "expected_criteria": "Hypothèses non explicitées"
+        },
+        {
+            "question_id": 25,
+            "question_text": "La décision finale est prise avec l’appui de l’IA. Elle devient une référence pour l’avenir.\nComment formalisez-vous les enseignements ?",
+            "expected_criteria": "Capitalisation critique"
+        }
+    ]
+}
+
 }
 
 
@@ -840,6 +972,12 @@ async def get_demo_series():
                 "title": DEMO_SERIES["series_25_d"]["title"],
                 "description": DEMO_SERIES["series_25_d"]["description"],
                 "question_count": len(DEMO_SERIES["series_25_d"]["questions"])
+            },
+             {
+                "id": "series_25_e",
+                "title": DEMO_SERIES["series_25_e"]["title"],
+                "description": DEMO_SERIES["series_25_e"]["description"],
+                "question_count": len(DEMO_SERIES["series_25_e"]["questions"])
             }
         ]
     }

@@ -95,7 +95,7 @@ export default function DemoTestPage() {
             }));
 
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 120000);
+            const timeoutId = setTimeout(() => controller.abort(), 140000);
 
             // Show progress messages
             setTimeout(() => setAnalysisStatus('Analyzing with GPT-4o...'), 2000);
@@ -189,7 +189,7 @@ export default function DemoTestPage() {
                         {/* Content */}
                         <div className="px-6 py-6 space-y-4">
                             <p className="text-gray-700 leading-relaxed">
-                                This is INDX1000 an INDX test session designed to evaluate your cognitive interaction trajectory with an artificial cognitive system.
+                                This is INDX1000, an INDX test session designed to evaluate your cognitive interaction trajectory with an artificial cognitive system.
                             </p>
 
                             <div className="space-y-3">
@@ -197,19 +197,19 @@ export default function DemoTestPage() {
                                 <ul className="space-y-2 text-gray-700">
                                     <li className="flex items-start">
                                         <span className="text-[#050E3C] mr-2">•</span>
-                                        <span>There is no "right" or "wrong" answer</span>
+                                        <span>There is no "right" or "wrong" answer,</span>
                                     </li>
                                     <li className="flex items-start">
                                         <span className="text-[#050E3C] mr-2">•</span>
-                                        <span>The goal is not knowledge testing</span>
+                                        <span>The goal is not knowledge testing,</span>
                                     </li>
-                                    <li className="flex items-start">
+                                    {/* <li className="flex items-start">
                                         <span className="text-[#050E3C] mr-2">•</span>
                                         <span>Answer each question thoughtfully and naturally</span>
-                                    </li>
+                                    </li> */}
                                      <li className="flex items-start">
                                         <span className="text-[#050E3C] mr-2">•</span>
-                                        <span>Answer should not exceed 10 lines approx.</span>
+                                        <span>Answer should not exceed 10 lines approximately.</span>
                                     </li>
                                 </ul>
                             </div>

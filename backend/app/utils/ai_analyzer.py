@@ -32,7 +32,8 @@ def extract_json(text: str) -> str:
     
     text = text.strip()
 
-    text = re.sub(r'\\(?![/u"bfnrt\\])', r'\\\\', text)
+    # text = re.sub(r'\\(?![/u"bfnrt\\])', r'\\\\', text)
+    text = re.sub(r'\\(?!(?:["\\/bfnrt]|u[0-9a-fA-F]{4}))', r'\\\\', text)
     
     return text
 
