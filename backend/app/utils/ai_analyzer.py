@@ -1,22 +1,40 @@
 import openai
 from typing import List, Dict
 import json
+import re
 from ..config import settings
 from openai import OpenAI
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 openai.api_key = settings.OPENAI_API_KEY
 
+# def extract_json(text: str) -> str:
+#     """Extract JSON from markdown code blocks"""
+#     text = text.strip()
+#     if text.startswith("```json"):
+#         text = text[7:] 
+#     elif text.startswith("```"):
+#         text = text[3:] 
+#     if text.endswith("```"):
+#         text = text[:-3]  
+#     return text.strip()
+
 def extract_json(text: str) -> str:
-    """Extract JSON from markdown code blocks"""
+    """Extract JSON from markdown and fix common format errors"""
     text = text.strip()
+
     if text.startswith("```json"):
         text = text[7:] 
     elif text.startswith("```"):
         text = text[3:] 
     if text.endswith("```"):
-        text = text[:-3]  
-    return text.strip()
+        text = text[:-3]
+    
+    text = text.strip()
+
+    text = re.sub(r'\\(?![/u"bfnrt\\])', r'\\\\', text)
+    
+    return text
 
 async def generate_test_questions(category: str, level: str, num_questions: int = 5) -> List[Dict]:
     """Generate test questions using GPT-4"""

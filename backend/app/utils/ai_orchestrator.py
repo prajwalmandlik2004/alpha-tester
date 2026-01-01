@@ -6,6 +6,7 @@ from anthropic import Anthropic
 import httpx
 from ..config import settings
 
+
 import random
 
 # Initialize clients
@@ -399,12 +400,39 @@ Provide analysis in JSON format:
 
 
 async def analyze_with_grok(session_payload: Dict, role_prompt: str) -> str:
-    """Analyze with Grok (xAI) - Parallel Execution"""
+    """Analyze with Grok (xAI) - Production Robust"""
+    # 1. Define URL explicitly to avoid missing protocol errors
+    BASE_URL = "https://api.x.ai/v1"
+    
     try:
-        # Increase timeout for the aggregation step
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        # Use base_url so we don't need to type it every time
+        async with httpx.AsyncClient(base_url=BASE_URL, timeout=60.0) as client:
             
-            # 1. Define a helper to process a single question
+            async def fetch_grok_completion(payload_data):
+                headers = {
+                    "Authorization": f"Bearer {settings.XAI_API_KEY}",
+                    "Content-Type": "application/json"
+                }
+                
+                # Try Primary Model (Grok 2)
+                try:
+                    payload_data["model"] = "grok-2-1212"
+                    # We only pass the endpoint because base_url is set
+                    response = await client.post("/chat/completions", headers=headers, json=payload_data)
+                    
+                    if response.status_code in [404, 403]:
+                        raise Exception(f"Model error {response.status_code}")
+                    
+                    response.raise_for_status()
+                    return response
+                    
+                except Exception as e:
+                    # Fallback to Beta Model
+                    print(f"Grok-2 failed ({e}), switching to grok-beta...")
+                    payload_data["model"] = "grok-beta"
+                    return await client.post("/chat/completions", headers=headers, json=payload_data)
+
+            # --- Processing Logic ---
             async def process_single_question(q):
                 answer = next((a for a in session_payload["answers"] if a["question_id"] == q["question_id"]), None)
                 isolated_prompt = f"""{role_prompt}
@@ -420,40 +448,29 @@ Provide analysis in JSON format with ONLY these fields:
   "feedback": "<brief feedback>"
 }}"""
                 try:
-                    response = await client.post(
-                        "https://api.x.ai/v1/chat/completions",
-                        headers={
-                            "Authorization": f"Bearer {settings.XAI_API_KEY}",
-                            "Content-Type": "application/json"
-                        },
-                        json={
-                            "model": "grok-2-1212", # Updated to latest stable Grok 2 model
-                            "messages": [
-                                {"role": "system", "content": "Return ONLY valid JSON, no markdown."},
-                                {"role": "user", "content": isolated_prompt}
-                            ],
-                            "temperature": 0.3,
-                            "max_tokens": 500
-                        }
-                    )
+                    response = await fetch_grok_completion({
+                        "messages": [
+                            {"role": "system", "content": "Return ONLY valid JSON, no markdown."},
+                            {"role": "user", "content": isolated_prompt}
+                        ],
+                        "temperature": 0.3,
+                        "max_tokens": 500
+                    })
+                    
                     response.raise_for_status()
                     result = response.json()
                     content = extract_json(result["choices"][0]["message"]["content"])
                     return json.loads(content)
                 except Exception as e:
                     print(f"Grok error for Q{q['question_id']}: {e}")
-                    return {
-                        "question_number": q["question_id"],
-                        "score": 0,
-                        "feedback": "Analysis unavailable"
-                    }
+                    return {"question_number": q["question_id"], "score": 0, "feedback": "Analysis unavailable"}
 
-            # 2. Run ALL questions in parallel
+            # Execute Parallel
             question_feedback = await asyncio.gather(
                 *[process_single_question(q) for q in session_payload["questions"]]
             )
             
-            # 3. Aggregation (Remains similar, calculations based on results)
+            # Aggregate
             total_score = sum(item.get("score", 0) for item in question_feedback)
             overall_score = total_score / len(question_feedback) if question_feedback else 0
             
@@ -472,19 +489,12 @@ Provide analysis in JSON format:
   "recommendations": "<recommendation>"
 }}"""
 
-            response = await client.post(
-                "https://api.x.ai/v1/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {settings.XAI_API_KEY}",
-                    "Content-Type": "application/json"
-                },
-                json={
-                    "model": "grok-2-1212", 
-                    "messages": [{"role": "user", "content": aggregated_prompt}],
-                    "temperature": 0.5,
-                    "max_tokens": 1000
-                }
-            )
+            response = await fetch_grok_completion({
+                "messages": [{"role": "user", "content": aggregated_prompt}],
+                "temperature": 0.5,
+                "max_tokens": 1000
+            })
+            
             response.raise_for_status()
             result = response.json()
             content = extract_json(result["choices"][0]["message"]["content"])
@@ -502,8 +512,6 @@ Provide analysis in JSON format:
     except Exception as e:
         print(f"Grok critical error: {e}")
         return json.dumps({"error": f"Grok unavailable: {str(e)}"})
-
-
 
 
 
