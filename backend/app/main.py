@@ -7,8 +7,8 @@ from .routes import auth, user, test, result, demo
 # Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="INDX - AI Test Platform API",
-    description="AI-powered online testing platform",
+    title="INDX - Human - Ai Cognitive Reasearch",
+    description="",
     version="1.0.0"
 )
 

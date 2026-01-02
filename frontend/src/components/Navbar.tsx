@@ -183,9 +183,9 @@ export default function Navbar() {
                 </Link> */}
                 <button
                   onClick={handleLogout}
-                  className="flex items-center space-x-2 bg-white text-[#050E3C] px-4 py-2  transition-colors duration-300"
+                  className="flex items-center space-x-2 font-medium text-white px-4 py-2  transition-colors duration-300"
                 >
-                  <LogOut size={18} />
+                  {/* <LogOut size={18} /> */}
                   <span>Déconnexion</span>
                 </button>
               </>
@@ -283,7 +283,7 @@ export default function Navbar() {
                   }}
                   className="flex items-center space-x-2 text-white py-2 w-full"
                 >
-                  <LogOut size={18} />
+                  {/* <LogOut size={18} /> */}
                   <span>Déconnexion</span>
                 </button>
               </>

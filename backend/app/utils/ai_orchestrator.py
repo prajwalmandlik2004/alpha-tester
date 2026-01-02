@@ -12,10 +12,11 @@ import random
 # Initialize clients
 openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
 anthropic_client = Anthropic(api_key=settings.ANTHROPIC_API_KEY)
-groq_client = OpenAI(
-    api_key=settings.GROQ_API_KEY,
-    base_url="https://api.groq.com/openai/v1"
-)
+# groq_client = OpenAI(
+#     api_key=settings.GROQ_API_KEY,
+#     base_url="https://api.groq.com/openai/v1"
+# )
+groq_client = OpenAI(api_key=settings.OPENAI_API_KEY)
  
 
 def extract_json(text: str) -> str:
@@ -232,7 +233,7 @@ Provide analysis in JSON format with ONLY these fields:
 }}"""
 
             response = groq_client.chat.completions.create(
-                model="llama-3.1-8b-instant",
+                model="gpt-4o-mini",
                 messages=[
                     {"role": "system", "content": "Return ONLY valid JSON, no markdown."},
                     {"role": "user", "content": isolated_prompt}
@@ -263,7 +264,7 @@ Provide analysis in JSON format:
 }}"""
 
         response = groq_client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "Return ONLY valid JSON, no markdown."},
                 {"role": "user", "content": aggregated_prompt}

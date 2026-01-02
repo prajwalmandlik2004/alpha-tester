@@ -10,8 +10,8 @@ import SiteLocker from '@/src/components/SiteLocker'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'INDX - AI Test Platform',
-  description: 'AI-powered online testing platform for schools, companies, and professionals',
+  title: 'INDX - Human - Ai Cognitive Reasearch',
+  description: '',
 }
 
 export default function RootLayout({

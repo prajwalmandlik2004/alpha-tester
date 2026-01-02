@@ -623,14 +623,14 @@ export default function Home() {
           {/* Origine d'AIS */}
           <div>
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
-              Origine d'AIS
+              Origine d'INDX
             </h2>
             <h3 className="text-lg font-semibold text-gray-700 mb-4">
               Adaptive Intelligence Steering
             </h3>
             <div className="space-y-3 text-gray-700 text-base leading-relaxed">
               <p>
-                AIS est né d'une observation structurante : les cadres d'évaluation existants sont devenus insuffisants face à l'essor rapide des systèmes d'intelligence artificielle.
+                INDX est né d'une observation structurante : les cadres d'évaluation existants sont devenus insuffisants face à l'essor rapide des systèmes d'intelligence artificielle.
               </p>
               <p>
                 Ces cadres mesurent principalement des performances techniques, des connaissances déclarées ou des usages ponctuels.
@@ -639,13 +639,13 @@ export default function Home() {
                 Ils peinent à appréhender une réalité désormais centrale : la capacité humaine à piloter, dans la durée, une interaction cognitive avec des systèmes non déterministes, dont les réponses varient selon le contexte, la formulation et la trajectoire de dialogue.
               </p>
               <p>
-                AIS désigne l'approche formulée pour qualifier cette capacité spécifique.
+                INDX désigne l'approche formulée pour qualifier cette capacité spécifique.
               </p>
               <p>
                 Il ne s'agit ni d'une technologie, ni d'un outil, ni d'un modèle d'IA, mais d'un cadre conceptuel d'analyse centré sur le pilotage cognitif humain : orienter l'interaction, interpréter les retours, ajuster la trajectoire et maintenir la maîtrise sans délégation aveugle.
               </p>
               <p>
-                AIS a été conçu pour combler ce vide analytique, en proposant un cadre rigoureux permettant de lire et de suivre dans le temps la manière dont cette capacité se construit et s'exerce.
+                INDX a été conçu pour combler ce vide analytique, en proposant un cadre rigoureux permettant de lire et de suivre dans le temps la manière dont cette capacité se construit et s'exerce.
               </p>
               <p>
                 INDX constitue la formalisation opérationnelle de cette approche, en offrant un instrument de lecture structuré de cette dynamique de pilotage.

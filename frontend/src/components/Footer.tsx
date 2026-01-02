@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-gradient-to-r from-[#050E3C] to-[#050E3C] text-white mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-6">
           {/* Brand */}
           {/* <div className="space-y-4">
             <div className="flex items-center space-x-2">
@@ -26,8 +26,8 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="font-bold text-lg mb-4">Liens rapides</h3>
+          <div className="mt-12">
+            {/* <h3 className="font-bold text-lg mb-4">Liens rapides</h3> */}
             <ul className="space-y-2">
               <li><Link href="/demo" className="text-blue-100 hover:text-white transition-colors">Plateforme</Link></li>
               <li><Link href="/test-dashboard" className="text-blue-100 hover:text-white transition-colors">Dashboard</Link></li>
