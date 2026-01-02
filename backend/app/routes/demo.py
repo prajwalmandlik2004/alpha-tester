@@ -7,7 +7,7 @@ from ..database import get_db
 from ..models.user import User
 from ..models.test import TestAttempt, TestCategory, TestLevel
 from ..schemas.test import AnswerSchema as Answer
-from ..utils.auth import get_current_user
+from ..utils.auth import get_current_user, is_admin_user
 from ..utils.ai_analyzer import analyze_test_results
 from ..utils.ai_orchestrator import orchestrate_analysis
 
@@ -1057,67 +1057,91 @@ DEMO_SERIES = {
 
 
 
+# @router.get("/series")
+# async def get_demo_series():
+#     """Get all available demo series"""
+#     return {
+#         "series": [
+#             {
+#                 "id": "series_a",
+#                 "title": DEMO_SERIES["series_a"]["title"],
+#                 "description": DEMO_SERIES["series_a"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_a"]["questions"])
+#             },
+#             {
+#                 "id": "series_b",
+#                 "title": DEMO_SERIES["series_b"]["title"],
+#                 "description": DEMO_SERIES["series_b"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_b"]["questions"])
+#             },
+#             {
+#                 "id": "series_c",
+#                 "title": DEMO_SERIES["series_c"]["title"],
+#                 "description": DEMO_SERIES["series_c"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_c"]["questions"])
+#             },
+#             {
+#                 "id": "series_25_a",
+#                 "title": DEMO_SERIES["series_25_a"]["title"],
+#                 "description": DEMO_SERIES["series_25_a"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_25_a"]["questions"])
+#             },
+#             {
+#                 "id": "series_25_b",
+#                 "title": DEMO_SERIES["series_25_b"]["title"],
+#                 "description": DEMO_SERIES["series_25_b"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_25_b"]["questions"])
+#             },
+#             {
+#                 "id": "series_25_c",
+#                 "title": DEMO_SERIES["series_25_c"]["title"],
+#                 "description": DEMO_SERIES["series_25_c"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_25_c"]["questions"])
+#             },
+#             {
+#                 "id": "series_25_d",
+#                 "title": DEMO_SERIES["series_25_d"]["title"],
+#                 "description": DEMO_SERIES["series_25_d"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_25_d"]["questions"])
+#             },
+#              {
+#                 "id": "series_25_e",
+#                 "title": DEMO_SERIES["series_25_e"]["title"],
+#                 "description": DEMO_SERIES["series_25_e"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_25_e"]["questions"])
+#             },
+#              {
+#                 "id": "series_25_f",
+#                 "title": DEMO_SERIES["series_25_f"]["title"],
+#                 "description": DEMO_SERIES["series_25_f"]["description"],
+#                 "question_count": len(DEMO_SERIES["series_25_f"]["questions"])
+#             }
+#         ]
+#     }
+
 @router.get("/series")
-async def get_demo_series():
+async def get_demo_series(current_user: User = Depends(get_current_user)):
     """Get all available demo series"""
+    
+    if is_admin_user(current_user):
+    
+        series_to_show = DEMO_SERIES.keys()
+    else:
+       
+        series_to_show = ["series_25_f"]
+    
     return {
         "series": [
             {
-                "id": "series_a",
-                "title": DEMO_SERIES["series_a"]["title"],
-                "description": DEMO_SERIES["series_a"]["description"],
-                "question_count": len(DEMO_SERIES["series_a"]["questions"])
-            },
-            {
-                "id": "series_b",
-                "title": DEMO_SERIES["series_b"]["title"],
-                "description": DEMO_SERIES["series_b"]["description"],
-                "question_count": len(DEMO_SERIES["series_b"]["questions"])
-            },
-            {
-                "id": "series_c",
-                "title": DEMO_SERIES["series_c"]["title"],
-                "description": DEMO_SERIES["series_c"]["description"],
-                "question_count": len(DEMO_SERIES["series_c"]["questions"])
-            },
-            {
-                "id": "series_25_a",
-                "title": DEMO_SERIES["series_25_a"]["title"],
-                "description": DEMO_SERIES["series_25_a"]["description"],
-                "question_count": len(DEMO_SERIES["series_25_a"]["questions"])
-            },
-            {
-                "id": "series_25_b",
-                "title": DEMO_SERIES["series_25_b"]["title"],
-                "description": DEMO_SERIES["series_25_b"]["description"],
-                "question_count": len(DEMO_SERIES["series_25_b"]["questions"])
-            },
-            {
-                "id": "series_25_c",
-                "title": DEMO_SERIES["series_25_c"]["title"],
-                "description": DEMO_SERIES["series_25_c"]["description"],
-                "question_count": len(DEMO_SERIES["series_25_c"]["questions"])
-            },
-            {
-                "id": "series_25_d",
-                "title": DEMO_SERIES["series_25_d"]["title"],
-                "description": DEMO_SERIES["series_25_d"]["description"],
-                "question_count": len(DEMO_SERIES["series_25_d"]["questions"])
-            },
-             {
-                "id": "series_25_e",
-                "title": DEMO_SERIES["series_25_e"]["title"],
-                "description": DEMO_SERIES["series_25_e"]["description"],
-                "question_count": len(DEMO_SERIES["series_25_e"]["questions"])
-            },
-             {
-                "id": "series_25_f",
-                "title": DEMO_SERIES["series_25_f"]["title"],
-                "description": DEMO_SERIES["series_25_f"]["description"],
-                "question_count": len(DEMO_SERIES["series_25_f"]["questions"])
+                "id": series_id,
+                "title": DEMO_SERIES[series_id]["title"],
+                "description": DEMO_SERIES[series_id]["description"],
+                "question_count": len(DEMO_SERIES[series_id]["questions"])
             }
+            for series_id in series_to_show
         ]
     }
+
 
 @router.post("/start/{series_id}")
 async def start_demo_test(

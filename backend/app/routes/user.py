@@ -21,3 +21,9 @@ async def update_profile(
     db.commit()
     db.refresh(current_user)
     return current_user
+
+@router.get("/is-admin")
+async def check_admin_status(current_user: User = Depends(get_current_user)):
+    """Check if current user is admin"""
+    from ..utils.auth import is_admin_user
+    return {"is_admin": is_admin_user(current_user)}

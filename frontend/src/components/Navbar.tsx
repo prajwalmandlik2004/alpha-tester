@@ -10,19 +10,33 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [testSeries, setTestSeries] = useState([
-    { id: 'series_a', name: 'Série 15 - S1' },
-    { id: 'series_b', name: 'Série 15 - S2' },
-    { id: 'series_c', name: 'Série 15 - S3' },
-    { id: 'series_25_a', name: 'Série 25 - T1' },
-    { id: 'series_25_b', name: 'Série 25 - T2' },
-    { id: 'series_25_c', name: 'Série 25 - T3' },
-    { id: 'series_25_d', name: 'Série 25 - T3 CTX' },
-    { id: 'series_25_e', name: 'Série 25 - T3 CTX0' },
     { id: 'series_25_f', name: 'Série 25 - T3 CTX1' },
-  ]);
+  ]); 
+  
+  useEffect(() => {
+    if (isAdmin) {
+      setTestSeries([
+        { id: 'series_a', name: 'Série 15 - S1' },
+        { id: 'series_b', name: 'Série 15 - S2' },
+        { id: 'series_c', name: 'Série 15 - S3' },
+        { id: 'series_25_a', name: 'Série 25 - T1' },
+        { id: 'series_25_b', name: 'Série 25 - T2' },
+        { id: 'series_25_c', name: 'Série 25 - T3' },
+        { id: 'series_25_d', name: 'Série 25 - T3 CTX' },
+        { id: 'series_25_e', name: 'Série 25 - T3 CTX0' },
+        { id: 'series_25_f', name: 'Série 25 - T3 CTX1' },
+      ]);
+    } else {
+      setTestSeries([
+        { id: 'series_25_f', name: 'Série 25 - T3 CTX1' },
+      ]);
+    }
+  }, [isAdmin]);
+
 
   const handleTestSelect = async (seriesId: string) => {
     const token = localStorage.getItem('token');
@@ -76,6 +90,29 @@ export default function Navbar() {
     setIsLoggedIn(!!token);
   }, []);
 
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/is-admin`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        setIsAdmin(data.is_admin);
+      } catch (error) {
+        console.error('Failed to check admin status');
+      }
+    };
+
+    if (isLoggedIn) {
+      checkAdminStatus();
+    }
+  }, [isLoggedIn]);
+
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -90,7 +127,8 @@ export default function Navbar() {
     { href: '/partnerships', label: 'Partenariats', icon: Info },
     { href: '/demo', label: 'Plateforme', icon: Beaker },
     // { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
-    { href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 },
+    // { href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 },
+    ...(isAdmin ? [{ href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 }] : []),
     { href: '/about', label: 'À propos d’INDX', icon: BarChart3 },
 
   ];
