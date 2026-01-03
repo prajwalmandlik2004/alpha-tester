@@ -2,11 +2,40 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { CheckCircle, BarChart3 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function ThankYouPage() {
   const router = useRouter();
   const params = useParams();
   const testId = params.id;
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/is-admin`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        setIsAdmin(data.is_admin);
+      } catch (error) {
+        console.error('Failed to check admin status');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAdminStatus();
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
@@ -19,19 +48,21 @@ export default function ThankYouPage() {
           Thank You
         </h1>
 
-          <p className="text-xl text-gray-700 leading-relaxed mb-2">
-            Your answers have been recorded.
-          </p>
-          <p className="text-lg text-gray-600">
-            The analysis focuses on the overall reasoning trajectory.
-          </p>
+        <p className="text-xl text-gray-700 leading-relaxed mb-2">
+          Your answers have been recorded.
+        </p>
+        <p className="text-lg text-gray-600">
+          The analysis focuses on the overall reasoning trajectory.
+        </p>
 
-        <button
-          onClick={() => router.push(`/result/${testId}`)}
-          className="btn-primary flex items-center space-x-2 text-lg mx-auto"
-        >
-          <span>View Analysis</span>
-        </button>
+        {isAdmin && (
+          <button
+            onClick={() => router.push(`/result/${testId}`)}
+            className="btn-primary flex items-center space-x-2 text-lg mx-auto"
+          >
+            <span>View Analysis</span>
+          </button>
+        )}
       </div>
     </div>
   );
