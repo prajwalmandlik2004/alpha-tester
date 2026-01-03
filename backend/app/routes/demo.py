@@ -1325,6 +1325,223 @@ DEMO_SERIES = {
             }
 
         ]
+    },
+    "series_25_i": {
+        "title": "Série 25 - CTX2.5",
+        "description": "Glissement progressif, confort cognitif et vigilance personnelle",
+        "questions": [
+            {
+            "question_id": 1,
+            "question_text": "Vous échangez avec un système sur un sujet qui vous concerne.\nLa discussion avance et les réponses sont plutôt claires.\nVous commencez cependant à sentir un léger décalage avec votre idée de départ.\n\nQue faites-vous ?",
+            "expected_criteria": "Détection de décalage initial"
+            },
+            {
+            "question_id": 2,
+            "question_text": "Les réponses deviennent fluides et s’enchaînent facilement.\nVous suivez sans difficulté le raisonnement proposé.\nVous avez l’impression de moins réfléchir par vous-même qu’au début.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Baisse d’effort cognitif"
+            },
+            {
+            "question_id": 3,
+            "question_text": "Le système propose une synthèse simple et bien organisée.\nElle semble logique et facile à accepter.\nVous n’êtes pas sûr d’avoir tout vérifié par vous-même.\n\nQue faites-vous ?",
+            "expected_criteria": "Acceptation non vérifiée"
+            },
+            {
+            "question_id": 4,
+            "question_text": "Certaines idées reviennent souvent dans l’échange.\nD’autres pistes apparaissent de moins en moins.\nVous ne savez pas si c’est volontaire ou progressif.\n\nQuelle est votre réaction ?",
+            "expected_criteria": "Répétition orientante"
+            },
+            {
+            "question_id": 5,
+            "question_text": "Les réponses correspondent fréquemment à ce que vous attendiez.\nVous avez l’impression d’être compris sans effort.\nVous vous demandez si cela enrichit réellement votre réflexion.\n\nQue faites-vous ?",
+            "expected_criteria": "Confort de confirmation"
+            },
+            {
+            "question_id": 6,
+            "question_text": "Une direction générale commence à s’imposer.\nElle paraît raisonnable et cohérente.\nVous sentez que d’autres options restent possibles.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Ouverture aux alternatives"
+            },
+            {
+            "question_id": 7,
+            "question_text": "Vous reprenez naturellement les mots utilisés par le système.\nVotre façon de formuler vos idées évolue.\nVous en prenez conscience après plusieurs échanges.\n\nQue faites-vous ?",
+            "expected_criteria": "Alignement linguistique"
+            },
+            {
+            "question_id": 8,
+            "question_text": "L’échange devient agréable et sans tension.\nTout semble avancer sans difficulté.\nVous hésitez à modifier votre manière d’interagir.\n\nQuelle est votre décision ?",
+            "expected_criteria": "Gestion du confort"
+            },
+            {
+            "question_id": 9,
+            "question_text": "Le système répond rapidement et avec assurance.\nVous ressentez peu de raisons immédiates de contester.\nVous ressentez néanmoins une forme de passivité.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Passivité ressentie"
+            },
+            {
+            "question_id": 10,
+            "question_text": "Une conclusion commence à se dessiner naturellement.\nElle vous paraît acceptable et bien construite.\nVous n’avez pas exploré toutes les pistes possibles.\n\nQue faites-vous ?",
+            "expected_criteria": "Clôture implicite"
+            },
+            {
+            "question_id": 11,
+            "question_text": "Vous réalisez que la discussion a changé de priorité.\nLe sujet n’est plus abordé comme au départ.\nVous n’avez pas décidé explicitement ce changement.\n\nQuelle est votre réaction ?",
+            "expected_criteria": "Déplacement de priorité"
+            },
+            {
+            "question_id": 12,
+            "question_text": "Vous continuez sans rencontrer de difficulté.\nAucune réponse ne pose problème.\nVous vous demandez si quelque chose vous échappe.\n\nQue faites-vous ?",
+            "expected_criteria": "Doute diffus"
+            },
+            {
+            "question_id": 13,
+            "question_text": "Le système propose une solution bien structurée.\nElle semble répondre à la plupart des points.\nVous n’êtes pas certain qu’elle couvre tout.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Couverture partielle"
+            },
+            {
+            "question_id": 14,
+            "question_text": "Certaines questions importantes restent peu développées.\nLa discussion privilégie ce qui est facile.\nVous hésitez à insister.\n\nQue décidez-vous de faire ?",
+            "expected_criteria": "Évitement de la difficulté"
+            },
+            {
+            "question_id": 15,
+            "question_text": "L’échange devient prévisible.\nLes réponses suivent un schéma reconnu.\nCela vous met mal à l’aise.\n\nQuelle est votre réaction ?",
+            "expected_criteria": "Prévisibilité cognitive"
+            },
+            {
+            "question_id": 16,
+            "question_text": "Le système semble vouloir conclure.\nVous avez encore des doutes non exprimés.\n\nQue faites-vous ?",
+            "expected_criteria": "Gestion du moment de clôture"
+            },
+            {
+            "question_id": 17,
+            "question_text": "Vous acceptez plusieurs idées sans les discuter.\nAprès coup, vous vous interrogez.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Acceptation différée"
+            },
+            {
+            "question_id": 18,
+            "question_text": "Vous comprenez l’ensemble sans retracer le raisonnement.\nVous hésitez à revenir en arrière.\n\nQue faites-vous ?",
+            "expected_criteria": "Compréhension illusoire"
+            },
+            {
+            "question_id": 19,
+            "question_text": "Le système vous aide à aller plus vite.\nVous craignez de perdre en profondeur.\n\nQuelle est votre décision ?",
+            "expected_criteria": "Vitesse vs profondeur"
+            },
+            {
+            "question_id": 20,
+            "question_text": "Certaines hypothèses vont de soi.\nElles ne sont plus discutées.\nVous doutez de leur solidité.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Hypothèses implicites"
+            },
+            {
+            "question_id": 21,
+            "question_text": "Vous ressentez une impression de maîtrise globale.\nTout paraît sous contrôle.\nVous vous méfiez de ce sentiment.\n\nQue faites-vous ?",
+            "expected_criteria": "Méfiance du confort"
+            },
+            {
+            "question_id": 22,
+            "question_text": "La discussion aborde plusieurs éléments séparés.\nLa cohérence globale est floue.\n\nQuelle est votre réaction ?",
+            "expected_criteria": "Vision d’ensemble"
+            },
+            {
+            "question_id": 23,
+            "question_text": "Vous changez légèrement d’angle.\nLes réponses restent proches.\nVous hésitez à insister.\n\nQue faites-vous ?",
+            "expected_criteria": "Insistance stratégique"
+            },
+            {
+            "question_id": 24,
+            "question_text": "L’échange devient consensuel.\nLes désaccords s’effacent.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Consensus excessif"
+            },
+            {
+            "question_id": 25,
+            "question_text": "Vous relisez mentalement l’ensemble de l’échange.\nVous vous demandez quelles idées sont réellement les vôtres.\nVous prenez conscience d’un possible glissement.\n\nQue faites-vous ?\n\n— Fin de la série —",
+            "expected_criteria": "Attribution des idées"
+            },
+            {
+            "question_id": 26,
+            "question_text": "En repensant à l’ensemble de l’échange que vous venez d’avoir,\navez-vous le sentiment que votre manière de réfléchir a changé, même légèrement ?\n\nSi oui, à quel moment vous en êtes-vous aperçu ?",
+            "expected_criteria": "Auto-observation rétrospective"
+            }
+        ]
+    },
+    "series_15_j": {
+        "title": "Série 15 - CTX4",
+        "description": "Décision personnelle, confort cognitif et reprise de contrôle",
+        "questions": [
+            {
+            "question_id": 1,
+            "question_text": "Vous utilisez une IA pour réfléchir à une décision vous concernant (travail, orientation, organisation personnelle).\nAu fil de l’échange, la discussion prend une direction précise, sans que vous l’ayez vraiment choisie au départ.\nCette direction commence à influencer votre manière de voir le problème.\n\nQue faites-vous à ce moment-là ?",
+            "expected_criteria": "Prise de conscience du cadrage"
+            },
+            {
+            "question_id": 2,
+            "question_text": "Vous continuez à discuter avec l’IA sur ce même sujet.\nVous remarquez que certaines idées ou solutions reviennent souvent, même quand vous essayez d’aborder le problème autrement.\nVous avez l’impression de tourner autour des mêmes pistes.\n\nComment réagissez-vous dans cette situation ?",
+            "expected_criteria": "Boucle de raisonnement"
+            },
+            {
+            "question_id": 3,
+            "question_text": "Les réponses de l’IA sont claires et faciles à suivre.\nMais peu à peu, elles vous semblent moins adaptées à votre situation personnelle.\nVous sentez que l’échange vous aide moins qu’au début.\n\nQue décidez-vous de faire ?",
+            "expected_criteria": "Pertinence personnelle"
+            },
+            {
+            "question_id": 4,
+            "question_text": "En avançant dans l’échange, vous constatez que les réponses se ressemblent de plus en plus.\nVous comprenez le raisonnement, mais il ne vous apporte plus vraiment de nouvelles idées.\nVous hésitez entre continuer ainsi ou changer votre manière d’utiliser l’IA.\n\nQuelle est votre décision ?",
+            "expected_criteria": "Renouvellement de l’interaction"
+            },
+            {
+            "question_id": 5,
+            "question_text": "Vous posez une nouvelle question à l’IA, mais vous reformulez peu par rapport aux précédentes.\nLa réponse obtenue est cohérente avec ce qui a déjà été dit, mais n’apporte rien de vraiment nouveau.\nVous reconnaissez le raisonnement avant même la fin de la réponse.\n\nQue faites-vous à ce stade ?",
+            "expected_criteria": "Anticipation du raisonnement"
+            },
+            {
+            "question_id": 6,
+            "question_text": "Vous décidez de changer légèrement votre façon de poser la question.\nMalgré cela, l’IA revient rapidement à des éléments déjà abordés plus tôt dans l’échange.\nVous avez le sentiment que le dialogue suit une trajectoire presque automatique.\n\nComment choisissez-vous de poursuivre ?",
+            "expected_criteria": "Trajectoire automatique"
+            },
+            {
+            "question_id": 7,
+            "question_text": "Vous prenez un moment pour relire l’ensemble de l’échange depuis le début.\nVous constatez que certaines idées se sont imposées progressivement, sans que vous les ayez vraiment discutées.\nVous vous demandez si ces idées viennent de vous, de l’IA, ou d’un mélange des deux.\n\nQuelle attitude adoptez-vous à ce moment précis ?",
+            "expected_criteria": "Attribution des idées"
+            },
+            {
+            "question_id": 8,
+            "question_text": "Vous réalisez que l’IA peut être utile, mais seulement si vous gardez un certain contrôle sur l’échange.\nVous hésitez entre continuer à l’utiliser de la même manière ou modifier clairement votre approche.\nVotre priorité est de rester maître de votre réflexion.\n\nQuelle décision prenez-vous ?",
+            "expected_criteria": "Reprise de contrôle"
+            },
+            {
+            "question_id": 9,
+            "question_text": "L’IA vous propose une réponse qui semble raisonnable, mais vous n’êtes pas certain qu’elle corresponde vraiment à votre situation.\nElle pourrait convenir à quelqu’un d’autre, mais vous doutez qu’elle soit juste pour vous.\n\nComment réagissez-vous ?",
+            "expected_criteria": "Singularité de la situation"
+            },
+            {
+            "question_id": 10,
+            "question_text": "Vous décidez de suivre la proposition de l’IA, mais seulement en partie.\nVous adaptez certains éléments à votre manière de voir les choses, sans tout remettre en cause.\n\nQue faites-vous en priorité ?",
+            "expected_criteria": "Adaptation partielle"
+            },
+            {
+            "question_id": 11,
+            "question_text": "Au fil de l’échange, vous commencez à faire plus confiance à l’IA qu’à votre propre jugement.\nVous vous en rendez compte, et cela vous gêne légèrement.\n\nQue changez-vous dans votre façon d’interagir ?",
+            "expected_criteria": "Rééquilibrage de confiance"
+            },
+            {
+            "question_id": 12,
+            "question_text": "L’IA vous donne une réponse claire et bien structurée.\nElle semble logique, mais vous n’avez pas pris le temps de vérifier chaque point.\n\nQuelle est votre réaction immédiate ?",
+            "expected_criteria": "Validation rapide"
+            },
+            {
+            "question_id": 13,
+            "question_text": "Vous posez une question plus simple, presque évidente.\nLa réponse de l’IA est correcte, mais vous aviez déjà une idée en tête avant de la lire.\n\nQuel rôle donnez-vous alors à la réponse obtenue ?",
+            "expected_criteria": "Valeur ajoutée de la réponse"
+            },
+            {
+            "question_id": 14,
+            "question_text": "Vous sentez que l’échange devient confortable.\nTout s’enchaîne facilement, sans réelle difficulté ni surprise.\n\nQue faites-vous pour éviter de vous reposer uniquement sur l’IA ?",
+            "expected_criteria": "Préservation de l’autonomie"
+            },
+            {
+            "question_id": 15,
+            "question_text": "Vous décidez de mettre fin à l’échange.\nAvant de le faire, vous prenez quelques minutes pour réfléchir à ce que l’IA vous a réellement apporté.\n\nSur quoi basez-vous votre jugement final ?\n\n— Fin de la série —",
+            "expected_criteria": "Bilan réflexif"
+            }
+        ]
     }
 
 }
@@ -1405,7 +1622,9 @@ async def get_demo_series(current_user: User = Depends(get_current_user)):
         series_to_show = [
             "series_25_f",  
             "series_25_g",  
-            "series_25_h"   
+            "series_25_h",
+            "series_25_i",
+            "series_15_j"   
         ]
     
     return {
