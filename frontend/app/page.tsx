@@ -42,18 +42,20 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
             <div className="space-y-7">
-              <div className="text-[#00008B text-3xl font-bold">
+              <div className="text-[#00008B text-2xl font-bold">
                 ACCUEIL
               </div>
 
-              <h3 className="text-3xl sm:text-3xl lg:text-3xl font-bold leading-tight text-[#00008B">
+             <div className="space-y-2">
+               <h3 className="text-3xl sm:text-3xl lg:text-3xl font-bold leading-tight">
                 INDX
               </h3>
 
-              <p className="text-base font-semibold text-gray-600">
+              <p className="text-base font-semibold">
                 Human-AI Cognitive Trajectory Framework
               </p>
 
+             </div>
               <div className="space-y-3 text-gray-600 text-base">
                 <p>
                   INDX mesure la capacité humaine à piloter un
