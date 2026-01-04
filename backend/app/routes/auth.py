@@ -52,3 +52,32 @@ def login(user_credentials: UserLogin, db: Session = Depends(get_db)):
     )
     
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.post("/guest-login")
+def guest_login(email: str, full_name: str, db: Session = Depends(get_db)):
+    """Quick login/register for guest users"""
+    # Check if user exists
+    existing_user = db.query(User).filter(User.email == email).first()
+    if existing_user:
+        access_token = create_access_token(data={"sub": existing_user.email})
+        return {"access_token": access_token, "token_type": "bearer"}
+    
+    # Create new user with auto-generated credentials
+    import secrets
+    auto_username = email.split('@')[0] + '_' + secrets.token_hex(4)
+    auto_password = secrets.token_urlsafe(16)
+    
+    new_user = User(
+        email=email,
+        username=auto_username,
+        full_name=full_name,
+        hashed_password=get_password_hash(auto_password)
+    )
+    
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    
+    access_token = create_access_token(data={"sub": new_user.email})
+    return {"access_token": access_token, "token_type": "bearer"}

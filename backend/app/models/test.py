@@ -22,7 +22,7 @@ class TestAttempt(Base):
     __tablename__ = "test_attempts"
     
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     category = Column(Enum(TestCategory), nullable=False)
     level = Column(Enum(TestLevel), nullable=False)
     test_name = Column(String, nullable=False)

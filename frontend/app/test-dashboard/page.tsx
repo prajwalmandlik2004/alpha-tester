@@ -35,9 +35,16 @@ export default function TestDashboard() {
     }
   };
 
-  const filteredTests = tests.filter((test) =>
-    test.test_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredTests = tests.filter((test) =>
+  //   test.test_name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+  const filteredTests = tests
+    .filter((test) => test.completed !== null) 
+    .filter((test) =>
+      test.test_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-[#050E3C]';
@@ -79,7 +86,8 @@ export default function TestDashboard() {
 
   return (
     <div className="min-h-screen px-4 py-20">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[1400px] mx-auto">
+
         {/* Header */}
         <div className="mb-12 animate-fade-in">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
@@ -144,6 +152,7 @@ export default function TestDashboard() {
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">S.No</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Test Name</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Author</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Email</th>
                     {/* <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Category</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Level</th> */}
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Date & Time</th>
@@ -165,6 +174,9 @@ export default function TestDashboard() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm text-gray-700">{test.user?.full_name || 'N/A'}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-700">{test.user?.email || 'N/A'}</div>
                       </td>
                       {/* <td className="px-6 py-4">
                         <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">

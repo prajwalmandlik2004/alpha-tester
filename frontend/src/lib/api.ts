@@ -45,6 +45,10 @@ export const authAPI = {
     api.post('/api/auth/signup', data),
   login: (data: { email: string; password: string }) =>
     api.post('/api/auth/login', data),
+  guestLogin: (email: string, fullName: string) =>
+    api.post('/api/auth/guest-login', null, {
+      params: { email, full_name: fullName }
+    }),
 };
 
 // User APIs

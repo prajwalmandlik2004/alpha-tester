@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from datetime import datetime
 import json
 from ..database import get_db
@@ -1610,15 +1610,55 @@ DEMO_SERIES = {
 #         ]
 #     }
 
+# @router.get("/series")
+# async def get_demo_series(current_user: User = Depends(get_current_user)):
+#     """Get all available demo series"""
+    
+#     if is_admin_user(current_user):
+    
+#         series_to_show = DEMO_SERIES.keys()
+#     else:
+       
+#         series_to_show = [
+#             "series_25_f",  
+#             "series_25_g",  
+#             "series_25_h",
+#             "series_25_i",
+#             "series_15_j"   
+#         ]
+    
+#     return {
+#         "series": [
+#             {
+#                 "id": series_id,
+#                 "title": DEMO_SERIES[series_id]["title"],
+#                 "description": DEMO_SERIES[series_id]["description"],
+#                 "question_count": len(DEMO_SERIES[series_id]["questions"])
+#             }
+#             for series_id in series_to_show
+#         ]
+#     }
+
 @router.get("/series")
-async def get_demo_series(current_user: User = Depends(get_current_user)):
-    """Get all available demo series"""
+async def get_demo_series(
+    authorization: Optional[str] = Header(None),
+    db: Session = Depends(get_db)
+):
+    """Get all available demo series - public access"""
     
-    if is_admin_user(current_user):
+    # Try to get current user if token provided (for admin check)
+    current_user = None
+    if authorization:
+        try:
+            token = authorization.replace("Bearer ", "")
+            current_user = get_current_user(token, db)
+        except:
+            pass  # Guest access - continue without user
     
+    # Show all series for admin, limited for others
+    if current_user and is_admin_user(current_user):
         series_to_show = DEMO_SERIES.keys()
     else:
-       
         series_to_show = [
             "series_25_f",  
             "series_25_g",  
@@ -1640,24 +1680,68 @@ async def get_demo_series(current_user: User = Depends(get_current_user)):
     }
 
 
+# @router.post("/start/{series_id}")
+# async def start_demo_test(
+#     series_id: str,
+#     current_user: User = Depends(get_current_user),
+#     db: Session = Depends(get_db)
+# ):
+#     """Start a demo test for a specific series"""
+    
+#     if series_id not in DEMO_SERIES:
+#         raise HTTPException(status_code=404, detail="Series not found")
+    
+#     series = DEMO_SERIES[series_id]
+    
+#     # Create test attempt with demo category
+#     test_attempt = TestAttempt(
+#         user_id=current_user.id,
+#         category=TestCategory.GENERAL,  # Use GENERAL for demo tests
+#         level=TestLevel.LEVEL_1,  # Use LEVEL_1 for demo tests
+#         test_name=f"{series['title']}",
+#         questions=series["questions"],
+#         answers=[]
+#     )
+    
+#     db.add(test_attempt)
+#     db.commit()
+#     db.refresh(test_attempt)
+    
+#     return {
+#         "id": test_attempt.id,
+#         "questions": series["questions"],  
+#         "test_name": test_attempt.test_name
+#     }
+
+
 @router.post("/start/{series_id}")
 async def start_demo_test(
     series_id: str,
-    current_user: User = Depends(get_current_user),
+    authorization: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
-    """Start a demo test for a specific series"""
+    """Start a demo test - public access, authentication optional"""
     
     if series_id not in DEMO_SERIES:
         raise HTTPException(status_code=404, detail="Series not found")
     
     series = DEMO_SERIES[series_id]
     
-    # Create test attempt with demo category
+    # Try to get current user if token provided
+    user_id = None
+    if authorization:
+        try:
+            token = authorization.replace("Bearer ", "")
+            current_user = get_current_user(token, db)
+            user_id = current_user.id
+        except:
+            pass  # Guest will register later
+    
+    # Create test attempt (user_id can be None for now)
     test_attempt = TestAttempt(
-        user_id=current_user.id,
-        category=TestCategory.GENERAL,  # Use GENERAL for demo tests
-        level=TestLevel.LEVEL_1,  # Use LEVEL_1 for demo tests
+        user_id=user_id,  # Can be None initially
+        category=TestCategory.GENERAL,
+        level=TestLevel.LEVEL_1,
         test_name=f"{series['title']}",
         questions=series["questions"],
         answers=[]
@@ -1669,10 +1753,9 @@ async def start_demo_test(
     
     return {
         "id": test_attempt.id,
-        "questions": series["questions"],  
+        "questions": series["questions"],
         "test_name": test_attempt.test_name
     }
-
 
 # # Then change the endpoint to:
 # @router.post("/submit")
@@ -1724,18 +1807,34 @@ async def start_demo_test(
 @router.post("/submit")
 async def submit_demo_test(
     request: DemoSubmitRequest,
-    current_user: User = Depends(get_current_user),
+    authorization: Optional[str] = Header(None),
     db: Session = Depends(get_db)
 ):
-    """Submit demo test answers and get multi-AI analysis"""
+    """Submit demo test - requires authentication (guest or registered)"""
     
+    # Get current user (must be authenticated by now via guest-login)
+    if not authorization:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    try:
+        token = authorization.replace("Bearer ", "")
+        current_user = get_current_user(token, db)
+    except:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    
+    # Find test and update user_id if it was null
     test = db.query(TestAttempt).filter(
-        TestAttempt.id == request.test_id,
-        TestAttempt.user_id == current_user.id
+        TestAttempt.id == request.test_id
     ).first()
     
     if not test:
         raise HTTPException(status_code=404, detail="Test not found")
+    
+    # Link test to user if not already linked
+    if test.user_id is None:
+        test.user_id = current_user.id
+    elif test.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized")
     
     if test.completed:
         raise HTTPException(status_code=400, detail="Test already completed")

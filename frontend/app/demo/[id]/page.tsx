@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowRight, Send } from 'lucide-react';
-import { demoAPI, testAPI } from '@/src/lib/api';
+import { authAPI, demoAPI, testAPI } from '@/src/lib/api';
 import toast from 'react-hot-toast';
 
 export default function DemoTestPage() {
@@ -24,6 +24,37 @@ export default function DemoTestPage() {
     const [showCancelModal, setShowCancelModal] = useState(false);
 
     const [showInfoModal, setShowInfoModal] = useState(true);
+    const [guestInfo, setGuestInfo] = useState({ email: '', fullName: '' });
+    const [isRegistering, setIsRegistering] = useState(false);
+
+    // Add this handler
+    const handleStartTest = async () => {
+        const token = localStorage.getItem('token');
+
+        // If already logged in, just start
+        if (token) {
+            setShowInfoModal(false);
+            return;
+        }
+
+        // Guest login
+        if (!guestInfo.email || !guestInfo.fullName) {
+            alert('Veuillez entrer votre email et nom');
+            return;
+        }
+
+        setIsRegistering(true);
+        try {
+            const response = await authAPI.guestLogin(guestInfo.email, guestInfo.fullName);
+            localStorage.setItem('token', response.data.access_token);
+            setShowInfoModal(false);
+        } catch (error) {
+            alert('Erreur. Veuillez réessayer.');
+        } finally {
+            setIsRegistering(false);
+        }
+    };
+
 
     const handleCancelTest = async () => {
         try {
@@ -185,6 +216,30 @@ export default function DemoTestPage() {
                                 </h2>
                             </div>
 
+                            {/* Guest Info Form - Only show if not logged in */}
+                            {!localStorage.getItem('token') && (
+                                <div className="space-y-4 bg-white p-6 border-l-4 border-[#050E3C]">
+                                    <h3 className="font-semibold text-[#050E3C]">Vos informations</h3>
+                                    <input
+                                        type="email"
+                                        placeholder="Votre email"
+                                        value={guestInfo.email}
+                                        onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Votre nom complet"
+                                        value={guestInfo.fullName}
+                                        onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                        required
+                                    />
+                                </div>
+                            )}
+
+
                             {/* Main description - with proper spacing */}
                             <div className="space-y-5">
                                 <p className="text-gray-700 leading-relaxed">
@@ -248,13 +303,15 @@ export default function DemoTestPage() {
                                 </div>
                             </div>
 
-                            {/* Start button */}
+
+                            {/* Modified start button */}
                             <div className="pt-6">
                                 <button
-                                    onClick={() => setShowInfoModal(false)}
-                                    className="w-full px-8 py-4 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors"
+                                    onClick={handleStartTest}
+                                    disabled={isRegistering || (!localStorage.getItem('token') && (!guestInfo.email || !guestInfo.fullName))}
+                                    className="w-full px-8 py-4 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
                                 >
-                                    Commencer le test
+                                    {isRegistering ? 'Enregistrement...' : 'Commencer le test'}
                                 </button>
                             </div>
                         </div>

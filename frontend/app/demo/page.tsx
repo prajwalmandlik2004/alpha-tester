@@ -11,11 +11,11 @@ export default function DemoPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-      return;
-    }
+    // const token = localStorage.getItem('token');
+    // if (!token) {
+    //   router.push('/login');
+    //   return;
+    // }
 
     fetchSeries();
   }, []);
