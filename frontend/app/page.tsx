@@ -169,7 +169,7 @@ export default function Home() {
                   <li>
                     -
                     <a href="#origine-ais" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
-                      Origine et nécessité d'AIS
+                      Origine et nécessité d'INDX
                     </a>
                   </li>
                 </ul>
@@ -318,7 +318,7 @@ export default function Home() {
                   <li>
                     -
                     <a href="#origine-ais" className="hover:text-[#00008B] transition-colors cursor-pointer underline ms-2">
-                      Origine et nécessité d'AIS
+                      Origine et nécessité d'INDX
                     </a>
                   </li>
                 </ul>

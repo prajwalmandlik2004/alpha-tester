@@ -267,9 +267,9 @@ export default function Navbar() {
                 <Link href="/login" className="btn-secondary rounded-none">
                   Connexion
                 </Link>
-                <Link href="/signup" className="btn-primary rounded-none">
+                {/* <Link href="/signup" className="btn-primary rounded-none">
                   Inscription
-                </Link>
+                </Link> */}
               </>
             )}
           </div>
@@ -365,9 +365,9 @@ export default function Navbar() {
                 <Link href="/login" className="block w-full btn-secondary text-center rounded-none" onClick={() => setIsOpen(false)}>
                   Connexion
                 </Link>
-                <Link href="/signup" className="block w-full btn-primary text-center rounded-none" onClick={() => setIsOpen(false)}>
+                {/* <Link href="/signup" className="block w-full btn-primary text-center rounded-none" onClick={() => setIsOpen(false)}>
                   Inscription
-                </Link>
+                </Link> */}
               </div>
             )}
           </div>
