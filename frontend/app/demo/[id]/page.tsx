@@ -129,11 +129,11 @@ export default function DemoTestPage() {
             const timeoutId = setTimeout(() => controller.abort(), 140000);
 
             // Show progress messages
-            setTimeout(() => setAnalysisStatus('Analyzing with GPT-4o...'), 2000);
-            setTimeout(() => setAnalysisStatus('Analyzing with Claude...'), 20000);
-            setTimeout(() => setAnalysisStatus('Analyzing with Grok...'), 30000);
-            setTimeout(() => setAnalysisStatus('Analyzing with Gemini...'), 40000);
-            setTimeout(() => setAnalysisStatus('Analyzing with Mistral...'), 50000);
+            setTimeout(() => setAnalysisStatus('Analyzing ...'), 2000);
+            setTimeout(() => setAnalysisStatus('Analyzing ...'), 20000);
+            setTimeout(() => setAnalysisStatus('Analyzing ...'), 30000);
+            setTimeout(() => setAnalysisStatus('Analyzing ...'), 40000);
+            setTimeout(() => setAnalysisStatus('Analyzing ...'), 50000);
             setTimeout(() => setAnalysisStatus('Finalizing results...'), 60000);
 
             await demoAPI.submitTest(testId, formattedAnswers);
@@ -216,47 +216,31 @@ export default function DemoTestPage() {
                                 </h2>
                             </div>
 
-                            {/* Guest Info Form - Only show if not logged in */}
-                            {!localStorage.getItem('token') && (
-                                <div className="space-y-4 bg-white p-6 border-l-4 border-[#050E3C]">
-                                    <h3 className="font-semibold text-[#050E3C]">Vos informations<span className='ms-1 text-red-500'>*</span></h3>
-                                    <input
-                                        type="email"
-                                        placeholder="Votre email"
-                                        value={guestInfo.email}
-                                        onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
-                                        required
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Votre nom complet"
-                                        value={guestInfo.fullName}
-                                        onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
-                                        required
-                                    />
-                                </div>
-                            )}
-
 
                             {/* Main description - with proper spacing */}
                             <div className="space-y-5">
-                                <p className="text-gray-700 leading-relaxed">
-                                    Vous allez débuter une session d'évaluation INDX1000, conçue pour observer votre
-                                    trajectoire d'interaction cognitive avec un système artificiel.
+                                <p className="text-gray-900 leading-relaxed">
+                                    Vous allez débuter une session INDX1000 destinée à observer votre manière de conduire une interaction cognitive avec un système
+                                    artificiel non déterministe.<br></br>
+                                    il ne s’agit ni d’un test de connaissances ni d’expertise, mais de l’analyse de la façon dont vous structurez, orientez et ajustez votre
+                                    raisonnement au fil de l’échange.
                                 </p>
 
-                                <p className="text-gray-700 leading-relaxed">
-                                    Cette évaluation ne mesure ni vos connaissances, ni votre expertise technique, ni votre
-                                    familiarité avec l'intelligence artificielle.
-                                    Elle se concentre exclusivement sur la manière dont vous structurez, orientez et ajustez une
-                                    interaction avec un système non déterministe.
+                                <p className="text-gray-900 leading-relaxed">
+                                    Il n’existe donc ni bonne ni mauvaise réponse : répondez sincèrement, sans chercher à anticiper une attente implicite, de façon
+                                    concise (environ dix lignes), la clarté primant sur la longueur.<br></br>
+                                    INDX1000 n’évalue pas des réponses isolées ni une performance ponctuelle, mais une dynamique de pilotage cognitif inscrite dans
+                                    la durée.
                                 </p>
+
+                                <p className='text-gray-900 leading-relaxed'>INDX ne constitue ni une plateforme de collecte de données personnelles, ni un outil de profilage, ni un dispositif d’exploitation marketing.
+                                    L’adresse e-mail demandée lors du test a pour seule fonction technique la transmission du reporting individuel.
+                                    Elle n’est associée à aucun identifiant de test, n’est pas conservée dans une base exploitable,
+                                    et ne fait l’objet d’aucune réutilisation ultérieure.</p>
                             </div>
 
                             {/* Before you begin section */}
-                            <div>
+                            {/* <div>
                                 <h3 className="text-lg font-bold text-[#050E3C] mb-3">
                                     Avant de commencer
                                 </h3>
@@ -284,18 +268,43 @@ export default function DemoTestPage() {
                                         </span>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> */}
+
+
+                            {/* Guest Info Form - Only show if not logged in */}
+                            {!localStorage.getItem('token') && (
+                                <div className="space-y-4 bg-white p-6 border-l-4 border-[#050E3C]">
+                                    <h3 className="font-semibold text-[#050E3C]">Vos informations<span className='ms-1 text-red-500'>*</span></h3>
+                                    <input
+                                        type="email"
+                                        placeholder="Votre email"
+                                        value={guestInfo.email}
+                                        onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                        required
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Votre nom complet"
+                                        value={guestInfo.fullName}
+                                        onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
+                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                        required
+                                    />
+                                </div>
+                            )}
+
 
                             {/* Test mindset section */}
                             <div>
-                                <h3 className="text-lg font-bold text-[#050E3C] mb-3">
+                                {/* <h3 className="text-lg font-bold text-[#050E3C] mb-3">
                                     Esprit du test
-                                </h3>
-                                <div className="space-y-3 text-gray-700">
-                                    <p>Prenez le temps de lire chaque énoncé avec attention.
+                                </h3> */}
+                                <div className="space-y-3 text-gray-900">
+                                    {/* <p>Prenez le temps de lire chaque énoncé avec attention.
                                         Répondez de manière sincère, sans chercher à anticiper ce qui pourrait être attendu,
                                         ni à « performer ».
-                                    </p>
+                                    </p> */}
                                     <p>
                                         INDX1000 observe des dynamiques d'interaction dans la durée, et non des réponses isolées.
                                         Il évalue une dynamique de pilotage cognitif, et non une performance ponctuelle.
@@ -305,7 +314,7 @@ export default function DemoTestPage() {
 
 
                             {/* Modified start button */}
-                            <div className="pt-6">
+                            <div className="pt-2">
                                 <button
                                     onClick={handleStartTest}
                                     disabled={isRegistering || (!localStorage.getItem('token') && (!guestInfo.email || !guestInfo.fullName))}
