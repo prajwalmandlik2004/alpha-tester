@@ -233,6 +233,8 @@ export default function DemoTestPage() {
                                     la durée.
                                 </p>
 
+                                <div className="h-px bg-gray-400 my-4"></div>
+
                                 <p className='text-gray-900 leading-relaxed'>INDX ne constitue ni une plateforme de collecte de données personnelles, ni un outil de profilage, ni un dispositif d’exploitation marketing.
                                     L’adresse e-mail demandée lors du test a pour seule fonction technique la transmission du reporting individuel.
                                     Elle n’est associée à aucun identifiant de test, n’est pas conservée dans une base exploitable,
@@ -275,43 +277,26 @@ export default function DemoTestPage() {
                             {!localStorage.getItem('token') && (
                                 <div className="space-y-4 bg-white p-6 border-l-4 border-[#050E3C]">
                                     <h3 className="font-semibold text-[#050E3C]">Vos informations<span className='ms-1 text-red-500'>*</span></h3>
-                                    <input
-                                        type="email"
-                                        placeholder="Votre email"
-                                        value={guestInfo.email}
-                                        onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
-                                        required
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Votre nom complet"
-                                        value={guestInfo.fullName}
-                                        onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
-                                        className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
-                                        required
-                                    />
+                                    <div className='flex items-center space-x-2 text-sm text-gray-600 mb-2'>
+                                        <input
+                                            type="text"
+                                            placeholder="Votre nom complet"
+                                            value={guestInfo.fullName}
+                                            onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
+                                            className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                            required
+                                        />
+                                        <input
+                                            type="email"
+                                            placeholder="Votre email"
+                                            value={guestInfo.email}
+                                            onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
+                                            className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                            required
+                                        />
+                                    </div>
                                 </div>
                             )}
-
-
-                            {/* Test mindset section */}
-                            <div>
-                                {/* <h3 className="text-lg font-bold text-[#050E3C] mb-3">
-                                    Esprit du test
-                                </h3> */}
-                                <div className="space-y-3 text-gray-900">
-                                    {/* <p>Prenez le temps de lire chaque énoncé avec attention.
-                                        Répondez de manière sincère, sans chercher à anticiper ce qui pourrait être attendu,
-                                        ni à « performer ».
-                                    </p> */}
-                                    <p>
-                                        INDX1000 observe des dynamiques d'interaction dans la durée, et non des réponses isolées.
-                                        Il évalue une dynamique de pilotage cognitif, et non une performance ponctuelle.
-                                    </p>
-                                </div>
-                            </div>
-
 
                             {/* Modified start button */}
                             <div className="pt-2">

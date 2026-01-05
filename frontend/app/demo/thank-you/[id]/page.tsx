@@ -48,21 +48,19 @@ export default function ThankYouPage() {
           Thank You
         </h1>
 
-        <p className="text-xl text-gray-700 leading-relaxed mb-2">
+        <p className="text-xl text-gray-700 leading-relaxed">
           Your answers have been recorded.
         </p>
-        <p className="text-lg text-gray-600">
+        {/* <p className="text-lg text-gray-600">
           The analysis focuses on the overall reasoning trajectory.
-        </p>
+        </p> */}
 
-        {isAdmin && (
-          <button
-            onClick={() => router.push(`/result/${testId}`)}
-            className="btn-primary flex items-center space-x-2 text-lg mx-auto"
-          >
-            <span>View Analysis</span>
-          </button>
-        )}
+        <button
+          onClick={() => router.push(`/result/${testId}`)}
+          className="btn-primary flex items-center space-x-2 text-lg mx-auto"
+        >
+          <span>ACCESS</span>
+        </button>
       </div>
     </div>
   );
