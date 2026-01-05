@@ -701,7 +701,7 @@ async def orchestrate_analysis(questions: List[Dict], answers: List[Dict], categ
         "session_id": session_payload["session_id"],
         "analyses": {
             "gpt4o": results[0],
-            "claude": results[1],
+            "grok": results[1],
             "grok": results[2],
             'groq': results[3],
             # "gemini": results[3],
