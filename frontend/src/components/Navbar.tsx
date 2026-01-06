@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Menu, X, User, LogOut, Home, BookOpen, BarChart3, Info, Beaker, Brain } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
+import AutoLanguageSelector from '@/src/components/AutoLanguageSelector';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -256,6 +257,7 @@ export default function Navbar() {
                   <User size={20} />
                   <span>Profil</span>
                 </Link> */}
+
                 <button
                   onClick={handleLogout}
                   className="flex items-center space-x-2 font-sm text-white px-4 py-2  transition-colors duration-300"
@@ -263,6 +265,7 @@ export default function Navbar() {
                   {/* <LogOut size={18} /> */}
                   <span>Déconnexion</span>
                 </button>
+                <AutoLanguageSelector />
               </>
             ) : (
               <>
@@ -361,6 +364,10 @@ export default function Navbar() {
                   {/* <LogOut size={18} /> */}
                   <span>Déconnexion</span>
                 </button>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-white">Language</span>
+                  <AutoLanguageSelector /> 
+                </div>
               </>
             ) : (
               <div className="space-y-2 pt-2">
