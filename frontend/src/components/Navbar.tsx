@@ -272,6 +272,7 @@ export default function Navbar() {
                 <Link href="/login" className="btn-secondary rounded-none">
                   Connexion
                 </Link>
+                <AutoLanguageSelector />
                 {/* <Link href="/signup" className="btn-primary rounded-none">
                   Inscription
                 </Link> */}
@@ -374,6 +375,10 @@ export default function Navbar() {
                 <Link href="/login" className="block w-full btn-secondary text-center rounded-none" onClick={() => setIsOpen(false)}>
                   Connexion
                 </Link>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-white">Language</span>
+                  <AutoLanguageSelector /> 
+                </div>
                 {/* <Link href="/signup" className="block w-full btn-primary text-center rounded-none" onClick={() => setIsOpen(false)}>
                   Inscription
                 </Link> */}
