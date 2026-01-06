@@ -209,7 +209,7 @@ export default function ResultPage() {
               <h3 className="text-lg font-semibold mb-4 text-gray-800">Analyse synthétique continue</h3>
               <div className="text-gray-700 leading-relaxed text-base space-y-4">
                 {currentAnalysis.analysis?.split('\n\n').map((paragraph: string, index: number) => (
-                  <p key={index} className="text-justify">
+                  <p key={index} className="">
                     {paragraph.trim()}
                   </p>
                 ))}
@@ -219,7 +219,7 @@ export default function ResultPage() {
             {/* 3. OPERATIONAL PROJECTION - With title */}
             <div className="card animate-slide-up" style={{ animationDelay: '200ms' }}>
               <h3 className="text-lg font-semibold mb-4 text-gray-800">Projection opératoire</h3>
-              <p className="text-gray-700 leading-relaxed text-base text-justify">
+              <p className="text-gray-700 leading-relaxed text-base">
                 {currentAnalysis.operational_projection}
               </p>
             </div>

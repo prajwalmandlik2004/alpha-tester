@@ -97,17 +97,39 @@ export default function DemoTestPage() {
     //     if (!canProceed) return;
 
     //     setLoading(true);
+    //     setAnalysisStatus('Submitting your answers...');
+
     //     try {
     //         const formattedAnswers = Object.entries(answers).map(([questionId, answerText]) => ({
     //             question_id: parseInt(questionId),
     //             answer_text: answerText,
     //         }));
 
+    //         const controller = new AbortController();
+    //         const timeoutId = setTimeout(() => controller.abort(), 140000);
+
+    //         // Show progress messages
+    //         setTimeout(() => setAnalysisStatus('Analyzing ...'), 2000);
+    //         setTimeout(() => setAnalysisStatus('Analyzing ...'), 20000);
+    //         setTimeout(() => setAnalysisStatus('Analyzing ...'), 30000);
+    //         setTimeout(() => setAnalysisStatus('Analyzing ...'), 40000);
+    //         setTimeout(() => setAnalysisStatus('Analyzing ...'), 50000);
+    //         setTimeout(() => setAnalysisStatus('Finalizing results...'), 60000);
+
     //         await demoAPI.submitTest(testId, formattedAnswers);
+
+    //         clearTimeout(timeoutId);
     //         router.push(`/demo/thank-you/${testId}`);
-    //     } catch (err) {
-    //         console.error('Failed to submit test');
-    //         alert('Failed to submit test. Please try again.');
+    //     } catch (err: any) {
+    //         console.error('Failed to submit test:', err);
+
+    //         if (err.name === 'AbortError') {
+    //             // alert('Analysis is taking longer than expected. Please check results page in a few moments.');
+    //             router.push(`/demo/thank-you/${testId}`);
+    //         } else {
+    //             // alert('Analysis is taking longer than expected. Please check results page in a few moments.');
+    //             router.push(`/demo/thank-you/${testId}`);
+    //         }
     //     } finally {
     //         setLoading(false);
     //     }
@@ -117,7 +139,7 @@ export default function DemoTestPage() {
         if (!canProceed) return;
 
         setLoading(true);
-        setAnalysisStatus('Submitting your answers...');
+        setAnalysisStatus('Saving your answers...');
 
         try {
             const formattedAnswers = Object.entries(answers).map(([questionId, answerText]) => ({
@@ -125,31 +147,22 @@ export default function DemoTestPage() {
                 answer_text: answerText,
             }));
 
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 140000);
+            // Show progress
+            setTimeout(() => setAnalysisStatus('Analyzing responses...'), 2000);
+            setTimeout(() => setAnalysisStatus('Processing results...'), 30000);
+            setTimeout(() => setAnalysisStatus('Finalizing...'), 60000);
 
-            // Show progress messages
-            setTimeout(() => setAnalysisStatus('Analyzing ...'), 2000);
-            setTimeout(() => setAnalysisStatus('Analyzing ...'), 20000);
-            setTimeout(() => setAnalysisStatus('Analyzing ...'), 30000);
-            setTimeout(() => setAnalysisStatus('Analyzing ...'), 40000);
-            setTimeout(() => setAnalysisStatus('Analyzing ...'), 50000);
-            setTimeout(() => setAnalysisStatus('Finalizing results...'), 60000);
-
+            // ✅ Submit (answers saved immediately, analysis happens on backend)
             await demoAPI.submitTest(testId, formattedAnswers);
 
-            clearTimeout(timeoutId);
+            // Go to thank you page (even if analysis is still running)
             router.push(`/demo/thank-you/${testId}`);
-        } catch (err: any) {
-            console.error('Failed to submit test:', err);
 
-            if (err.name === 'AbortError') {
-                alert('Analysis is taking longer than expected. Please check results page in a few moments.');
-                router.push(`/demo/thank-you/${testId}`);
-            } else {
-                alert('Analysis is taking longer than expected. Please check results page in a few moments.');
-                router.push(`/demo/thank-you/${testId}`);
-            }
+        } catch (err: any) {
+            console.error('Submission error:', err);
+            // Even on error, try to go to thank you page
+            // (answers might still be saved)
+            router.push(`/demo/thank-you/${testId}`);
         } finally {
             setLoading(false);
         }

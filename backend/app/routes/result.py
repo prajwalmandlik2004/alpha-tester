@@ -60,9 +60,24 @@ async def get_test_result(
     if not test:
         raise HTTPException(status_code=404, detail="Test not found")
     
+    # if not test.completed:
+    #     raise HTTPException(status_code=400, detail="Test not completed yet")
+
     if not test.completed:
-        raise HTTPException(status_code=400, detail="Test not completed yet")
-    
+        if test.answers:  # Answers saved but analysis pending
+            return {
+                "test_id": test.id,
+                "test_name": test.test_name,
+                "score": 0,
+                "analyses": {
+                    "gpt4o": {"error": "Analysis in progress, please refresh"}
+                },
+                "completed_at": test.created_at.isoformat(),
+                "answers": test.answers
+            }
+        raise HTTPException(status_code=400, detail="No answers submitted")
+
+    # Normal completed flow continues here
     analysis_data = json.loads(test.analysis)
     
     # Handle backward compatibility - old tests don't have "analyses" key

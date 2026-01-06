@@ -47,6 +47,51 @@ async def start_test(
     
     return test_attempt
 
+# @router.post("/submit")
+# async def submit_test(
+#     submit_request: TestSubmitRequest,
+#     current_user: User = Depends(get_current_user),
+#     db: Session = Depends(get_db)
+# ):
+#     """Submit test answers and get analysis"""
+    
+#     test = db.query(TestAttempt).filter(
+#         TestAttempt.id == submit_request.test_id,
+#         TestAttempt.user_id == current_user.id
+#     ).first()
+    
+#     if not test:
+#         raise HTTPException(status_code=404, detail="Test not found")
+    
+#     if test.completed:
+#         raise HTTPException(status_code=400, detail="Test already completed")
+    
+#     # Store answers
+#     answers = [answer.dict() for answer in submit_request.answers]
+#     test.answers = answers
+    
+#     # Analyze results using AI
+#     analysis = await analyze_test_results(
+#         questions=test.questions,
+#         answers=answers,
+#         category=test.category.value,
+#         level=test.level.value
+#     )
+    
+#     # Update test with results
+#     test.score = analysis["overall_score"]
+#     test.analysis = json.dumps(analysis)
+#     test.completed = datetime.utcnow()
+    
+#     db.commit()
+#     db.refresh(test)
+    
+#     return {
+#         "message": "Test submitted successfully",
+#         "test_id": test.id,
+#         "score": test.score
+#     }
+
 @router.post("/submit")
 async def submit_test(
     submit_request: TestSubmitRequest,
@@ -66,24 +111,33 @@ async def submit_test(
     if test.completed:
         raise HTTPException(status_code=400, detail="Test already completed")
     
-    # Store answers
+    # ✅ STEP 1: Save answers IMMEDIATELY
     answers = [answer.dict() for answer in submit_request.answers]
     test.answers = answers
-    
-    # Analyze results using AI
-    analysis = await analyze_test_results(
-        questions=test.questions,
-        answers=answers,
-        category=test.category.value,
-        level=test.level.value
-    )
-    
-    # Update test with results
-    test.score = analysis["overall_score"]
-    test.analysis = json.dumps(analysis)
-    test.completed = datetime.utcnow()
-    
+    test.completed = datetime.utcnow()  # Mark as submitted
     db.commit()
+    
+    # ✅ STEP 2: Run analysis (even if this fails, answers are safe)
+    try:
+        analysis = await analyze_test_results(
+            questions=test.questions,
+            answers=answers,
+            category=test.category.value,
+            level=test.level.value
+        )
+        
+        # Update with analysis results
+        test.score = analysis["overall_score"]
+        test.analysis = json.dumps(analysis)
+        db.commit()
+        
+    except Exception as e:
+        print(f"Analysis failed but answers are saved: {e}")
+        # Answers are already saved, so test is not lost
+        test.score = 0  # Default score
+        test.analysis = json.dumps({"error": "Analysis in progress"})
+        db.commit()
+    
     db.refresh(test)
     
     return {
