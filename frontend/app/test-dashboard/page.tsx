@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { BarChart3, Calendar, Award, Eye, Search, Trash2, LoaderCircle } from 'lucide-react';
-import { testAPI } from '@/src/lib/api';
+import { resultAPI, testAPI } from '@/src/lib/api';
 import toast from 'react-hot-toast';
-
+import { Download } from 'lucide-react';
 
 export default function TestDashboard() {
   const router = useRouter();
@@ -86,6 +86,25 @@ export default function TestDashboard() {
     }
   };
 
+
+  const handleDownloadCertificate = async (testId: number, testName: string) => {
+    try {
+      const response = await resultAPI.downloadCertificate(testId);
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `INDX1000_Certificate_${testName.replace(/[^a-z0-9]/gi, '_')}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      toast.success('Certificate downloaded!');
+    } catch (err) {
+      toast.error('Failed to download certificate');
+    }
+  };
+
   // const filteredTests = tests.filter((test) =>
   //   test.test_name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
@@ -137,12 +156,12 @@ export default function TestDashboard() {
 
   return (
     <div className="min-h-screen px-4 py-20">
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-[1700px] mx-auto">
 
         {/* Header */}
         <div className="mb-12 animate-fade-in">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <h1 className="text-5xl font-bold gradient-text">Test Dashboard</h1>
+            <h1 className="text-4xl font-bold gradient-text">Test Dashboard</h1>
             <div className="relative">
               <Search className="absolute left-4 top-5 text-gray-400" size={20} />
               <input
@@ -222,6 +241,7 @@ export default function TestDashboard() {
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Delete</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Remarks</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Feedback</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Certificate</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -351,6 +371,20 @@ export default function TestDashboard() {
                         )}
                       </td>
 
+                      <td className="px-6 py-4">
+                        {test.completed && test.score ? (
+                          <button
+                            onClick={() => handleDownloadCertificate(test.id, test.test_name)}
+                            className="flex items-center space-x-2 text-[#050E3C] hover:text-blue-700 font-semibold transition-colors"
+                          >
+                            <Download size={18} />
+                            <span>Download</span>
+                          </button>
+                        ) : (
+                          <span className="text-gray-400 text-sm">N/A</span>
+                        )}
+                      </td>
+
                     </tr>
                   ))}
                 </tbody>
@@ -358,79 +392,140 @@ export default function TestDashboard() {
             </div>
 
             {/* Mobile View */}
-            <div className="md:hidden space-y-4">
+            <div className="md:hidden space-y-6">
               {filteredTests.map((test, index) => (
-                <div key={test.id} className="border-b border-gray-200 pb-4 last:border-b-0">
-                  <div className="flex items-start justify-between mb-2">
+                <div key={test.id} className="border border-gray-200 rounded-lg p-4 bg-white">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
                         <span className="text-sm font-bold text-gray-500">#{index + 1}</span>
                         <span className="font-bold text-gray-900">{test.test_name}</span>
                       </div>
-                      {/* <div className="flex flex-wrap gap-2 mt-2">
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                          {test.category}
-                        </span>
-                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
-                          {test.level.replace('_', ' ')}
-                        </span>
-                      </div> */}
                     </div>
                     {test.score !== null && (
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${getScoreBadge(test.score)}`}>
-                        {test.score.toFixed(1)}
+                        {test.score.toFixed(0)}
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center justify-between mt-3">
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                      <Calendar size={14} />
-                      <span>
-                        {new Date(test.completed || test.created_at).toLocaleString('en-IN', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          hour12: false
-                        })}
-                      </span>
+
+                  {/* Author */}
+                  <div className="mb-2">
+                    <span className="text-xs font-semibold text-gray-600">Author: </span>
+                    <span className="text-sm text-gray-700">{test.user?.full_name || 'N/A'}</span>
+                  </div>
+
+                  {/* Date */}
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 mb-3">
+                    <Calendar size={14} />
+                    <span>
+                      {new Date(test.completed || test.created_at).toLocaleString('en-IN', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                      })}
+                    </span>
+                  </div>
+
+                  {/* Remarks */}
+                  <div className="mb-3">
+                    <label className="text-xs font-semibold text-gray-600 block mb-1">Remarks:</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={editingRemarks[test.id] || ''}
+                        onChange={(e) => handleRemarksChange(test.id, e.target.value)}
+                        onBlur={() => handleRemarksBlur(test.id)}
+                        placeholder="Add remarks..."
+                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:border-[#050E3C] focus:ring-1 focus:ring-[#050E3C] outline-none"
+                      />
+                      {savingRemarks === test.id && (
+                        <div className="absolute right-2 top-2">
+                          <div className="h-4 w-4 border-2 border-[#050E3C] border-t-transparent rounded-full animate-spin" />
+                        </div>
+                      )}
                     </div>
-                    {test.completed && (
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="space-y-2">
+                    {test.completed ? (
                       <>
-                        {/* Add this button */}
                         <button
                           onClick={() => router.push(`/answers/${test.id}`)}
-                          className="flex items-center space-x-1 text-[#050E3C] hover:text-blue-700 font-semibold text-sm"
+                          className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-[#050E3C] hover:text-blue-700 border border-gray-300 rounded font-semibold text-sm"
                         >
                           <Eye size={16} />
-                          <span>Answers</span>
+                          <span>View Answers</span>
                         </button>
                         <button
                           onClick={() => router.push(`/result/${test.id}`)}
-                          className="flex items-center space-x-1 text-[#050E3C] hover:text-blue-700 font-semibold text-sm"
+                          className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-[#050E3C] hover:text-blue-700 border border-gray-300 rounded font-semibold text-sm"
                         >
                           <Eye size={16} />
-                          <span>View</span>
+                          <span>View Analysis</span>
                         </button>
                       </>
+                    ) : (
+                      <div className="w-full px-4 py-2 text-center text-gray-400 text-sm border border-gray-200 rounded">
+                        Incomplete
+                      </div>
                     )}
+
+                    {test.feedback ? (
+                      <button
+                        onClick={() => {
+                          setSelectedFeedback(test.feedback);
+                          setShowFeedbackModal(true);
+                        }}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-green-600 hover:text-green-700 border border-gray-300 rounded font-semibold text-sm"
+                      >
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span>View Feedback</span>
+                      </button>
+                    ) : (
+                      <div className="w-full px-4 py-2 text-center text-gray-400 text-sm border border-gray-200 rounded">
+                        No Feedback
+                      </div>
+                    )}
+
+                    {test.completed && test.score ? (
+                      <button
+                        onClick={() => handleDownloadCertificate(test.id, test.test_name)}
+                        className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-[#050E3C] hover:text-blue-700 border border-gray-300 rounded font-semibold text-sm"
+                      >
+                        <Download size={16} />
+                        <span>Download Certificate</span>
+                      </button>
+                    ) : (
+                      <div className="w-full px-4 py-2 text-center text-gray-400 text-sm border border-gray-200 rounded">
+                        Certificate N/A
+                      </div>
+                    )}
+
                     <button
                       onClick={() => handleDeleteTest(test.id)}
                       disabled={deletingTestId === test.id}
-                      className="flex items-center space-x-1 text-red-600 hover:text-red-700 font-semibold text-sm disabled:opacity-50"
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-red-600 hover:text-red-700 border border-gray-300 rounded font-semibold text-sm disabled:opacity-50"
                     >
                       {deletingTestId === test.id ? (
-                        <div className="h-3 w-3 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
-
+                        <div className="h-4 w-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <Trash2 size={16} />
                       )}
+                      <span>Delete Test</span>
                     </button>
                   </div>
                 </div>
               ))}
             </div>
+
+
+
           </div>
         )}
       </div>

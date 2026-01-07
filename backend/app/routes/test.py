@@ -174,6 +174,7 @@ async def get_test_dashboard(
             "created_at": test.created_at,
             "remarks": test.remarks,
             "feedback": test.feedback,
+            "certificate_available": test.completed and test.score is not None,
             # "user": {
             #     "full_name": test.user.full_name,
             #     "email": test.user.email

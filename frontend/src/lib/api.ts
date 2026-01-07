@@ -80,6 +80,10 @@ export const resultAPI = {
     api.patch(`/api/result/feedback/${testId}`, null, {
       params: { feedback }
   }),
+  downloadCertificate: (testId: number) =>  // ADD THIS
+    api.get(`/api/result/${testId}/certificate`, {
+      responseType: 'blob'
+  }),
 };
 
 // Demo APIs

@@ -6,6 +6,8 @@ from ..models.user import User
 from ..models.test import TestAttempt
 from ..schemas.result import ResultResponse, ResultAnalysis
 from ..utils.auth import get_current_user
+from fastapi.responses import StreamingResponse
+from ..utils.certificate_generator import generate_certificate
 
 router = APIRouter(prefix="/api/result", tags=["Result"])
 
@@ -129,3 +131,46 @@ async def submit_feedback(
     db.commit()
     
     return {"message": "Feedback submitted successfully"}
+
+
+@router.get("/{test_id}/certificate")
+async def download_certificate(
+    test_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Generate and download certificate for a test"""
+    
+    test = db.query(TestAttempt).filter(
+        TestAttempt.id == test_id
+    ).first()
+    
+    if not test:
+        raise HTTPException(status_code=404, detail="Test not found")
+    
+    if not test.completed or not test.score:
+        raise HTTPException(status_code=400, detail="Test not completed or score unavailable")
+    
+    # Get user info
+    user_name = test.user.full_name if test.user else "Guest User"
+    user_email = test.user.email if test.user else "N/A"
+    
+    # Generate certificate
+    pdf_buffer = generate_certificate(
+        user_name=user_name,
+        email=user_email,
+        test_name=test.test_name,
+        score=test.score,
+        completed_at=test.completed.isoformat()
+    )
+    
+    # Return PDF as download
+    filename = f"INDX1000_Certificate_{user_name.replace(' ', '_')}_{test_id}.pdf"
+    
+    return StreamingResponse(
+        pdf_buffer,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f'attachment; filename="{filename}"'
+        }
+    )
