@@ -16,6 +16,9 @@ export default function TestDashboard() {
   const [editingRemarks, setEditingRemarks] = useState<{ [key: number]: string }>({});
   const [savingRemarks, setSavingRemarks] = useState<number | null>(null);
 
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [selectedFeedback, setSelectedFeedback] = useState('');
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -134,7 +137,7 @@ export default function TestDashboard() {
 
   return (
     <div className="min-h-screen px-4 py-20">
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-[1600px] mx-auto">
 
         {/* Header */}
         <div className="mb-12 animate-fade-in">
@@ -153,6 +156,34 @@ export default function TestDashboard() {
           </div>
 
         </div>
+
+        {/* Feedback Modal */}
+        {showFeedbackModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-gray-900">User Feedback</h3>
+                  <button
+                    onClick={() => setShowFeedbackModal(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div className="bg-gray-50 p-4 rounded">
+                  <p className="text-gray-800 whitespace-pre-wrap">{selectedFeedback}</p>
+                </div>
+                {/* <button
+                  onClick={() => setShowFeedbackModal(false)}
+                  className="mt-4 w-full px-4 py-2 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90"
+                >
+                  Close
+                </button> */}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Tests Table */}
         {filteredTests.length === 0 ? (
@@ -190,6 +221,7 @@ export default function TestDashboard() {
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Analysis</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Delete</th>
                     <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Remarks</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">Feedback</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -301,6 +333,24 @@ export default function TestDashboard() {
                           )}
                         </div>
                       </td>
+
+                      <td className="px-6 py-4">
+                        {test.feedback ? (
+                          <button
+                            onClick={() => {
+                              setSelectedFeedback(test.feedback);
+                              setShowFeedbackModal(true);
+                            }}
+                            className="flex items-center space-x-2 text-green-600 hover:text-green-700 font-semibold"
+                          >
+                            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <span>View</span>
+                          </button>
+                        ) : (
+                          <span className="text-gray-400 text-sm">No feedback</span>
+                        )}
+                      </td>
+
                     </tr>
                   ))}
                 </tbody>

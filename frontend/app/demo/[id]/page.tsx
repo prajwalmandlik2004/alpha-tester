@@ -184,7 +184,7 @@ export default function DemoTestPage() {
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#050E3C]"></div>
                         <p className="text-lg font-semibold text-[#050E3C]">{analysisStatus}</p>
                         <p className="text-sm text-gray-600 text-center">
-                            This may take up to 5 minutes. Please don't close this page.
+                            This may take up to 2-3 minutes. Please don't close this page.
                         </p>
                     </div>
                 </div>

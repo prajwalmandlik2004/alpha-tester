@@ -108,3 +108,24 @@ async def get_test_result(
         "completed_at": test.completed.isoformat(),
         "answers": test.answers  
     }
+
+@router.patch("/feedback/{test_id}")
+async def submit_feedback(
+    test_id: int,
+    feedback: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Submit user feedback for a test"""
+    
+    test = db.query(TestAttempt).filter(
+        TestAttempt.id == test_id
+    ).first()
+    
+    if not test:
+        raise HTTPException(status_code=404, detail="Test not found")
+    
+    test.feedback = feedback
+    db.commit()
+    
+    return {"message": "Feedback submitted successfully"}

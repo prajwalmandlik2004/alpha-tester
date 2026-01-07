@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Download, Share2 } from 'lucide-react';
 import { resultAPI } from '@/src/lib/api';
+import toast from 'react-hot-toast';
 
 // const AI_MODELS = [
 //   { id: 'gpt4o', name: 'GPT-4o', color: 'from-green-500 to-emerald-600' },
@@ -38,6 +39,9 @@ export default function ResultPage() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeModel, setActiveModel] = useState('gpt4o');
+
+  const [feedback, setFeedback] = useState('');
+  const [submittingFeedback, setSubmittingFeedback] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -106,6 +110,24 @@ export default function ResultPage() {
   }
 
   const currentAnalysis = result.analyses[activeModel];
+
+  const handleFeedbackSubmit = async () => {
+    if (!feedback.trim()) {
+      toast.error('Please enter feedback');
+      return;
+    }
+
+    setSubmittingFeedback(true);
+    try {
+      await resultAPI.submitFeedback(parseInt(testId), feedback);
+      toast.success('Feedback submitted successfully!');
+      setFeedback('');
+    } catch (err) {
+      toast.error('Failed to submit feedback');
+    } finally {
+      setSubmittingFeedback(false);
+    }
+  };
 
   return (
     <div className="min-h-screen px-4 py-20">
@@ -232,6 +254,25 @@ export default function ResultPage() {
                   INDX : {result.score.toFixed(0)} / 1000
                 </p>
               </div>
+            </div>
+
+            {/* 5. FEEDBACK SECTION */}
+            <div className="card animate-slide-up" style={{ animationDelay: '400ms' }}>
+              <h3 className="text-lg font-semibold mb-4 text-gray-800">Feedback</h3>
+              <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder="Partagez votre expérience avec ce test..."
+                rows={4}
+                className="w-full px-4 py-3 border border-gray-300 rounded focus:border-[#050E3C] focus:ring-1 focus:ring-[#050E3C] outline-none resize-none"
+              />
+              <button
+                onClick={handleFeedbackSubmit}
+                disabled={submittingFeedback || !feedback.trim()}
+                className="mt-3 px-6 py-2 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
+              >
+                {submittingFeedback ? 'Sending...' : 'Send'}
+              </button>
             </div>
 
           </div>

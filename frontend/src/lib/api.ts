@@ -76,6 +76,10 @@ export const testAPI = {
 // Result APIs
 export const resultAPI = {
   getResult: (testId: number) => api.get(`/api/result/${testId}`),
+  submitFeedback: (testId: number, feedback: string) =>  // ADD THIS
+    api.patch(`/api/result/feedback/${testId}`, null, {
+      params: { feedback }
+  }),
 };
 
 // Demo APIs

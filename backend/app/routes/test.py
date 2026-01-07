@@ -173,6 +173,7 @@ async def get_test_dashboard(
             "completed": test.completed,
             "created_at": test.created_at,
             "remarks": test.remarks,
+            "feedback": test.feedback,
             # "user": {
             #     "full_name": test.user.full_name,
             #     "email": test.user.email
