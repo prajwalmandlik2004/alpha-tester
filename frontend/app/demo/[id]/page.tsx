@@ -230,30 +230,36 @@ export default function DemoTestPage() {
                             </div>
 
 
-                           {/* Main description - with proper spacing */}
+                            {/* Main description - with proper spacing */}
                             <div className="space-y-6">
                                 <div>
                                     <h3 className="text-lg font-normal text-gray-900 mb-10 underline">
                                         Informations :
                                     </h3>
-                                    
+
                                     <div className="space-y-4 text-md text-gray-900 leading-relaxed">
                                         <p>
-                                            - Vous êtes sur le point de débuter une session INDX1000, destinée à observer votre manière de conduire une interaction cognitive avec un système artificiel non déterministe.
+                                            <span className="mr-2 text-yellow-800">●</span> Vous êtes sur le point de débuter une session INDX1000, destinée à observer votre manière de conduire une interaction cognitive avec un système artificiel non déterministe.
                                             <br />
                                             il ne s'agit ni d'un test de connaissances ni d'expertise, mais de l'analyse de la façon dont vous structurez, orientez et ajustez votre raisonnement au fil de l'échange.
                                         </p>
 
                                         <p>
-                                            - INDX1000 n'évalue pas des réponses isolées ni une performance ponctuelle, mais une dynamique de pilotage cognitif inscrite dans la durée (ici comprise entre 15 et 25 minutes pour les "Séries 15" ; 30 à 45 pour les "Séries 25").
+                                            INDX1000 n'évalue pas des réponses isolées ni une performance ponctuelle, mais une dynamique de pilotage cognitif inscrite dans la durée (ici comprise entre 15 et 25 minutes pour les "Séries 15" ; 30 à 45 pour les "Séries 25").
                                         </p>
 
                                         <p>
-                                            - Il n'existe donc ni bonne ni mauvaise réponse : répondez sincèrement, sans chercher à anticiper une attente implicite, de façon concise (environ dix lignes), la clarté primant sur la longueur.
+                                            Il n'existe donc ni bonne ni mauvaise réponse : répondez sincèrement, sans chercher à anticiper une attente implicite, de façon concise (environ dix lignes), la clarté primant sur la longueur.
                                         </p>
 
+                                        {/* Divider starting from center */}
+                                        <div className="flex justify-center">
+                                            <div className="w-3/4 border-t border-gray-400 m-5"></div>
+                                        </div>
+
                                         <p>
-                                            - En fin de test vous pourrez récupérer immédiatement le compte-rendu d'analyse par mail (votre adresse n'étant communiquée à strictement personne externe à INDX).
+                                            <span className="mr-2 text-yellow-800">●</span> En fin de test vous pourrez consulter et récupérer le compte-rendu d’analyse de cette session par e-mail à votre
+                                            adresse à renseigner ci-dessous, utilisée exclusivement par INDX.
                                         </p>
                                     </div>
                                 </div>
@@ -262,31 +268,42 @@ export default function DemoTestPage() {
 
                             {/* Guest Info Form - Only show if not logged in */}
                             {!localStorage.getItem('token') && (
-                                <div className="space-y-4 bg-white p-6 border-l-4 border-[#050E3C]">
-                                    <h3 className="font-semibold text-[#050E3C]">Vos informations<span className='ms-1 text-red-500'>*</span></h3>
-                                    <div className='flex items-center space-x-2 text-sm text-gray-600 mb-2'>
+                                <div className="space-y-3">
+                                    <h3 className="font-normal text-gray-900">Vos informations :</h3>
+                                    <div className='flex flex-col md:flex-row items-start md:space-x-4 space-y-4 md:space-y-0'>
                                         <input
                                             type="text"
-                                            placeholder="Votre nom complet"
+                                            placeholder="Prénom, Nom"
                                             value={guestInfo.fullName}
                                             onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                            className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
                                             required
                                         />
-                                        <input
-                                            type="email"
-                                            placeholder="Votre email"
-                                            value={guestInfo.email}
-                                            onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
-                                            className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] outline-none"
-                                            required
-                                        />
+                                        <div className="relative">
+                                            <input
+                                                type="email"
+                                                placeholder="Adresse mail"
+                                                value={guestInfo.email}
+                                                onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
+                                                className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                                required
+                                            />
+                                            <button
+                                                disabled={!guestInfo.email || !guestInfo.fullName}
+                                                className={`absolute -bottom-14 right-0 px-3 py-1 font-semibold transition-colors ${guestInfo.email && guestInfo.fullName
+                                                    ? 'bg-[#050E3C] text-white'
+                                                    : 'bg-gray-400 text-white cursor-not-allowed'
+                                                    }`}
+                                            >
+                                                OK
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             )}
 
                             {/* Modified start button */}
-                            <div className="pt-5">
+                            <div className="pt-8">
                                 <button
                                     onClick={handleStartTest}
                                     disabled={isRegistering || (!localStorage.getItem('token') && (!guestInfo.email || !guestInfo.fullName))}
