@@ -307,11 +307,11 @@ export default function DemoTestPage() {
                                                     }}
                                                     disabled={!isOkClicked}
                                                     className={`px-3 py-1 font-semibold transition-colors ${isOkClicked
-                                                        ? 'bg-[#050E3C] text-white'
-                                                        : 'bg-gray-400 text-white cursor-not-allowed'
+                                                        ? 'text-[#050E3C] underline'
+                                                        : 'text-gray-500 cursor-not-allowed underline'
                                                         }`}
                                                 >
-                                                    Modify
+                                                    Modifier
                                                 </button>
                                                 <button
                                                     onClick={() => {
@@ -338,7 +338,7 @@ export default function DemoTestPage() {
                                     disabled={isRegistering || (!localStorage.getItem('token') && !isOkClicked)}
                                     className="px-6 py-3 bg-[#050E3C] text-white text-md font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
                                 >
-                                    {isRegistering ? 'Enregistrement...' : 'Commencer le test'}
+                                    {isRegistering ? 'Enregistrement...' : 'Commencer'}
                                 </button>
 
                                 {!localStorage.getItem('token') && (
@@ -349,7 +349,7 @@ export default function DemoTestPage() {
                                         }}
                                         className="px-6 py-3 text-gray-500 text-md font-semibold underline cursor-pointer"
                                     >
-                                        Cancel
+                                        Annuler
                                     </button>
                                 )}
                             </div>
