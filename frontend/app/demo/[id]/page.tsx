@@ -28,6 +28,7 @@ export default function DemoTestPage() {
     const [isRegistering, setIsRegistering] = useState(false);
 
     const [isOkClicked, setIsOkClicked] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
 
     // Add this handler
     const handleStartTest = async () => {
@@ -222,6 +223,7 @@ export default function DemoTestPage() {
                 </div>
             )}
 
+
             {showInfoModal && (
                 <div className="fixed inset-0 bg-white z-40 overflow-y-auto">
                     <div className="max-w-4xl mx-auto px-6 py-30">
@@ -284,6 +286,7 @@ export default function DemoTestPage() {
                                             value={guestInfo.fullName}
                                             onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
                                             className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                            disabled={isOkClicked && !isEditMode}
                                             required
                                         />
                                         <div className="relative">
@@ -293,25 +296,43 @@ export default function DemoTestPage() {
                                                 value={guestInfo.email}
                                                 onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
                                                 className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
+                                                disabled={isOkClicked && !isEditMode}
                                                 required
                                             />
-                                            <button
-                                                onClick={() => setIsOkClicked(true)}
-                                                disabled={!guestInfo.fullName || !isValidEmail(guestInfo.email)}
-                                                className={`absolute -bottom-14 right-0 px-3 py-1 font-semibold transition-colors ${guestInfo.fullName && isValidEmail(guestInfo.email)
+                                            <div className="absolute -bottom-14 right-0 flex space-x-2">
+                                                <button
+                                                    onClick={() => {
+                                                        setIsEditMode(true);
+                                                        setIsOkClicked(false);
+                                                    }}
+                                                    disabled={!isOkClicked}
+                                                    className={`px-3 py-1 font-semibold transition-colors ${isOkClicked
                                                         ? 'bg-[#050E3C] text-white'
                                                         : 'bg-gray-400 text-white cursor-not-allowed'
-                                                    }`}
-                                            >
-                                                OK
-                                            </button>
+                                                        }`}
+                                                >
+                                                    Modify
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        setIsOkClicked(true);
+                                                        setIsEditMode(false);
+                                                    }}
+                                                    disabled={!guestInfo.fullName || !isValidEmail(guestInfo.email) || (isOkClicked && !isEditMode)}
+                                                    className={`px-3 py-1 font-semibold transition-colors ${guestInfo.fullName && isValidEmail(guestInfo.email) && (!isOkClicked || isEditMode)
+                                                        ? 'bg-[#050E3C] text-white'
+                                                        : 'bg-gray-400 text-white cursor-not-allowed'
+                                                        }`}
+                                                >
+                                                    OK
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             )}
 
-                            {/* Modified start button */}
-                            <div className="pt-8">
+                            <div className="pt-8 flex space-x-4">
                                 <button
                                     onClick={handleStartTest}
                                     disabled={isRegistering || (!localStorage.getItem('token') && !isOkClicked)}
@@ -319,6 +340,18 @@ export default function DemoTestPage() {
                                 >
                                     {isRegistering ? 'Enregistrement...' : 'Commencer le test'}
                                 </button>
+
+                                {!localStorage.getItem('token') && (
+                                    <button
+                                        onClick={() => {
+                                            router.push('/demo');
+                                            toast.success('Test cancelled successfully');
+                                        }}
+                                        className="px-6 py-3 text-gray-500 text-md font-semibold underline cursor-pointer"
+                                    >
+                                        Cancel
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -144,18 +144,18 @@ export default function ResultPage() {
         {/* Header */}
         <div className="card mb-8 animate-fade-in">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="mb-6 md:mb-0">
+            <div className="mb-2 md:mb-0 text-center md:text-left">
               <h1 className="text-3xl font-bold mb-2">{result.test_name}</h1>
               <span className="px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-700">
                 {new Date(result.completed_at).toLocaleDateString()}
               </span>
             </div>
 
-            <div className="text-center">
+            {/* <div className="text-center">
               <p className="text-2xl font-bold text-[#050E3C]">
                 INDX1000: <span className="text-3xl">{result.score.toFixed(0)}</span> / 1000
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -183,7 +183,7 @@ export default function ResultPage() {
 
         {/* AI Model Selector */}
         <div className="card mb-8">
-          <h2 className="text-xl font-bold mb-4">Select AI Analysis:</h2>
+          {/* <h2 className="text-xl font-bold mb-4">Select AI Analysis:</h2> */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {getAIModels(isAdmin).map((model) => (
               <button
