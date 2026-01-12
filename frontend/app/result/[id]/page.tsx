@@ -235,13 +235,13 @@ export default function ResultPage() {
               {/* <h3 className="text-lg font-semibold mb-4 text-gray-800">Analyse synthétique continue</h3> */}
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-800 inline">
-                  Analyse synthétique continue  <span className='ml-3'>/</span>
+                  Analyse synthétique continue  
                   {isAdmin && (
                     <button
                       onClick={handleSequentialClick}
                       className="text-[#050E3C] font-medium text-lg ml-3 cursor-pointer hover:underline"
                     >
-                      Sequential
+                      <span className='ml-3 mr-3'>/</span> Sequential
                     </button>
                   )}
                 </h3>
