@@ -241,7 +241,7 @@ export default function ResultPage() {
                       onClick={handleSequentialClick}
                       className="text-[#050E3C] font-medium text-lg ml-3 cursor-pointer hover:underline"
                     >
-                      <span className='ml-3 mr-3'>/</span> Sequential
+                      / Sequential
                     </button>
                   )}
                 </h3>

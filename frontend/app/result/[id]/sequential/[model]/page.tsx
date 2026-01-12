@@ -171,9 +171,15 @@ export default function SequentialAnalysisPage() {
                                                     onChange={(e) => handleFieldChange(index, `field_${num}`, e.target.value)}
                                                     disabled={!isAdmin}
                                                     className="w-full px-3 py-2 text-xs border border-gray-500 focus:border-[#050E3C] outline-none disabled:bg-gray-100"
+                                                    list='yes-no-options'
                                                 />
                                             ))}
                                         </div>
+
+                                        <datalist id="yes-no-options">
+                                            <option value="Yes" />
+                                            <option value="No" />
+                                        </datalist>
 
                                         {/* 1 Large Field */}
                                         <textarea
