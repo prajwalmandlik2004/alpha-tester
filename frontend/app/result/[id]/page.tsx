@@ -267,20 +267,20 @@ export default function ResultPage() {
             {/* 4. INDX SCORE - Compact format matching screenshot 2 */}
             <div className="card animate-slide-up bg-white border border-gray-200" style={{ animationDelay: '300ms' }}>
               <div className="py-4">
-                <h3 className="text-sm font-bold text-gray-800 mb-1">INDX — Note brute</h3>
+                <h3 className="text-sm font-bold text-gray-800 mb-2">Index intercognitif brut</h3>
                 <p className="text-2xl font-bold text-[#050E3C]">
-                  INDX : {result.score.toFixed(0)} / 1000
+                  INDX1000 : {result.score.toFixed(0)}
                 </p>
               </div>
             </div>
 
             {/* 5. FEEDBACK SECTION */}
             <div className="card animate-slide-up" style={{ animationDelay: '400ms' }}>
-              <h3 className="text-lg font-semibold mb-4 text-gray-800">Feedback</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-800">Retour (Beta) : </h3>
               <textarea
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
-                placeholder="Partagez votre expérience avec ce test..."
+                placeholder="Chaque retour beta est scrupuleusement étudié et reçoit une réponse rapide."
                 rows={4}
                 className="w-full px-4 py-3 border border-gray-300 rounded focus:border-[#050E3C] focus:ring-1 focus:ring-[#050E3C] outline-none resize-none"
               />
