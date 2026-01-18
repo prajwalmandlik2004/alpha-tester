@@ -995,12 +995,12 @@ async def orchestrate_analysis(questions: List[Dict], answers: List[Dict], categ
     
     # Define role-specific prompts
     role_prompts = {
-        "gpt4o": "You are a technical evaluator analyzing cognitive framing abilities. Analyze each question independently.",
-        "claude": "You are a pedagogical expert evaluating reasoning patterns. Analyze each question independently.",
-        "grok": "You are a critical thinking assessor evaluating decision-making. Analyze each question independently.",
-        "groq": "You are a cognitive skills evaluator analyzing analytical thinking. Analyze each question independently.",
+        "gpt4o": "You are a technical evaluator analyzing cognitive framing abilities. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
+        "claude": "You are a pedagogical expert evaluating reasoning patterns. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
+        "grok": "You are a critical thinking assessor evaluating decision-making. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
+        "groq": "You are a cognitive skills evaluator analyzing analytical thinking. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
         # "gemini": "You are a strategic analyst evaluating problem-solving approaches. Analyze each question independently.",
-        "mistral": "You are an AI interaction specialist evaluating meta-cognitive awareness. Analyze each question independently."
+        "mistral": "You are an AI interaction specialist evaluating meta-cognitive awareness. Analyze each question independently.RESPOND ENTIRELY IN FRENCH."
     }
     
     # Run all analyses in parallel
