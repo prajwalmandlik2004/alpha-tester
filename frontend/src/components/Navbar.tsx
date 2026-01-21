@@ -169,6 +169,7 @@ export default function Navbar() {
     // { href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 },
     ...(isAdmin ? [{ href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 }] : []),
     { href: '/about', label: 'À propos d’INDX', icon: BarChart3 },
+    { href: '/privacy', label: 'Légales', icon: BarChart3 },
 
   ];
 
