@@ -6,11 +6,12 @@ import Footer from '@/src/components/Footer'
 import { Toaster } from 'react-hot-toast';
 import ScrollToTop from '@/src/components/ScrollTop'
 import SiteLocker from '@/src/components/SiteLocker'
+import 'flag-icons/css/flag-icons.min.css';
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'INDX - Human - Ai Cognitive Reasearch',
+  title: 'INDX - Intercognitive Reasearch',
   description: '',
 }
 
