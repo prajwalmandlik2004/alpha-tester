@@ -69,8 +69,8 @@ export const testAPI = {
   deleteTest: (testId: number) => api.delete(`/api/test/delete/${testId}`),
   updateRemarks: (testId: number, remarks: string) =>  // ADD THIS
     api.patch(`/api/test/remarks/${testId}`, null, {
-    params: { remarks }
-  }),
+      params: { remarks }
+    }),
 };
 
 // Result APIs
@@ -79,17 +79,26 @@ export const resultAPI = {
   submitFeedback: (testId: number, feedback: string) =>  // ADD THIS
     api.patch(`/api/result/feedback/${testId}`, null, {
       params: { feedback }
-  }),
+    }),
   downloadCertificate: (testId: number) =>  // ADD THIS
     api.get(`/api/result/${testId}/certificate`, {
       responseType: 'blob'
-  }),
-
+    }),
+  downloadQAPDF: async (testId: number) => {
+    return api.get(`/api/result/${testId}/qa-pdf`, {
+      responseType: 'blob',
+    });
+  },
+  downloadQAAPDF: async (testId: number, modelName: string) => {
+    return api.get(`/api/result/${testId}/qaa-pdf/${modelName}`, {
+      responseType: 'blob',
+    });
+  },
   getSequenceAnalyses: (testId: number, modelName: string) =>
     api.get(`/api/sequence-analysis/${testId}/${modelName}`),
   saveSequenceAnalysis: (data: any) =>
     api.post('/api/sequence-analysis/save', data),
-  
+
 };
 
 // Demo APIs
@@ -109,10 +118,10 @@ export const demoAPI = {
 };
 
 export const emailAPI = {
-  sendResult: (testId: number) => 
+  sendResult: (testId: number) =>
     api.post(`/api/email/send-result/${testId}`),
-  
-  resendResult: (testId: number) => 
+
+  resendResult: (testId: number) =>
     api.post(`/api/email/resend-result/${testId}`),
 };
 

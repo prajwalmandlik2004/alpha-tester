@@ -44,6 +44,29 @@ export default function ResultPage() {
   const [submittingFeedback, setSubmittingFeedback] = useState(false);
 
   const [sendingEmail, setSendingEmail] = useState(false);
+  const [downloadingQAA, setDownloadingQAA] = useState(false);
+
+  const handleDownloadQAA = async () => {
+    setDownloadingQAA(true);
+    try {
+      const response = await resultAPI.downloadQAAPDF(parseInt(testId), activeModel);
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `INDX1000_QAA_${activeModel.toUpperCase()}_${result.test_name.replace(/[^a-z0-9]/gi, '_')}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      toast.success('QAA PDF downloaded!');
+    } catch (err) {
+      toast.error('Failed to download QAA PDF');
+    } finally {
+      setDownloadingQAA(false);
+    }
+  };
+
 
   const handleSendEmail = async () => {
     setSendingEmail(true);
@@ -251,15 +274,30 @@ INDX1000 : ${result.score.toFixed(0)}
 
         {/* Copy Analysis Button */}
         {isAdmin && !currentAnalysis?.error && currentAnalysis && (
-          <div className="mb-6 flex">
+          <div className="mb-6 flex space-x-3">
             <button
               onClick={handleCopyAnalysis}
               className="flex items-center space-x-2 px-4 py-2 bg-gray-200 hover:bg-gray-200 text-gray-700 font-medium transition-colors"
             >
               <span>Copy Analysis</span>
             </button>
+
+            <button
+              onClick={handleDownloadQAA}
+              disabled={downloadingQAA}
+              className="flex items-center space-x-2 px-4 py-2 bg-[#050E3C] hover:bg-[#050E3C]/90 text-white font-medium transition-colors disabled:opacity-50"
+            >
+              {downloadingQAA ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              ) : (
+                <Download size={16} />
+              )}
+              <span>QAA</span>
+            </button>
           </div>
         )}
+
+
 
         {/* Error Display */}
         {currentAnalysis?.error && (
