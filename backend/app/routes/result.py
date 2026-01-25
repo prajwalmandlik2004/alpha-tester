@@ -266,7 +266,8 @@ async def download_qaa_pdf(
         answers=test.answers,
         analysis=model_analysis,
         model_name=model_name.upper(),
-        score=test.score
+        # score=test.score
+        score=model_analysis.get("overall_score", test.score)
     )
     
     # Return PDF as download

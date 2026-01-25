@@ -358,10 +358,20 @@ INDX1000 : ${result.score.toFixed(0)}
             {/* 4. INDX SCORE - Compact format matching screenshot 2 */}
             <div className="card animate-slide-up bg-white border border-gray-200" style={{ animationDelay: '300ms' }}>
               <div className="py-4">
-                <h3 className="text-sm font-bold text-gray-800 mb-2">Index intercognitif brut</h3>
-                <p className="text-2xl font-bold text-[#050E3C]">
+                {/* <h3 className="text-sm font-bold text-gray-800 mb-2">Index intercognitif brut</h3> */}
+                {/* <p className="text-2xl font-bold text-[#050E3C]">
                   INDX
                   <sub className="text-xl top-2/3">1000</sub> : {result.score.toFixed(0)}
+                </p> */}
+                <h3 className="text-sm font-bold text-gray-800 mb-2">
+                  Index intercognitif brut <span className="text-gray-600 font-normal">by</span>{' '}
+                  <span className={`bg-gradient-to-br ${getAIModels(isAdmin).find(m => m.id === activeModel)?.color} text-white px-2 py-1 text-xs font-semibold`}>
+                    {getAIModels(isAdmin).find(m => m.id === activeModel)?.name}
+                  </span>
+                </h3>
+                <p className="text-2xl font-bold text-[#050E3C]">
+                  INDX
+                  <sub className="text-xl top-2/3">1000</sub> : {currentAnalysis.overall_score ? currentAnalysis.overall_score.toFixed(0) : result.score.toFixed(0)}
                 </p>
               </div>
             </div>
