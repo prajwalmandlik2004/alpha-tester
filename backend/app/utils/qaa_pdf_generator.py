@@ -206,14 +206,33 @@ def generate_qaa_pdf(test_name: str, user_name: str, completed_at: str, question
     c.drawString(margin, y_position, "Index intercognitif brut")
     y_position -= 25
     
+    # c.setFont("Helvetica-Bold", 18)
+    # c.setFillColor(colors.HexColor('#050E3C'))
+    # c.drawString(margin + 20, y_position, f"INDX1000 : {int(score)}")
+
+    # Draw INDX with subscript 1000
     c.setFont("Helvetica-Bold", 18)
     c.setFillColor(colors.HexColor('#050E3C'))
-    c.drawString(margin + 20, y_position, f"INDX1000 : {int(score)}")
+    c.drawString(margin + 20, y_position, "INDX")
+
+    # Calculate position for subscript
+    indx_width = c.stringWidth("INDX", "Helvetica-Bold", 18)
+
+    # Draw subscript 1000
+    c.setFont("Helvetica-Bold", 12)
+    c.drawString(margin + 20 + indx_width, y_position - 2, "1000")
+
+    # Calculate position for score
+    subscript_width = c.stringWidth("1000", "Helvetica-Bold", 12)
+
+    # Draw the score
+    c.setFont("Helvetica-Bold", 18)
+    c.drawString(margin + 20 + indx_width + subscript_width + 3, y_position, f" : {int(score)}")
     
     # Footer
-    c.setFont("Helvetica-Oblique", 8)
-    c.setFillColor(colors.grey)
-    c.drawCentredString(width / 2, 30, f"INDX1000 • {test_name} • {model_name}")
+    # c.setFont("Helvetica-Oblique", 8)
+    # c.setFillColor(colors.grey)
+    # c.drawCentredString(width / 2, 30, f"INDX1000 • {test_name} • {model_name}")
     
     c.save()
     buffer.seek(0)

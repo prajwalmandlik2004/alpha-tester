@@ -17,9 +17,9 @@ import toast from 'react-hot-toast';
 const getAIModels = (isAdmin: boolean) => {
   if (isAdmin) {
     return [
-      { id: 'gpt4o', name: 'GPT-4o', color: 'from-green-500 to-emerald-600' },
+      { id: 'gpt4o', name: 'GPT-4o', color: 'from-black to-black' },
       { id: 'claude', name: 'Claude', color: 'from-orange-500 to-red-600' },
-      { id: 'grok', name: 'Grok', color: 'from-black to-black' },
+      { id: 'grok', name: 'Grok', color: 'from-green-500 to-emerald-600' },
       { id: 'groq', name: 'Gemini', color: 'from-blue-500 to-blue-600' },
       { id: 'mistral', name: 'Mistral', color: 'from-violet-500 to-violet-600' },
     ];
@@ -327,13 +327,13 @@ INDX1000 : ${result.score.toFixed(0)}
               {/* <h3 className="text-lg font-semibold mb-4 text-gray-800">Analyse synthétique continue</h3> */}
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-gray-800 inline">
-                  Analyse synthétique continue
+                  Analyse synthétique continue /
                   {isAdmin && (
                     <button
                       onClick={handleSequentialClick}
-                      className="text-[#050E3C] font-medium text-lg ml-3 cursor-pointer hover:underline"
+                      className="text-[#050E3C] font-medium text-lg ml-3 cursor-pointer underline decoration-2"
                     >
-                      / Sequential
+                      Sequential
                     </button>
                   )}
                 </h3>
