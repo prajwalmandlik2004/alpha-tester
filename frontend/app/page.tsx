@@ -40,7 +40,7 @@ export default function Home() {
 
 
         {/* Hero Poster Section */}
-        <section className="w-full mt-[-70] hidden sm:block">
+        <section className="w-full mt-[-120] hidden sm:block">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
             <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px]">
               <img
