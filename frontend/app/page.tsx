@@ -36,24 +36,10 @@ export default function Home() {
 
   return (
     <div className="overflow-hidden">
+
+      {/* Hero Section - Compact with Contained Image */}
       <section className="py-5 px-4 sm:px-6 lg:px-8 bg-white">
-
-
-        {/* Hero Poster Section */}
-        <section className="w-full mt-[-120] hidden sm:block">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-0">
-            <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px]">
-              <img
-                src="/hero.jpg"
-                alt="INDX Hero - Intercognitive Trajectory Analysis"
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-        </section>
-
-
-        <div className="max-w-7xl mx-auto mt-[-50]">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             {/* Text Content */}
             <div className="space-y-7">
