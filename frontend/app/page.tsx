@@ -185,7 +185,7 @@ export default function Home() {
       </section>
 
       {/* Intercognition : cadre conceptuel */}
-      <section className="py-3 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-6 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Column - Main Content */}
@@ -321,7 +321,7 @@ export default function Home() {
       </section>
 
       {/* Origine et nécessité */}
-      <section id="origine-necessite" className="py-4 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="origine-necessite" className="py-6 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <div className="flex items-start space-x-4">

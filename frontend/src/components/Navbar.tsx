@@ -167,6 +167,7 @@ export default function Navbar() {
     // { href: '/informations', label: 'Information', icon: Info },
     { href: '/partnerships', label: 'Partenariats', icon: Info },
     { href: '/demo', label: 'Plateforme', icon: Beaker },
+    // { href: '/series-platform', label: 'v3.0', icon: BarChart3 },
     // { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
     // { href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 },
     ...(isAdmin ? [{ href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 }] : []),
@@ -196,11 +197,11 @@ export default function Navbar() {
             {/* <div className="w-10 h-10 bg-gradient-to-br from-[#050E3C] to-[#050E3C]  flex items-center justify-center">
               <span className="text-white font-bold text-xl"><Brain /></span>
             </div> */}
-            <span className="text-4xl font-bold text-white">INDX</span>
+            <span className="text-3xl font-bold text-white">INDX</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {navLinks.slice(0, 4).map((link) => (
               <Link
                 key={link.href}
