@@ -167,7 +167,7 @@ export default function Navbar() {
     // { href: '/informations', label: 'Information', icon: Info },
     { href: '/partnerships', label: 'Partenariats', icon: Info },
     { href: '/demo', label: 'Plateforme', icon: Beaker },
-    // { href: '/series-platform', label: 'v3.0', icon: BarChart3 },
+    { href: '/series-platform', label: 'v3.0', icon: BarChart3 },
     // { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
     // { href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 },
     ...(isAdmin ? [{ href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 }] : []),
@@ -201,7 +201,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-5">
             {navLinks.slice(0, 4).map((link) => (
               <Link
                 key={link.href}

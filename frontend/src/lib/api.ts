@@ -125,4 +125,57 @@ export const emailAPI = {
     api.post(`/api/email/resend-result/${testId}`),
 };
 
+// Series Test APIs
+export const seriesTestAPI = {
+  getTypes: () => api.get('/api/series-test/types'),
+
+  startTest: (seriesType: string) =>
+    api.post('/api/series-test/start', { series_type: seriesType }),
+
+  getTest: (testId: number) =>
+    api.get(`/api/series-test/test/${testId}`),
+
+  startModule: (testId: number, moduleNumber: number) =>
+    api.post(`/api/series-test/start-module/${testId}/${moduleNumber}`),
+
+  submitModule: (data: {
+    test_id: number;
+    module_number: number;
+    answers: Array<{ question_id: number; answer_text: string }>;
+    time_taken_seconds: number;
+  }) => api.post('/api/series-test/submit-module', data),
+
+  getResult: (testId: number) =>
+    api.get(`/api/series-test/result/${testId}`),
+
+  getDashboard: () =>
+    api.get('/api/series-test/dashboard'),
+
+  deleteTest: (testId: number) =>
+    api.delete(`/api/series-test/delete/${testId}`),
+
+  updateRemarks: (testId: number, remarks: string) =>
+    api.patch(`/api/series-test/remarks/${testId}`, null, {
+      params: { remarks }
+    }),
+
+  submitFeedback: (testId: number, feedback: string) =>
+    api.post(`/api/series-test/feedback/${testId}`, { feedback }),
+
+  downloadQAAPDF: (testId: number, modelName: string) =>
+    api.get(`/api/series-test/qaa-pdf/${testId}/${modelName}`, { responseType: 'blob' }),
+
+  sendEmail: (testId: number) =>
+    api.post(`/api/series-test/send-email/${testId}`),
+
+  downloadCertificate: (testId: number) =>
+    api.get(`/api/series-test/certificate/${testId}`, { responseType: 'blob' }),
+
+  downloadQAPDF: (testId: number) =>
+    api.get(`/api/series-test/qa-pdf/${testId}`, { responseType: 'blob' }),
+
+  getAnswers: (testId: number) =>
+    api.get(`/api/series-test/answers/${testId}`),
+};
+
 export default api;
