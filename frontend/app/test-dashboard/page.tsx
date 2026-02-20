@@ -167,8 +167,8 @@ export default function TestDashboard() {
   };
 
   const getScoreBadge = (score: number) => {
-    if (score >= 80) return 'bg-blue-100 text-blue-700';
-    if (score >= 60) return 'bg-yellow-100 text-yellow-700';
+    if (score >= 80) return 'bg-green-100 text-green-700';
+    if (score >= 60) return 'bg-blue-100 text-blue-700';
     return 'bg-red-100 text-red-700';
   };
 
@@ -359,7 +359,7 @@ export default function TestDashboard() {
                       <td className="px-2 py-2">
                         {test.score !== null ? (
                           <div className="flex justify-center">
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold ${getScoreBadge(test.score)}`}>
+                            <span className={`inline-flex items-center px-3 py-1 rounded-sm text-sm font-bold ${getScoreBadge(test.score)}`}>
                               {/* <Award size={16} className="mr-1" /> */}
                               {test.score.toFixed(0)}
                             </span>
