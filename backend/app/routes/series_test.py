@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime
 import json
-import random
 
 from ..database import get_db
 from ..models.user import User
@@ -17,11 +16,13 @@ from ..schemas.series_test import (
 )
 from ..utils.auth import get_current_user
 from ..utils.ai_orchestrator import orchestrate_analysis
+from ..utils.series_questions import get_questions_for_series
 
 router = APIRouter(prefix="/api/series-test", tags=["Series Test"])
 
 
-SERIES_QUESTIONS_BANK = [
+# Old random questions bank removed - now using fixed questions from series_questions.py
+_DEPRECATED_QUESTIONS_BANK = [
     {"question_id": 1, "question_text": "Dans une situation où l'IA propose une solution qui semble correcte mais que vous ne comprenez pas entièrement, comment gérez-vous cette incertitude ?", "expected_criteria": "Capacité à maintenir un contrôle cognitif face à l'opacité"},
     {"question_id": 2, "question_text": "Décrivez une situation où vous avez dû reformuler plusieurs fois une demande à un système d'IA. Qu'avez-vous appris de ce processus ?", "expected_criteria": "Adaptabilité dans la formulation des intentions"},
     {"question_id": 3, "question_text": "Comment distinguez-vous une réponse d'IA qui répond véritablement à votre besoin d'une réponse qui semble correcte superficiellement ?", "expected_criteria": "Capacité d'évaluation critique"},
@@ -111,29 +112,12 @@ def get_series_config(series_type: SeriesType):
         }
 
 
-def generate_module_questions(num_questions: int, exclude_ids: List[int] = None):
-    """Generate random questions for a module"""
-    if exclude_ids is None:
-        exclude_ids = []
+def get_module_questions(series_type: str, module_number: int):
+    """Get fixed questions for a specific series type and module.
 
-    available = [q for q in SERIES_QUESTIONS_BANK if q["question_id"] not in exclude_ids]
-
-    
-    if len(available) < num_questions:
-        available = SERIES_QUESTIONS_BANK.copy()
-
-    selected = random.sample(available, min(num_questions, len(available)))
-
-    
-    questions = []
-    for idx, q in enumerate(selected, 1):
-        questions.append({
-            "question_id": idx,
-            "question_text": q["question_text"],
-            "expected_criteria": q["expected_criteria"],
-            "original_id": q["question_id"]
-        })
-
+    Uses the canonical question banks from series_questions.py instead of random selection.
+    """
+    questions = get_questions_for_series(series_type, module_number)
     return questions
 
 
@@ -217,22 +201,19 @@ async def start_series_test(
     """Start a new series test"""
 
     config = get_series_config(request.series_type)
+    series_type_str = request.series_type.value
 
-    # Generate questions for all modules
-    all_used_ids = []
-
-    module_1_questions = generate_module_questions(config["questions_per_module"])
-    all_used_ids.extend([q["original_id"] for q in module_1_questions])
+    # Get fixed questions for all modules (no longer random)
+    module_1_questions = get_module_questions(series_type_str, 1)
 
     module_2_questions = None
     module_3_questions = None
 
     if config["total_modules"] >= 2:
-        module_2_questions = generate_module_questions(config["questions_per_module"], all_used_ids)
-        all_used_ids.extend([q["original_id"] for q in module_2_questions])
+        module_2_questions = get_module_questions(series_type_str, 2)
 
     if config["total_modules"] >= 3:
-        module_3_questions = generate_module_questions(config["questions_per_module"], all_used_ids)
+        module_3_questions = get_module_questions(series_type_str, 3)
 
     # Create test attempt with simple name
     series_name_map = {

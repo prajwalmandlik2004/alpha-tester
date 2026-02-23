@@ -94,7 +94,7 @@ export default function SeriesAnswersPage() {
                                         </div>
 
                                         {/* Question Text */}
-                                        <p className="text-gray-600 text-sm mb-3">{question.question_text}</p>
+                                        <p className="text-gray-600 text-sm mb-3 whitespace-pre-line">{question.question_text}</p>
 
                                         {/* User's Answer */}
                                         <div className="bg-gray-50 p-4 rounded-lg">
