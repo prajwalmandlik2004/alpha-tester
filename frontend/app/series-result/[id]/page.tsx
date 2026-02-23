@@ -174,8 +174,8 @@ INDX1000 : ${result.score?.toFixed(0)}
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-600">Result not found</h2>
-          <button onClick={() => router.push('/series-platform')} className="btn-primary mt-4">
-            Back to Series Platform
+          <button onClick={() => router.push('/')} className="btn-primary mt-4">
+            Back to Platform
           </button>
         </div>
       </div>
@@ -189,11 +189,11 @@ INDX1000 : ${result.score?.toFixed(0)}
       <div className="max-w-6xl mx-auto">
         {/* Back Button */}
         <button
-          onClick={() => router.push('/series-platform')}
+          onClick={() => router.push('/')}
           className="flex items-center space-x-2 text-gray-600 hover:text-[#050E3C] transition-colors mb-8"
         >
           <ArrowLeft size={20} />
-          <span>Back to Series Platform</span>
+          <span>Back to Platform</span>
         </button>
 
         {/* Header */}

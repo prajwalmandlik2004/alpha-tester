@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
 import { seriesTestAPI, authAPI } from '@/src/lib/api';
 import toast from 'react-hot-toast';
@@ -20,8 +20,15 @@ interface SeriesType {
 
 export default function SeriesPlatform() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const startTestType = searchParams.get('startTest');
+
   const [seriesTypes, setSeriesTypes] = useState<SeriesType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Admin test types that should be hidden from non-admin users
+  const adminTestTypes = ['mt', 'bt', 'tt'];
 
   // Guest registration modal state
   const [showGuestModal, setShowGuestModal] = useState(false);
@@ -30,10 +37,71 @@ export default function SeriesPlatform() {
   const [isRegistering, setIsRegistering] = useState(false);
   const [isOkClicked, setIsOkClicked] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+
+  // Series info config for display
+  const getSeriesDisplayInfo = (type: string) => {
+    switch (type) {
+      case 'mono':
+        return { name: 'Série M1', sequences: '1 × 28 séquences', duration: '65 minutes' };
+      case 'bi':
+        return { name: 'Série M2', sequences: '2 × 22 séquences', duration: '90 minutes' };
+      case 'tri':
+        return { name: 'Série M3', sequences: '3 × 22 séquences', duration: '120 minutes' };
+      case 'mt':
+        return { name: 'Série M1-T', sequences: '1 × 3 séquences', duration: '10 minutes' };
+      case 'bt':
+        return { name: 'Série M2-T', sequences: '2 × 2 séquences', duration: '15 minutes' };
+      case 'tt':
+        return { name: 'Série M3-T', sequences: '3 × 2 séquences', duration: '20 minutes' };
+      default:
+        return { name: 'Série', sequences: '', duration: '' };
+    }
+  };
 
   useEffect(() => {
     fetchSeriesTypes();
+    checkAdminStatus();
   }, []);
+
+  const checkAdminStatus = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setIsAdmin(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/is-admin`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setIsAdmin(data.is_admin);
+    } catch (error) {
+      console.error('Failed to check admin status');
+      setIsAdmin(false);
+    }
+  };
+
+  // Handle startTest query param from navbar (for guest users)
+  useEffect(() => {
+    if (startTestType && seriesTypes.length > 0 && !loading) {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        // Find the series matching the startTest type
+        const series = seriesTypes.find(s => s.type === startTestType);
+        if (series) {
+          setPendingSeries(series);
+          setShowGuestModal(true);
+        }
+      } else {
+        // User is logged in, redirect to test page directly
+        router.push(`/series-test/new?type=${startTestType}`);
+      }
+    }
+  }, [startTestType, seriesTypes, loading, router]);
 
   const fetchSeriesTypes = async () => {
     try {
@@ -98,56 +166,62 @@ export default function SeriesPlatform() {
   return (
     <>
       {/* Guest Registration Modal */}
-      {showGuestModal && (
+      {showGuestModal && pendingSeries && (
         <div className="fixed inset-0 bg-white z-40 overflow-y-auto">
           <div className="max-w-4xl mx-auto px-6 py-30">
-            <div className="space-y-10">
+            <div className="space-y-8">
               {/* Header */}
               <div>
-                <h1 className="text-2xl font-bold text-[#050E3C] mb-3">
-                  INDX1000 – {pendingSeries?.name}
+                <h1 className="text-2xl font-bold text-[#050E3C] mb-2">
+                  INDX1000 – {getSeriesDisplayInfo(pendingSeries.type).name}
                 </h1>
-                <h2 className="text-lg font-semibold text-gray-800">
-                  Session d'évaluation – Beta test
-                </h2>
+                <p className="text-md text-gray-700">
+                  {getSeriesDisplayInfo(pendingSeries.type).sequences} – {getSeriesDisplayInfo(pendingSeries.type).duration} (version bêta v1.0)
+                </p>
               </div>
 
               {/* Main description */}
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-lg font-normal text-gray-900 mb-10 underline">
-                    Informations :
-                  </h3>
+              <div className="space-y-4 text-md text-gray-900 leading-relaxed">
+                <p>
+                  Vous allez débuter une session INDX1000.<br />
+                  Cette session consiste à observer, à travers une série de séquences, la conduite d'une interaction avec un système artificiel non déterministe.
+                </p>
 
-                  <div className="space-y-4 text-md text-gray-900 leading-relaxed">
-                    <p>
-                      <span className="mr-2 text-yellow-800">●</span> Vous êtes sur le point de débuter une session INDX1000, destinée à observer votre manière de conduire une interaction cognitive avec un système artificiel non déterministe.
-                      <br />
-                      Il ne s'agit ni d'un test de connaissances ni d'expertise, mais de l'analyse de la façon dont vous structurez, orientez et ajustez votre raisonnement au fil de l'échange.
-                    </p>
+                <p>
+                  Il ne s'agit ni d'un test de connaissances ni d'une évaluation d'expertise : INDX1000 analyse une dynamique, non des réponses ponctuelles isolées. Il n'existe ni bon ni mauvais retour : répondez de manière concise, 10 lignes maximum (la clarté prime sur la longueur).
+                </p>
 
-                    <p>
-                      INDX1000 n'évalue pas des réponses isolées ni une performance ponctuelle, mais une dynamique de pilotage cognitif inscrite dans la durée.
-                      {pendingSeries && pendingSeries.modules > 1 && (
-                        <> Cette série comprend {pendingSeries.modules} modules avec une pause de {pendingSeries.break_minutes} minutes entre chaque module.</>
-                      )}
-                    </p>
-
-                    <p>
-                      Il n'existe donc ni bonne ni mauvaise réponse : répondez sincèrement, sans chercher à anticiper une attente implicite, de façon concise (environ dix lignes), la clarté primant sur la longueur.
-                    </p>
-
-                    {/* Divider */}
-                    <div className="flex justify-center">
-                      <div className="w-3/4 border-t border-gray-400 m-5"></div>
-                    </div>
-
-                    <p>
-                      <span className="mr-2 text-yellow-800">●</span> En fin de test vous pourrez consulter et récupérer le compte-rendu d'analyse de cette session par e-mail à votre
-                      adresse à renseigner ci-dessous, utilisée exclusivement par INDX.
-                    </p>
-                  </div>
+                <div className="mt-6">
+                  <p className="font-semibold mb-2">Modalités :</p>
+                  <ul className="space-y-1 text-gray-900">
+                    <li>Chaque séquence requiert une réponse.</li>
+                    <li>Les réponses ne sont ni modifiables ni consultables après validation.</li>
+                    <li>Le respect du temps imparti et le renseignement de toutes des séquences de la série conditionnent l'analyse.</li>
+                    <li>Aucune limite de temps n'est fixée par séquence au sein de la série.</li>
+                  </ul>
                 </div>
+
+                <p className="mt-4">
+                  Vous pourrez accéder à l'issue de cette session à son analyse, en ligne dans un délai de 3 minutes.<br />
+                  Le compte rendu de cette analyse vous sera par ailleurs transmis par e-mail.
+                </p>
+
+                <p>
+                  Nous répondrons à tout retour sur cette session (capturable en fin de session).
+                </p>
+
+                {/* Checkbox for acceptance */}
+                <label className="flex items-start space-x-3 mt-6 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    className="mt-1 w-4 h-4 text-[#050E3C] border-gray-300 rounded focus:ring-[#050E3C]"
+                  />
+                  <span className="text-gray-900">
+                    J'ai lu et j'accepte les conditions d'utilisation d'INDX1000 – {getSeriesDisplayInfo(pendingSeries.type).name}.
+                  </span>
+                </label>
               </div>
 
               {/* Guest Info Form */}
@@ -208,7 +282,7 @@ export default function SeriesPlatform() {
               <div className="pt-8 flex space-x-4">
                 <button
                   onClick={handleGuestRegister}
-                  disabled={isRegistering || !isOkClicked}
+                  disabled={isRegistering || !isOkClicked || !acceptedTerms}
                   className="px-6 py-3 bg-[#050E3C] text-white text-md font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
                 >
                   {isRegistering ? 'Enregistrement...' : 'Commencer'}
@@ -221,6 +295,7 @@ export default function SeriesPlatform() {
                     setGuestInfo({ email: '', fullName: '' });
                     setIsOkClicked(false);
                     setIsEditMode(false);
+                    setAcceptedTerms(false);
                   }}
                   className="px-6 py-3 text-gray-500 text-md font-semibold underline cursor-pointer"
                 >
@@ -241,7 +316,9 @@ export default function SeriesPlatform() {
 
           {/* Series Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-            {seriesTypes.map((series) => (
+            {seriesTypes
+              .filter((series) => isAdmin || !adminTestTypes.includes(series.type))
+              .map((series) => (
               <div
                 key={series.type}
                 onClick={() => handleCardClick(series)}

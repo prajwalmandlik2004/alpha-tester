@@ -31,13 +31,13 @@ interface TestData {
 }
 
 // Series config for displaying info before test creation
-const SERIES_CONFIG: { [key: string]: { name: string; modules: number; break_minutes: number } } = {
-  mono: { name: 'M1 Series', modules: 1, break_minutes: 0 },
-  bi: { name: 'M2 Series', modules: 2, break_minutes: 15 },
-  tri: { name: 'M3 Series', modules: 3, break_minutes: 15 },
-  mt: { name: 'M1 Test Series', modules: 1, break_minutes: 0 },
-  bt: { name: 'M2 Test Series', modules: 2, break_minutes: 2 },
-  tt: { name: 'M3 Test Series', modules: 3, break_minutes: 2 },
+const SERIES_CONFIG: { [key: string]: { name: string; displayName: string; sequences: string; duration: string; modules: number; break_minutes: number } } = {
+  mono: { name: 'M1 Series', displayName: 'Série M1', sequences: '1 × 28 séquences', duration: '65 minutes', modules: 1, break_minutes: 0 },
+  bi: { name: 'M2 Series', displayName: 'Série M2', sequences: '2 × 22 séquences', duration: '90 minutes', modules: 2, break_minutes: 15 },
+  tri: { name: 'M3 Series', displayName: 'Série M3', sequences: '3 × 22 séquences', duration: '120 minutes', modules: 3, break_minutes: 15 },
+  mt: { name: 'M1 Test Series', displayName: 'Série M1-T', sequences: '1 × 3 séquences', duration: '10 minutes', modules: 1, break_minutes: 0 },
+  bt: { name: 'M2 Test Series', displayName: 'Série M2-T', sequences: '2 × 2 séquences', duration: '15 minutes', modules: 2, break_minutes: 2 },
+  tt: { name: 'M3 Test Series', displayName: 'Série M3-T', sequences: '3 × 2 séquences', duration: '20 minutes', modules: 3, break_minutes: 2 },
 };
 
 type TestPhase = 'test' | 'break' | 'submitting';
@@ -81,6 +81,7 @@ export default function SeriesTestPage() {
 
   // Info modal state - show for new tests, skip if coming from guest registration
   const [showInfoModal, setShowInfoModal] = useState(isNewTest && !skipInfo);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   useEffect(() => {
     if (!isNewTest && testId) {
@@ -113,7 +114,7 @@ export default function SeriesTestPage() {
     } catch (err) {
       console.error('Failed to load test');
       toast.error('Failed to load test');
-      router.push('/series-platform');
+      router.push('/');
     } finally {
       setLoading(false);
     }
@@ -138,7 +139,7 @@ export default function SeriesTestPage() {
     } catch (err) {
       console.error('Failed to create test');
       toast.error('Failed to start test. Please try again.');
-      router.push('/series-platform');
+      router.push('/');
     } finally {
       setIsCreatingTest(false);
       setLoading(false);
@@ -283,14 +284,14 @@ export default function SeriesTestPage() {
 
   const handleCancelTest = async () => {
     if (!testId) {
-      router.push('/series-platform');
+      router.push('/');
       return;
     }
 
     try {
       await seriesTestAPI.deleteTest(testId);
       localStorage.removeItem(`series_test_${testId}`);
-      router.push('/series-platform');
+      router.push('/');
       toast.success('Test cancelled successfully');
     } catch (err) {
       console.error('Failed to cancel test');
@@ -320,71 +321,77 @@ export default function SeriesTestPage() {
 
   // Info modal for new tests (before test is created)
   if (showInfoModal && isNewTest) {
-    const config = SERIES_CONFIG[seriesType] || { name: 'Series Test', modules: 1, break_minutes: 0 };
+    const config = SERIES_CONFIG[seriesType] || { name: 'Series Test', displayName: 'Série', sequences: '', duration: '', modules: 1, break_minutes: 0 };
 
     return (
       <div className="fixed inset-0 bg-white z-40 overflow-y-auto">
         <div className="max-w-4xl mx-auto px-6 py-30">
-          <div className="space-y-10">
+          <div className="space-y-8">
             {/* Header */}
             <div>
-              <h1 className="text-2xl font-bold text-[#050E3C] mb-3">
-                INDX1000 – {config.name}
+              <h1 className="text-2xl font-bold text-[#050E3C] mb-2">
+                INDX1000 – {config.displayName}
               </h1>
-              <h2 className="text-lg font-semibold text-gray-800">
-                Session d'évaluation – Beta test
-              </h2>
+              <p className="text-md text-gray-700">
+                {config.sequences} – {config.duration} (version bêta v1.0)
+              </p>
             </div>
 
             {/* Main description */}
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-normal text-gray-900 mb-10 underline">
-                  Informations :
-                </h3>
+            <div className="space-y-4 text-md text-gray-900 leading-relaxed">
+              <p>
+                Vous allez débuter une session INDX1000.<br />
+                Cette session consiste à observer, à travers une série de séquences, la conduite d'une interaction avec un système artificiel non déterministe.
+              </p>
 
-                <div className="space-y-4 text-md text-gray-900 leading-relaxed">
-                  <p>
-                    <span className="mr-2 text-yellow-800">●</span> Vous êtes sur le point de débuter une session INDX1000, destinée à observer votre manière de conduire une interaction cognitive avec un système artificiel non déterministe.
-                    <br />
-                    Il ne s'agit ni d'un test de connaissances ni d'expertise, mais de l'analyse de la façon dont vous structurez, orientez et ajustez votre raisonnement au fil de l'échange.
-                  </p>
+              <p>
+                Il ne s'agit ni d'un test de connaissances ni d'une évaluation d'expertise : INDX1000 analyse une dynamique, non des réponses ponctuelles isolées. Il n'existe ni bon ni mauvais retour : répondez de manière concise, 10 lignes maximum (la clarté prime sur la longueur).
+              </p>
 
-                  <p>
-                    INDX1000 n'évalue pas des réponses isolées ni une performance ponctuelle, mais une dynamique de pilotage cognitif inscrite dans la durée.
-                    {config.modules > 1 && (
-                      <> Cette série comprend {config.modules} modules avec une pause de {config.break_minutes} minutes entre chaque module.</>
-                    )}
-                  </p>
-
-                  <p>
-                    Il n'existe donc ni bonne ni mauvaise réponse : répondez sincèrement, sans chercher à anticiper une attente implicite, de façon concise (environ dix lignes), la clarté primant sur la longueur.
-                  </p>
-
-                  {/* Divider */}
-                  <div className="flex justify-center">
-                    <div className="w-3/4 border-t border-gray-400 m-5"></div>
-                  </div>
-
-                  <p>
-                    <span className="mr-2 text-yellow-800">●</span> En fin de test vous pourrez consulter et récupérer le compte-rendu d'analyse de cette session par e-mail à votre
-                    adresse à renseigner ci-dessous, utilisée exclusivement par INDX.
-                  </p>
-                </div>
+              <div className="mt-6">
+                <p className="font-semibold mb-2">Modalités :</p>
+                <ul className="space-y-1 text-gray-900">
+                  <li>Chaque séquence requiert une réponse.</li>
+                  <li>Les réponses ne sont ni modifiables ni consultables après validation.</li>
+                  <li>Le respect du temps imparti et le renseignement de toutes des séquences de la série conditionnent l'analyse.</li>
+                  <li>Aucune limite de temps n'est fixée par séquence au sein de la série.</li>
+                </ul>
               </div>
+
+              <p className="mt-4">
+                Vous pourrez accéder à l'issue de cette session à son analyse, en ligne dans un délai de 3 minutes.<br />
+                Le compte rendu de cette analyse vous sera par ailleurs transmis par e-mail.
+              </p>
+
+              <p>
+                Nous répondrons à tout retour sur cette session (capturable en fin de session).
+              </p>
+
+              {/* Checkbox for acceptance */}
+              <label className="flex items-start space-x-3 mt-6 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-1 w-4 h-4 text-[#050E3C] border-gray-300 rounded focus:ring-[#050E3C]"
+                />
+                <span className="text-gray-900">
+                  J'ai lu et j'accepte les conditions d'utilisation d'INDX1000 – {config.displayName}.
+                </span>
+              </label>
             </div>
 
             <div className="pt-8 flex space-x-4">
               <button
                 onClick={handleStartTest}
-                disabled={isCreatingTest}
+                disabled={isCreatingTest || !acceptedTerms}
                 className="px-6 py-3 bg-[#050E3C] text-white text-md font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
               >
                 {isCreatingTest ? 'Démarrage...' : 'Commencer'}
               </button>
 
               <button
-                onClick={() => router.push('/series-platform')}
+                onClick={() => router.push('/')}
                 className="px-6 py-3 text-gray-500 text-md font-semibold underline cursor-pointer"
               >
                 Annuler
@@ -412,8 +419,8 @@ export default function SeriesTestPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-600">Test not found</h2>
-          <button onClick={() => router.push('/series-platform')} className="btn-primary mt-4">
-            Back to Series Platform
+          <button onClick={() => router.push('/')} className="btn-primary mt-4">
+            Back to Platform
           </button>
         </div>
       </div>
