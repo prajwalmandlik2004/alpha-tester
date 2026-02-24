@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime
 import json
 
-from ..database import get_db
+from ..database import get_db, SessionLocal
 from ..models.user import User
 from ..models.series_test import SeriesTestAttempt, SeriesType, ModuleStatus
 from ..schemas.series_test import (
@@ -17,8 +17,129 @@ from ..schemas.series_test import (
 from ..utils.auth import get_current_user
 from ..utils.ai_orchestrator import orchestrate_analysis
 from ..utils.series_questions import get_questions_for_series
+from ..utils.email_service import send_result_email
 
 router = APIRouter(prefix="/api/series-test", tags=["Series Test"])
+
+
+async def run_analysis_and_send_email(test_id: int):
+    """Background task to run analysis and auto-send email after completion"""
+    db = SessionLocal()
+    try:
+        test = db.query(SeriesTestAttempt).filter(SeriesTestAttempt.id == test_id).first()
+        if not test:
+            print(f"Background analysis: Test {test_id} not found")
+            return
+
+        # Combine all questions and answers for analysis
+        all_questions = []
+        all_answers = []
+
+        # Module 1
+        for q in test.module_1_questions:
+            all_questions.append(q)
+        all_answers.extend(test.module_1_answers or [])
+
+        # Module 2
+        if test.module_2_questions:
+            offset = len(test.module_1_questions)
+            for q in test.module_2_questions:
+                q_copy = q.copy()
+                q_copy["question_id"] = q["question_id"] + offset
+                all_questions.append(q_copy)
+            for a in (test.module_2_answers or []):
+                a_copy = a.copy()
+                a_copy["question_id"] = a["question_id"] + offset
+                all_answers.append(a_copy)
+
+        # Module 3
+        if test.module_3_questions:
+            offset = len(test.module_1_questions) + len(test.module_2_questions or [])
+            for q in test.module_3_questions:
+                q_copy = q.copy()
+                q_copy["question_id"] = q["question_id"] + offset
+                all_questions.append(q_copy)
+            for a in (test.module_3_answers or []):
+                a_copy = a.copy()
+                a_copy["question_id"] = a["question_id"] + offset
+                all_answers.append(a_copy)
+
+        # Run analysis
+        now = datetime.utcnow()
+        try:
+            analysis_result = await orchestrate_analysis(
+                questions=all_questions,
+                answers=all_answers,
+                category="series",
+                level=test.series_type
+            )
+
+            # Calculate overall score from analyses
+            scores = []
+            for engine, analysis_str in analysis_result.get("analyses", {}).items():
+                try:
+                    analysis = json.loads(analysis_str) if isinstance(analysis_str, str) else analysis_str
+                    if "overall_score" in analysis:
+                        scores.append(analysis["overall_score"])
+                except:
+                    pass
+
+            overall_score = sum(scores) / len(scores) if scores else 0
+
+            test.score = overall_score
+            test.analysis = json.dumps(analysis_result)
+            test.is_completed = True
+            test.completed_at = now
+
+        except Exception as e:
+            print(f"Background analysis failed for test {test_id}: {e}")
+            test.score = 0
+            test.analysis = json.dumps({"error": "Analysis failed", "message": str(e)})
+            test.is_completed = True
+            test.completed_at = now
+
+        db.commit()
+        db.refresh(test)
+
+        # Auto-send email after analysis completion
+        if test.is_completed and test.score is not None and not test.email_sent:
+            user_name = test.user.full_name if test.user else "Guest User"
+            user_email = test.user.email if test.user else None
+
+            if user_email:
+                # Parse analysis (use GPT-4o as primary)
+                analysis_data = json.loads(test.analysis) if test.analysis else {}
+                gpt4o_analysis = {}
+
+                if "analyses" in analysis_data:
+                    gpt4o_str = analysis_data["analyses"].get("gpt4o", "{}")
+                    gpt4o_analysis = json.loads(gpt4o_str) if isinstance(gpt4o_str, str) else gpt4o_str
+
+                try:
+                    result = await send_result_email(
+                        user_email=user_email,
+                        user_name=user_name,
+                        test_name=test.test_name,
+                        test_id=test.id,
+                        score=test.score,
+                        analysis=gpt4o_analysis,
+                        completed_at=test.completed_at.isoformat() if test.completed_at else ""
+                    )
+
+                    if result["success"]:
+                        test.email_sent = True
+                        test.email_sent_at = datetime.utcnow()
+                        db.commit()
+                        print(f"Background email sent successfully for test {test_id}")
+                    else:
+                        print(f"Background email failed for test {test_id}: {result.get('error')}")
+                except Exception as email_error:
+                    print(f"Background email exception for test {test_id}: {email_error}")
+
+    except Exception as e:
+        print(f"Background task error for test {test_id}: {e}")
+    finally:
+        db.close()
 
 
 # Old random questions bank removed - now using fixed questions from series_questions.py
@@ -290,6 +411,7 @@ async def start_module(
 @router.post("/submit-module")
 async def submit_module(
     request: SeriesModuleSubmitRequest,
+    background_tasks: BackgroundTasks,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -332,79 +454,15 @@ async def submit_module(
     is_final_module = request.module_number == test.total_modules
 
     if is_final_module:
-        # Combine all questions and answers for analysis
-        all_questions = []
-        all_answers = []
-
-        # Module 1
-        for q in test.module_1_questions:
-            all_questions.append(q)
-        all_answers.extend(test.module_1_answers or [])
-
-        # Module 2
-        if test.module_2_questions:
-            offset = len(test.module_1_questions)
-            for q in test.module_2_questions:
-                q_copy = q.copy()
-                q_copy["question_id"] = q["question_id"] + offset
-                all_questions.append(q_copy)
-            for a in (test.module_2_answers or []):
-                a_copy = a.copy()
-                a_copy["question_id"] = a["question_id"] + offset
-                all_answers.append(a_copy)
-
-        # Module 3
-        if test.module_3_questions:
-            offset = len(test.module_1_questions) + len(test.module_2_questions or [])
-            for q in test.module_3_questions:
-                q_copy = q.copy()
-                q_copy["question_id"] = q["question_id"] + offset
-                all_questions.append(q_copy)
-            for a in (test.module_3_answers or []):
-                a_copy = a.copy()
-                a_copy["question_id"] = a["question_id"] + offset
-                all_answers.append(a_copy)
-
-        # Run analysis
-        try:
-            analysis_result = await orchestrate_analysis(
-                questions=all_questions,
-                answers=all_answers,
-                category="series",
-                level=test.series_type  # Already a string
-            )
-
-            # Calculate overall score from analyses
-            scores = []
-            for engine, analysis_str in analysis_result.get("analyses", {}).items():
-                try:
-                    analysis = json.loads(analysis_str) if isinstance(analysis_str, str) else analysis_str
-                    if "overall_score" in analysis:
-                        scores.append(analysis["overall_score"])
-                except:
-                    pass
-
-            overall_score = sum(scores) / len(scores) if scores else 0
-
-            test.score = overall_score
-            test.analysis = json.dumps(analysis_result)
-            test.is_completed = True
-            test.completed_at = now
-
-        except Exception as e:
-            print(f"Analysis failed: {e}")
-            test.score = 0
-            test.analysis = json.dumps({"error": "Analysis failed", "message": str(e)})
-            test.is_completed = True
-            test.completed_at = now
-
-        db.commit()
+        # Schedule background task for analysis and auto-email
+        # This allows user to navigate away while analysis continues
+        background_tasks.add_task(run_analysis_and_send_email, test.id)
 
         return {
-            "message": "Test completed",
+            "message": "Test submitted - analysis in progress",
             "test_id": test.id,
             "is_final": True,
-            "score": test.score
+            "analysis_in_progress": True
         }
     else:
         # Not final module - return break info
@@ -415,6 +473,29 @@ async def submit_module(
             "next_module": request.module_number + 1,
             "break_duration_minutes": test.break_duration
         }
+
+
+@router.get("/analysis-status/{test_id}")
+async def get_analysis_status(
+    test_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """Check if analysis is complete for a test (used for polling)"""
+
+    test = db.query(SeriesTestAttempt).filter(
+        SeriesTestAttempt.id == test_id
+    ).first()
+
+    if not test:
+        raise HTTPException(status_code=404, detail="Test not found")
+
+    return {
+        "test_id": test.id,
+        "is_completed": test.is_completed,
+        "score": test.score if test.is_completed else None,
+        "email_sent": test.email_sent
+    }
 
 
 @router.get("/test/{test_id}", response_model=SeriesTestResponse)

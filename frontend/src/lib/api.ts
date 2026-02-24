@@ -176,6 +176,17 @@ export const seriesTestAPI = {
 
   getAnswers: (testId: number) =>
     api.get(`/api/series-test/answers/${testId}`),
+
+  getAnalysisStatus: (testId: number) =>
+    api.get(`/api/series-test/analysis-status/${testId}`),
+};
+
+// Stats APIs (Admin only)
+export const statsAPI = {
+  getOverview: () => api.get('/api/stats/overview'),
+  getScoreDistribution: () => api.get('/api/stats/score-distribution'),
+  getAIModelAccuracy: () => api.get('/api/stats/ai-model-accuracy'),
+  getSeriesBreakdown: () => api.get('/api/stats/series-breakdown'),
 };
 
 export default api;

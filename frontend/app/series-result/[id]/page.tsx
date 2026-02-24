@@ -31,6 +31,7 @@ export default function SeriesResultPage() {
   const [loading, setLoading] = useState(true);
   const [activeModel, setActiveModel] = useState('gpt4o');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [analysisInProgress, setAnalysisInProgress] = useState(false);
 
   const [feedback, setFeedback] = useState('');
   const [submittingFeedback, setSubmittingFeedback] = useState(false);
@@ -67,12 +68,55 @@ export default function SeriesResultPage() {
     try {
       const response = await seriesTestAPI.getResult(testId);
       setResult(response.data);
-    } catch (err) {
-      console.error('Failed to fetch result');
-      toast.error('Failed to load results');
+      setAnalysisInProgress(false);
+    } catch (err: any) {
+      // Check if analysis is still in progress (400 = test not completed yet)
+      if (err.response?.status === 400 && err.response?.data?.detail === 'Test not completed yet') {
+        setAnalysisInProgress(true);
+        // Poll for completion
+        pollForCompletion();
+      } else {
+        console.error('Failed to fetch result');
+        toast.error('Failed to load results');
+      }
     } finally {
       setLoading(false);
     }
+  };
+
+  const pollForCompletion = async () => {
+    const maxAttempts = 60; // Poll for up to 5 minutes
+    let attempts = 0;
+
+    const poll = async (): Promise<void> => {
+      try {
+        const statusResponse = await seriesTestAPI.getAnalysisStatus(testId);
+
+        if (statusResponse.data.is_completed) {
+          // Analysis complete - fetch full results
+          setAnalysisInProgress(false);
+          const response = await seriesTestAPI.getResult(testId);
+          setResult(response.data);
+          toast.success('Analysis complete!');
+          return;
+        }
+
+        attempts++;
+        if (attempts < maxAttempts) {
+          // Wait 5 seconds before next poll
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          return poll();
+        } else {
+          toast.error('Analysis is taking longer than expected. Please refresh the page.');
+          setAnalysisInProgress(false);
+        }
+      } catch (err) {
+        console.error('Failed to check analysis status');
+        setAnalysisInProgress(false);
+      }
+    };
+
+    await poll();
   };
 
   const handleDownloadQAA = async () => {
@@ -164,6 +208,30 @@ INDX1000 : ${result.score?.toFixed(0)}
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#050E3C] mx-auto mb-4"></div>
           <p className="text-gray-600">Loading results...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Analysis still in progress
+  if (analysisInProgress) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#050E3C] mx-auto mb-4"></div>
+          <h2 className="text-xl font-bold text-[#050E3C] mb-2">Analyse en cours...</h2>
+          <p className="text-gray-600 mb-4">
+            L'analyse de vos réponses est en cours. Cette opération prend environ 2-3 minutes.
+          </p>
+          <p className="text-sm text-gray-500">
+            Vous recevrez automatiquement vos résultats par e-mail une fois l'analyse terminée.
+          </p>
+          <button
+            onClick={() => router.push('/')}
+            className="mt-6 px-6 py-2 text-gray-500 underline cursor-pointer"
+          >
+            Retourner à l'accueil
+          </button>
         </div>
       </div>
     );

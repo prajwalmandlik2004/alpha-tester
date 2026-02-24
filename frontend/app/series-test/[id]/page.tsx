@@ -206,6 +206,51 @@ export default function SeriesTestPage() {
     }
   };
 
+  const pollForAnalysisCompletion = async (testIdToPoll: number) => {
+    const maxAttempts = 60; // Poll for up to 5 minutes (5 seconds * 60)
+    let attempts = 0;
+
+    const poll = async (): Promise<void> => {
+      try {
+        const response = await seriesTestAPI.getAnalysisStatus(testIdToPoll);
+
+        if (response.data.is_completed) {
+          // Analysis complete - redirect to results
+          toast.success('Test completed! Results are ready.');
+          router.push(`/series-result/${testIdToPoll}`);
+          return;
+        }
+
+        attempts++;
+        if (attempts < maxAttempts) {
+          // Update status message based on time elapsed
+          if (attempts > 24) {
+            setAnalysisStatus('Finalizing analysis...');
+          } else if (attempts > 12) {
+            setAnalysisStatus('Processing results...');
+          } else if (attempts > 4) {
+            setAnalysisStatus('Analyzing responses...');
+          }
+
+          // Wait 5 seconds before next poll
+          await new Promise(resolve => setTimeout(resolve, 5000));
+          return poll();
+        } else {
+          // Max attempts reached - still redirect to results page
+          // User can refresh there to see results when ready
+          toast.success('Analysis in progress. You will receive results via email.');
+          router.push(`/series-result/${testIdToPoll}`);
+        }
+      } catch (err) {
+        console.error('Failed to check analysis status');
+        // On error, still try to go to results page
+        router.push(`/series-result/${testIdToPoll}`);
+      }
+    };
+
+    await poll();
+  };
+
   const handleSubmitModule = async (finalAnswers: { [key: number]: string }) => {
     if (!testId) return;
 
@@ -216,9 +261,6 @@ export default function SeriesTestPage() {
     if (isLastModule) {
       setPhase('submitting');
       setAnalysisStatus('Saving your answers...');
-      setTimeout(() => setAnalysisStatus('Analyzing responses...'), 2000);
-      setTimeout(() => setAnalysisStatus('Processing results...'), 30000);
-      setTimeout(() => setAnalysisStatus('Finalizing...'), 60000);
     }
 
     setSubmitting(true);
@@ -239,8 +281,15 @@ export default function SeriesTestPage() {
       if (timerRef.current) clearInterval(timerRef.current);
 
       if (response.data.is_final) {
-        toast.success('Test completed!');
-        router.push(`/series-result/${testId}`);
+        // Analysis runs in background - poll for completion
+        if (response.data.analysis_in_progress) {
+          setAnalysisStatus('Analyzing responses...');
+          await pollForAnalysisCompletion(testId);
+        } else {
+          // Fallback for immediate completion (shouldn't happen with background tasks)
+          toast.success('Test completed!');
+          router.push(`/series-result/${testId}`);
+        }
       } else {
         toast.success(`Module ${currentModule} completed!`);
         startBreak();
@@ -495,7 +544,8 @@ export default function SeriesTestPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#050E3C]"></div>
             <p className="text-lg font-semibold text-[#050E3C]">{analysisStatus}</p>
             <p className="text-sm text-gray-600 text-center">
-              This may take up to 2-3 minutes. Please don't close this page.
+              L'analyse prend environ 2-3 minutes. Vous pouvez quitter cette page -
+              vous recevrez automatiquement vos résultats par e-mail.
             </p>
           </div>
         </div>

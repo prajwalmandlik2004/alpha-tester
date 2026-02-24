@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Menu, X, User, LogOut, Home, BookOpen, BarChart3, Info, Beaker, Brain } from 'lucide-react';
+import { Menu, X, User, LogOut, Home, BookOpen, BarChart3, Info, Beaker, Brain, TrendingUp } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 import AutoLanguageSelector from '@/src/components/AutoLanguageSelector';
@@ -213,7 +213,8 @@ export default function Navbar() {
     // { href: '/test-platform', label: 'Test Platform', icon: BookOpen },
     // { href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 },
     ...(isAdmin ? [{ href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 }] : []),
-    { href: '/about', label: 'À propos d’INDX', icon: BarChart3 },
+    ...(isAdmin ? [{ href: '/stats', label: 'Stats', icon: TrendingUp }] : []),
+    { href: '/about', label: "À propos d'INDX", icon: BarChart3 },
     { href: '/privacy', label: 'Légale', icon: BarChart3 },
 
   ];
