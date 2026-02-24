@@ -256,8 +256,8 @@ export default function StatsPage() {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
             <div className="bg-white p-6  shadow">
               <div className="flex items-center space-x-3">
-                <div className="p-3 bg-blue-100 ">
-                  <BarChart3 className="text-blue-600" size={24} />
+                <div className="p-3 bg-blue-50">
+                  <BarChart3 className="text-[#050E3C]" size={24} />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Total Tests</p>
@@ -268,8 +268,8 @@ export default function StatsPage() {
 
             <div className="bg-white p-6  shadow">
               <div className="flex items-center space-x-3">
-                <div className="p-3 bg-green-100 ">
-                  <TrendingUp className="text-green-600" size={24} />
+                <div className="p-3 bg-indigo-50">
+                  <TrendingUp className="text-[#050E3C]" size={24} />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Avg Score</p>
@@ -280,8 +280,8 @@ export default function StatsPage() {
 
             <div className="bg-white p-6  shadow">
               <div className="flex items-center space-x-3">
-                <div className="p-3 bg-purple-100 ">
-                  <Users className="text-purple-600" size={24} />
+                <div className="p-3 bg-indigo-50">
+                  <Users className="text-[#050E3C]" size={24} />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Total Users</p>
@@ -292,8 +292,8 @@ export default function StatsPage() {
 
             <div className="bg-white p-6  shadow">
               <div className="flex items-center space-x-3">
-                <div className="p-3 bg-orange-100 ">
-                  <Mail className="text-orange-600" size={24} />
+                <div className="p-3 bg-indigo-50">
+                  <Mail className="text-[#050E3C]" size={24} />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Emails Sent</p>
@@ -304,8 +304,8 @@ export default function StatsPage() {
 
             <div className="bg-white p-6  shadow">
               <div className="flex items-center space-x-3">
-                <div className="p-3 bg-indigo-100 ">
-                  <Award className="text-indigo-600" size={24} />
+                <div className="p-3 bg-indigo-50">
+                  <Award className="text-[#050E3C]" size={24} />
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">AI Agreement</p>
