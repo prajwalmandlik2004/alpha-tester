@@ -249,11 +249,17 @@ export default function Navbar() {
               <span className="text-3xl font-bold text-white">INDX</span>
             </Link>
 
-            {/* Center Text */}
-            <div className="hidden md:flex flex-1 justify-center">
+            {/* Center Text + M1 Admin Link */}
+            <div className="hidden md:flex flex-1 justify-center items-center space-x-6">
               <span className="text-white font-medium text-lg">
                 Bienvenu sur notre landing page INDX1000 M1-beta
               </span>
+              <Link
+                href="/series-platform?startTest=mt"
+                className="text-white font-medium text-lg hover:text-blue-200 transition-colors underline"
+              >
+                M1 Fast
+              </Link>
             </div>
 
             {/* Language Selector */}
@@ -262,11 +268,17 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Mobile center text */}
-          <div className="md:hidden pb-2 text-center">
-            <span className="text-white text-sm">
+          {/* Mobile center text + admin link */}
+          <div className="md:hidden pb-2 text-center space-y-1">
+            <span className="text-white text-sm block">
               Bienvenu sur notre landing page INDX1000 M1-beta
             </span>
+            <Link
+              href="/series-platform?startTest=mt"
+              className="text-white text-sm hover:text-blue-200 transition-colors underline"
+            >
+              M1 Fast
+            </Link>
           </div>
         </div>
       </nav>

@@ -101,40 +101,40 @@ async def run_analysis_and_send_email(test_id: int):
         db.commit()
         db.refresh(test)
 
-        # Auto-send email after analysis completion
-        if test.is_completed and test.score is not None and not test.email_sent:
-            user_name = test.user.full_name if test.user else "Guest User"
-            user_email = test.user.email if test.user else None
-
-            if user_email:
-                # Parse analysis (use GPT-4o as primary)
-                analysis_data = json.loads(test.analysis) if test.analysis else {}
-                gpt4o_analysis = {}
-
-                if "analyses" in analysis_data:
-                    gpt4o_str = analysis_data["analyses"].get("gpt4o", "{}")
-                    gpt4o_analysis = json.loads(gpt4o_str) if isinstance(gpt4o_str, str) else gpt4o_str
-
-                try:
-                    result = await send_result_email(
-                        user_email=user_email,
-                        user_name=user_name,
-                        test_name=test.test_name,
-                        test_id=test.id,
-                        score=test.score,
-                        analysis=gpt4o_analysis,
-                        completed_at=test.completed_at.isoformat() if test.completed_at else ""
-                    )
-
-                    if result["success"]:
-                        test.email_sent = True
-                        test.email_sent_at = datetime.utcnow()
-                        db.commit()
-                        print(f"Background email sent successfully for test {test_id}")
-                    else:
-                        print(f"Background email failed for test {test_id}: {result.get('error')}")
-                except Exception as email_error:
-                    print(f"Background email exception for test {test_id}: {email_error}")
+        # AUTO EMAIL DISABLED - uncomment to re-enable
+        # if test.is_completed and test.score is not None and not test.email_sent:
+        #     user_name = test.user.full_name if test.user else "Guest User"
+        #     user_email = test.user.email if test.user else None
+        #
+        #     if user_email:
+        #         # Parse analysis (use GPT-4o as primary)
+        #         analysis_data = json.loads(test.analysis) if test.analysis else {}
+        #         gpt4o_analysis = {}
+        #
+        #         if "analyses" in analysis_data:
+        #             gpt4o_str = analysis_data["analyses"].get("gpt4o", "{}")
+        #             gpt4o_analysis = json.loads(gpt4o_str) if isinstance(gpt4o_str, str) else gpt4o_str
+        #
+        #         try:
+        #             result = await send_result_email(
+        #                 user_email=user_email,
+        #                 user_name=user_name,
+        #                 test_name=test.test_name,
+        #                 test_id=test.id,
+        #                 score=test.score,
+        #                 analysis=gpt4o_analysis,
+        #                 completed_at=test.completed_at.isoformat() if test.completed_at else ""
+        #             )
+        #
+        #             if result["success"]:
+        #                 test.email_sent = True
+        #                 test.email_sent_at = datetime.utcnow()
+        #                 db.commit()
+        #                 print(f"Background email sent successfully for test {test_id}")
+        #             else:
+        #                 print(f"Background email failed for test {test_id}: {result.get('error')}")
+        #         except Exception as email_error:
+        #             print(f"Background email exception for test {test_id}: {email_error}")
 
     except Exception as e:
         print(f"Background task error for test {test_id}: {e}")

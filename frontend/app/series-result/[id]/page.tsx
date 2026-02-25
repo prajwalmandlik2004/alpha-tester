@@ -429,7 +429,7 @@ INDX1000 : ${result.score?.toFixed(0)}
             </div>
 
             {/* Send Email Button */}
-            {isAdmin && (
+            {/* {isAdmin && ( */}
               <div className="bg-white shadow-md p-6">
                 <button
                   onClick={handleSendEmail}
@@ -446,7 +446,7 @@ INDX1000 : ${result.score?.toFixed(0)}
                   </span>
                 </button>
               </div>
-            )}
+            {/* )} */}
 
             {/* Feedback Section */}
             <div className="bg-white shadow-md p-6">
