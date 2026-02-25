@@ -425,7 +425,7 @@ export default function SeriesTestPage() {
                   className="mt-1 w-4 h-4 text-[#050E3C] border-gray-300 rounded focus:ring-[#050E3C]"
                 />
                 <span className="text-gray-900">
-                  J'ai lu et j'accepte les conditions d'utilisation d'INDX1000 – {config.displayName}.
+                  J'ai lu et j'accepte les <a className="underline" href="/privacy">conditions d'utilisation</a> d'INDX1000 – {config.displayName}.
                 </span>
               </label>
             </div>

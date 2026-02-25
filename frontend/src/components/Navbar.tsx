@@ -6,12 +6,14 @@ import { Menu, X, User, LogOut, Home, BookOpen, BarChart3, Info, Beaker, Brain, 
 import { useRouter } from 'next/navigation';
 import { ChevronDown } from 'lucide-react';
 import AutoLanguageSelector from '@/src/components/AutoLanguageSelector';
+import { USER_TYPE_KEY } from '@/src/components/SiteLocker';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isBetaUser, setIsBetaUser] = useState(false);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [testSeries, setTestSeries] = useState<{ id: string; name: string; isNewSeries?: boolean }[]>([
@@ -171,6 +173,10 @@ export default function Navbar() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsLoggedIn(!!token);
+
+    // Check if user is a beta user
+    const userType = sessionStorage.getItem(USER_TYPE_KEY);
+    setIsBetaUser(userType === 'beta');
   }, []);
 
   useEffect(() => {
@@ -230,6 +236,41 @@ export default function Navbar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [dropdownOpen, isOpen]);
+
+  // Beta user simplified navbar
+  if (isBetaUser) {
+    return (
+      <nav className="bg-[#050E3C] backdrop-blur-md shadow-lg sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link href="/beta" className="flex items-center space-x-2">
+              <span className="text-3xl font-bold text-white">INDX</span>
+            </Link>
+
+            {/* Center Text */}
+            <div className="hidden md:flex flex-1 justify-center">
+              <span className="text-white font-medium text-lg">
+                Bienvenu sur notre landing page INDX1000 M1-beta
+              </span>
+            </div>
+
+            {/* Language Selector */}
+            <div className="flex items-center">
+              <AutoLanguageSelector />
+            </div>
+          </div>
+
+          {/* Mobile center text */}
+          <div className="md:hidden pb-2 text-center">
+            <span className="text-white text-sm">
+              Bienvenu sur notre landing page INDX1000 M1-beta
+            </span>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="bg-[#050E3C] backdrop-blur-md shadow-lg sticky top-0 z-50">

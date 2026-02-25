@@ -1,12 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Lock } from 'lucide-react';
 
-const CORRECT_PASSWORD = 'indx2026'; 
+const NORMAL_PASSWORD = 'indx2026';
+const BETA_PASSWORD = 'beta2026';
 const LOCKER_KEY = 'site_unlocked';
+export const USER_TYPE_KEY = 'user_type'; // 'normal' or 'beta'
 
 export default function SiteLocker({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,11 +26,19 @@ export default function SiteLocker({ children }: { children: React.ReactNode }) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (password === CORRECT_PASSWORD) {
+
+    if (password === NORMAL_PASSWORD) {
       sessionStorage.setItem(LOCKER_KEY, 'true');
+      sessionStorage.setItem(USER_TYPE_KEY, 'normal');
       setIsUnlocked(true);
       setError('');
+    } else if (password === BETA_PASSWORD) {
+      sessionStorage.setItem(LOCKER_KEY, 'true');
+      sessionStorage.setItem(USER_TYPE_KEY, 'beta');
+      setIsUnlocked(true);
+      setError('');
+      // Redirect beta users to /beta page
+      router.push('/beta');
     } else {
       setError('Incorrect password. Please try again.');
       setPassword('');
