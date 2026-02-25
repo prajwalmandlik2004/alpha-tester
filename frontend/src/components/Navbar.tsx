@@ -72,8 +72,9 @@ export default function Navbar() {
         // { id: 'series_15_j', name: 'Série 15 - CTX4' },
         // { id: 'series_1_k', name: 'Série 1 - Admin' },
         { id: 'mono', name: 'M1 Series', isNewSeries: true },
-        { id: 'bi', name: 'M2 Series', isNewSeries: true },
-        { id: 'tri', name: 'M3 Series', isNewSeries: true },
+        { id: 'mt', name: 'M1 Series Admin', isNewSeries: true },
+        // { id: 'bi', name: 'M2 Series', isNewSeries: true },
+        // { id: 'tri', name: 'M3 Series', isNewSeries: true },
       ]);
     }
   }, [isAdmin]);
