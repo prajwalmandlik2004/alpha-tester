@@ -222,7 +222,7 @@ export default function Navbar() {
     ...(isAdmin ? [{ href: '/test-dashboard', label: 'Dashboard', icon: BarChart3 }] : []),
     ...(isAdmin ? [{ href: '/stats', label: 'Stats', icon: TrendingUp }] : []),
     { href: '/about', label: "À propos d'INDX", icon: BarChart3 },
-    { href: '/privacy', label: 'Légale', icon: BarChart3 },
+    { href: '/privacy', label: 'Légal', icon: BarChart3 },
 
   ];
 

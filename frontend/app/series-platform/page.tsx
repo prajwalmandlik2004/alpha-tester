@@ -172,46 +172,53 @@ export default function SeriesPlatform() {
             <div className="space-y-8">
               {/* Header */}
               <div>
-                <h1 className="text-2xl font-bold text-[#050E3C] mb-2">
-                  INDX1000 – {getSeriesDisplayInfo(pendingSeries.type).name}
+                <h1 className="text-2xl font-bold text-[#050E3C] mb-1">
+                  INDX1000 – {getSeriesDisplayInfo(pendingSeries.type).name} <span className="font-normal">(bêta v1.0)</span>
                 </h1>
                 <p className="text-md text-gray-700">
-                  {getSeriesDisplayInfo(pendingSeries.type).sequences} – {getSeriesDisplayInfo(pendingSeries.type).duration} (version bêta v1.0)
+                  {getSeriesDisplayInfo(pendingSeries.type).sequences} – {getSeriesDisplayInfo(pendingSeries.type).duration}.
                 </p>
               </div>
 
               {/* Main description */}
               <div className="space-y-4 text-md text-gray-900 leading-relaxed">
+                <p>Bienvenu,</p>
+
                 <p>
-                  Vous allez débuter une session INDX1000.<br />
-                  Cette session consiste à observer, à travers une série de séquences, la conduite d'une interaction avec un système artificiel non déterministe.
+                  Vous allez débuter une session INDX1000 - {getSeriesDisplayInfo(pendingSeries.type).name}
                 </p>
 
                 <p>
-                  Il ne s'agit ni d'un test de connaissances ni d'une évaluation d'expertise : INDX1000 analyse une dynamique, non des réponses ponctuelles isolées. Il n'existe ni bon ni mauvais retour : répondez de manière concise, 10 lignes maximum (la clarté prime sur la longueur).
+                  Cette session consiste à observer, à travers une série de séquences, la conduite d'une interaction cognitive - ici la votre - avec un système artificiel non déterministe.
+                </p>
+
+                <p>
+                  Il ne s'agit ni d'un test de connaissances ni d'une évaluation d'expertise : INDX1000 analyse une dynamique de trajectoire dans la durée, et non des réponses ponctuelles isolées.
+                </p>
+
+                <p>
+                  Il n'existe ni bon ni mauvais retour : répondez de manière concise en une dizaine de lignes maximum (la clarté prime sur la longueur).
                 </p>
 
                 <div className="mt-6">
-                  <p className="font-semibold mb-2">Modalités :</p>
-                  <ul className="space-y-1 text-gray-900">
-                    <li>Chaque séquence requiert une réponse.</li>
-                    <li>Les réponses ne sont ni modifiables ni consultables après validation.</li>
-                    <li>Le respect du temps imparti et le renseignement de toutes des séquences de la série conditionnent l'analyse.</li>
-                    <li>Aucune limite de temps n'est fixée par séquence au sein de la série.</li>
-                  </ul>
+                  <p className="font-semibold underline mb-4">Modalités :</p>
+                  <div className="space-y-3 text-gray-900">
+                    <p>Cette série ne peut être validée que si et seulement si chaque séquence a reçu une réponse dans le temps total imparti ({getSeriesDisplayInfo(pendingSeries.type).duration}).</p>
+                    <p>Aucune limite de temps n'est fixée par séquence au sein de la série.</p>
+                    <p>Les réponses ne sont ni modifiables ni consultables après saisie.</p>
+                    <p>Une série non validée ou/et quittée ne peut être repassée.</p>
+                    <p>A l'issue de cette session vous pourrez accéder à son analyse en ligne dans un délai de 2 à 3 minutes (temps de traitement) : ne quittez pas la session entre temps, vous ne pourriez pas ré-accéder à la plate-forme.</p>
+                    <p>Vous pourrez télécharger ou vous faire envoyer par mail le compte-rendu, et demander à vous faire parvenir votre percentile à l'issue de la campagne Beta-M1</p>
+                    <p>Nous répondrons à tout retour sur cette session (capturable en fin de session).</p>
+                  </div>
                 </div>
 
-                <p className="mt-4">
-                  Vous pourrez accéder à l'issue de cette session à son analyse, en ligne dans un délai de 3 minutes.<br />
-                  Le compte rendu de cette analyse vous sera par ailleurs transmis par e-mail.
-                </p>
-
-                <p>
-                  Nous répondrons à tout retour sur cette session (capturable en fin de session).
+                <p className="mt-6">
+                  Pour pouvoir participer vous devez accepter nos termes et conditions ci-dessous
                 </p>
 
                 {/* Checkbox for acceptance */}
-                <label className="flex items-start space-x-3 mt-6 cursor-pointer">
+                <label className="flex items-start space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={acceptedTerms}
