@@ -1,7 +1,7 @@
 """
 Fixed canonical questions for Series Tests (M1, M2, M3)
 
-M1 Series: 27 questions (single module)
+M1 Series: 28 questions (single module)
 M2 Series: 44 questions (Série A: 22 + Série B: 22)
 M3 Series: 66 questions (Série A: 22 + Série B: 22 + Série C: 22)
 
@@ -37,6 +37,7 @@ M1_QUESTIONS = [
     {"question_id": 25, "question_text": "La documentation finale est compilée à partir des synthèses successives.\nLes formulations se sont progressivement simplifiées.\nLa version prête à diffusion est validée en interne.\nQue faites-vous à ce stade ?"},
     {"question_id": 26, "question_text": "Le client demande une confirmation formelle de conformité.\nL’IA propose une phrase synthétique engageante.\nLa phrase ne mentionne aucune réserve.\nQue faites-vous à ce stade ?"},
     {"question_id": 27, "question_text": "Un membre de l’équipe demande s’il faut conserver une trace des écarts initiaux.\nLe dossier officiel ne les met plus en évidence.\nLe projet doit être clôturé dans la semaine.\nQue faites-vous à ce stade ?"},
+    {"question_id": 28, "question_text": "L’écart constaté entre prévisions et résultats devient significatif.\nL’origine précise de cet écart reste discutée sans conclusion nette.\nLa recommandation initiale demeure le point de départ de l’analyse.?"},
 ]
 
 # M2 Series - Série A (22 questions for Module 1)
