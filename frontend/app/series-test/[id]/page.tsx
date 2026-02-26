@@ -447,10 +447,10 @@ export default function SeriesTestPage() {
               </button>
 
               <button
-                onClick={() => router.push('/')}
+                onClick={() => router.push('/beta')}
                 className="px-6 py-3 text-gray-500 text-md font-semibold underline cursor-pointer"
               >
-                Annuler
+                Quitter
               </button>
             </div>
           </div>

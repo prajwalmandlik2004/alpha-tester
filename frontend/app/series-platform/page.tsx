@@ -296,17 +296,10 @@ export default function SeriesPlatform() {
                 </button>
 
                 <button
-                  onClick={() => {
-                    setShowGuestModal(false);
-                    setPendingSeries(null);
-                    setGuestInfo({ email: '', fullName: '' });
-                    setIsOkClicked(false);
-                    setIsEditMode(false);
-                    setAcceptedTerms(false);
-                  }}
+                  onClick={() => router.push('/beta')}
                   className="px-6 py-3 text-gray-500 text-md font-semibold underline cursor-pointer"
                 >
-                  Annuler
+                  Quitter
                 </button>
               </div>
             </div>
