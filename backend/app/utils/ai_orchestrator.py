@@ -994,13 +994,16 @@ async def orchestrate_analysis(questions: List[Dict], answers: List[Dict], categ
     }
     
     # Define role-specific prompts
+    # Language constraint to avoid generic advisory language
+    language_rule = " CRITICAL: Never use generic development phrases like 'improve', 'develop skills', 'optimize', 'increase efficiency', 'work more', or any advisory language. Report must reference ONLY measured invariants from actual responses. Be descriptive, not prescriptive."
+
     role_prompts = {
-        "gpt4o": "You are a technical evaluator analyzing cognitive framing abilities. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
-        "claude": "You are a pedagogical expert evaluating reasoning patterns. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
-        "grok": "You are a critical thinking assessor evaluating decision-making. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
-        "groq": "You are a cognitive skills evaluator analyzing analytical thinking. Analyze each question independently.RESPOND ENTIRELY IN FRENCH.",
+        "gpt4o": f"You are a technical evaluator analyzing cognitive framing abilities. Analyze each question independently. RESPOND ENTIRELY IN FRENCH.{language_rule}",
+        "claude": f"You are a pedagogical expert evaluating reasoning patterns. Analyze each question independently. RESPOND ENTIRELY IN FRENCH.{language_rule}",
+        "grok": f"You are a critical thinking assessor evaluating decision-making. Analyze each question independently. RESPOND ENTIRELY IN FRENCH.{language_rule}",
+        "groq": f"You are a cognitive skills evaluator analyzing analytical thinking. Analyze each question independently. RESPOND ENTIRELY IN FRENCH.{language_rule}",
         # "gemini": "You are a strategic analyst evaluating problem-solving approaches. Analyze each question independently.",
-        "mistral": "You are an AI interaction specialist evaluating meta-cognitive awareness. Analyze each question independently.RESPOND ENTIRELY IN FRENCH."
+        "mistral": f"You are an AI interaction specialist evaluating meta-cognitive awareness. Analyze each question independently. RESPOND ENTIRELY IN FRENCH.{language_rule}"
     }
     
     # Run all analyses in parallel

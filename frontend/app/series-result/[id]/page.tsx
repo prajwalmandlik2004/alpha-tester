@@ -291,7 +291,7 @@ INDX1000 : ${result.score?.toFixed(0)}
         </div>
 
         {/* Time Tracking */}
-        <div className="bg-white shadow-md p-6 mb-8">
+        {/* <div className="bg-white shadow-md p-6 mb-8">
           <h3 className="text-lg font-semibold mb-4 flex items-center">
             <Clock className="mr-2" size={20} />
             Time Statistics
@@ -318,7 +318,7 @@ INDX1000 : ${result.score?.toFixed(0)}
               <p className="text-xl font-bold text-gray-900">{formatTime(result.total_time_taken)}</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* AI Model Selector */}
         <div className="bg-white shadow-md p-6 mb-8">
