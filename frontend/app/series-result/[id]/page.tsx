@@ -35,8 +35,10 @@ export default function SeriesResultPage() {
 
   const [feedback, setFeedback] = useState('');
   const [submittingFeedback, setSubmittingFeedback] = useState(false);
+  const [feedbackSent, setFeedbackSent] = useState(false);
   const [sendingEmail, setSendingEmail] = useState(false);
   const [downloadingQAA, setDownloadingQAA] = useState(false);
+  const [wantsPercentile, setWantsPercentile] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -442,9 +444,22 @@ INDX1000 : ${result.score?.toFixed(0)}
                     <Mail size={20} />
                   )}
                   <span>
-                    {sendingEmail ? 'Sending...' : result.email_sent ? 'Email Sent ✓' : 'Send analysis'}
+                    {sendingEmail ? 'Sending...' : result.email_sent ? 'Mail Sent ✓' : 'Send analysis'}
                   </span>
                 </button>
+
+                {/* Percentile checkbox */}
+                <label className="flex items-start space-x-3 cursor-pointer mt-4">
+                  <input
+                    type="checkbox"
+                    checked={wantsPercentile}
+                    onChange={(e) => setWantsPercentile(e.target.checked)}
+                    className="mt-1 w-4 h-4 text-[#050E3C] border-gray-300 rounded focus:ring-[#050E3C]"
+                  />
+                  <span className="text-gray-900">
+                    Send percentile
+                  </span>
+                </label>
               </div>
             {/* )} */}
 
@@ -457,27 +472,37 @@ INDX1000 : ${result.score?.toFixed(0)}
                 placeholder="Chaque retour est scrupuleusement etudie et recoit une reponse rapide."
                 rows={4}
                 className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] focus:ring-1 focus:ring-[#050E3C] outline-none resize-none"
+                disabled={feedbackSent}
               />
-              <button
-                onClick={async () => {
-                  if (feedback.trim()) {
-                    setSubmittingFeedback(true);
-                    try {
-                      await seriesTestAPI.submitFeedback(testId, feedback);
-                      toast.success('Feedback submitted!');
-                      setFeedback('');
-                    } catch (error) {
-                      toast.error('Failed to submit feedback');
-                    } finally {
-                      setSubmittingFeedback(false);
+              <div className="flex justify-between items-center mt-3">
+                <button
+                  onClick={async () => {
+                    if (feedback.trim()) {
+                      setSubmittingFeedback(true);
+                      try {
+                        await seriesTestAPI.submitFeedback(testId, feedback);
+                        toast.success('Feedback submitted!');
+                        setFeedbackSent(true);
+                      } catch (error) {
+                        toast.error('Failed to submit feedback');
+                      } finally {
+                        setSubmittingFeedback(false);
+                      }
                     }
-                  }
-                }}
-                disabled={submittingFeedback || !feedback.trim()}
-                className="mt-3 px-6 py-2 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
-              >
-                {submittingFeedback ? 'Sending...' : 'Send'}
-              </button>
+                  }}
+                  disabled={submittingFeedback || !feedback.trim() || feedbackSent}
+                  className="px-6 py-2 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
+                >
+                  {submittingFeedback ? 'Sending...' : feedbackSent ? 'Message Sent' : 'Send'}
+                </button>
+
+                <button
+                  onClick={() => router.push('/beta')}
+                  className="px-6 py-2 text-gray-500 font-semibold underline cursor-pointer"
+                >
+                  Quitter
+                </button>
+              </div>
             </div>
           </div>
         )}

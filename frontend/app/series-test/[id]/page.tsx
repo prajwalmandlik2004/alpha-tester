@@ -551,8 +551,7 @@ export default function SeriesTestPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#050E3C]"></div>
             <p className="text-lg font-semibold text-[#050E3C]">{analysisStatus}</p>
             <p className="text-sm text-gray-600 text-center">
-              L'analyse prend environ 2-3 minutes. Vous pouvez quitter cette page -
-              vous recevrez automatiquement vos résultats par e-mail.
+              L’analyse est en cours. Elle peut prendre 2 à 3 minutes pour se terminer. Ne fermez pas la fenêtre.
             </p>
           </div>
         </div>

@@ -36,8 +36,8 @@ export default function SeriesPlatform() {
   const [guestInfo, setGuestInfo] = useState({ email: '', fullName: '' });
   const [isRegistering, setIsRegistering] = useState(false);
   const [isOkClicked, setIsOkClicked] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  // const [wantsPercentile, setWantsPercentile] = useState(false);
 
   // Series info config for display
   const getSeriesDisplayInfo = (type: string) => {
@@ -202,23 +202,70 @@ export default function SeriesPlatform() {
 
                 <div className="mt-6">
                   <p className="font-semibold underline mb-4">Modalités :</p>
-                  <div className="space-y-3 text-gray-900">
-                    <p>Cette série ne peut être validée que si et seulement si chaque séquence a reçu une réponse dans le temps total imparti ({getSeriesDisplayInfo(pendingSeries.type).duration}).</p>
-                    <p>Aucune limite de temps n'est fixée par séquence au sein de la série.</p>
-                    <p>Les réponses ne sont ni modifiables ni consultables après saisie.</p>
-                    <p>Une série non validée ou/et quittée ne peut être repassée.</p>
-                    <p>A l'issue de cette session vous pourrez accéder à son analyse en ligne dans un délai de 2 à 3 minutes (temps de traitement) : ne quittez pas la session entre temps, vous ne pourriez pas ré-accéder à la plate-forme.</p>
-                    <p>Vous pourrez télécharger ou vous faire envoyer par mail le compte-rendu, et demander à vous faire parvenir votre percentile à l'issue de la campagne Beta-M1</p>
-                    <p>Nous répondrons à tout retour sur cette session (capturable en fin de session).</p>
+                  <div className="space-y-3 text-gray-900 ml-6">
+                    <p className="flex"><span className="mr-2">–</span><span>Cette série ne peut être validée que si et seulement si chaque séquence a reçu une réponse dans le temps total imparti ({getSeriesDisplayInfo(pendingSeries.type).duration}).</span></p>
+                    <p className="flex"><span className="mr-2">–</span><span>Aucune limite de temps n'est fixée par séquence au sein de la série.</span></p>
+                    <p className="flex"><span className="mr-2">–</span><span>Les réponses ne sont ni modifiables ni consultables après saisie.</span></p>
+                    <p className="flex"><span className="mr-2">–</span><span>Une série non validée ou/et quittée ne peut être repassée.</span></p>
+                    <p className="flex"><span className="mr-2">–</span><span>A l'issue de cette session vous pourrez accéder à son analyse en ligne dans un délai de 2 à 3 minutes (temps de traitement) : ne quittez pas la session entre temps, vous ne pourriez pas ré-accéder à la plate-forme.</span></p>
+                    <p className="flex"><span className="mr-2">–</span><span>Vous pourrez télécharger ou vous faire envoyer par mail le compte-rendu, et demander à vous faire parvenir votre percentile à l'issue de la campagne Beta-M1</span></p>
                   </div>
                 </div>
 
-                <p className="mt-6">
-                  Pour pouvoir participer vous devez accepter nos termes et conditions ci-dessous
-                </p>
+                {/* Guest Info Form - Moved here */}
+                <div className="space-y-3 mt-6">
+                  <h3 className="font-normal text-gray-900">Vos informations :</h3>
+                  <div className="flex flex-col md:flex-row items-start md:items-center md:space-x-4 space-y-4 md:space-y-0">
+                    <input
+                      type="text"
+                      placeholder="Prénom, Nom"
+                      value={guestInfo.fullName}
+                      onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
+                      className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
+                      // disabled={isOkClicked}
+                      required
+                    />
+                    <input
+                      type="email"
+                      placeholder="Adresse mail"
+                      value={guestInfo.email}
+                      onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
+                      className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
+                      // disabled={isOkClicked}
+                      required
+                    />
+                    <button
+                      onClick={() => {
+                        setIsOkClicked(true);
+                      }}
+                      disabled={!guestInfo.fullName || !isValidEmail(guestInfo.email) || isOkClicked}
+                      className={`px-4 py-2 font-semibold transition-colors ${guestInfo.fullName && isValidEmail(guestInfo.email) && !isOkClicked
+                        ? 'bg-[#050E3C] text-white'
+                        : 'bg-gray-400 text-white cursor-not-allowed'
+                        }`}
+                    >
+                      OK
+                    </button>
+                  </div>
+                </div>
+
+                {/* Percentile checkbox */}
+                {/* <label className="flex items-start space-x-3 cursor-pointer mt-6">
+                  <input
+                    type="checkbox"
+                    checked={wantsPercentile}
+                    onChange={(e) => setWantsPercentile(e.target.checked)}
+                    className="mt-1 w-4 h-4 text-[#050E3C] border-gray-300 rounded focus:ring-[#050E3C]"
+                  />
+                  <span className="text-gray-900">
+                    Je souhaite recevoir l'information de mon positionnement
+                  </span>
+                </label> */}
+
+                <p className="mt-3 text-gray-900">Nous répondrons à tout retour sur cette session (capturable en fin de session).</p>
 
                 {/* Checkbox for acceptance */}
-                <label className="flex items-start space-x-3 cursor-pointer">
+                <label className="flex items-start space-x-3 cursor-pointer mt-6">
                   <input
                     type="checkbox"
                     checked={acceptedTerms}
@@ -231,62 +278,7 @@ export default function SeriesPlatform() {
                 </label>
               </div>
 
-              {/* Guest Info Form */}
-              <div className="space-y-3">
-                <h3 className="font-normal text-gray-900">Vos informations :</h3>
-                <div className="flex flex-col md:flex-row items-start md:space-x-4 space-y-4 md:space-y-0">
-                  <input
-                    type="text"
-                    placeholder="Prénom, Nom"
-                    value={guestInfo.fullName}
-                    onChange={(e) => setGuestInfo({ ...guestInfo, fullName: e.target.value })}
-                    className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
-                    disabled={isOkClicked && !isEditMode}
-                    required
-                  />
-                  <div className="relative">
-                    <input
-                      type="email"
-                      placeholder="Adresse mail"
-                      value={guestInfo.email}
-                      onChange={(e) => setGuestInfo({ ...guestInfo, email: e.target.value })}
-                      className="w-80 px-3 py-2 border border-gray-300 focus:border-[#050E3C] outline-none"
-                      disabled={isOkClicked && !isEditMode}
-                      required
-                    />
-                    <div className="absolute -bottom-14 right-0 flex space-x-2">
-                      <button
-                        onClick={() => {
-                          setIsEditMode(true);
-                          setIsOkClicked(false);
-                        }}
-                        disabled={!isOkClicked}
-                        className={`px-3 py-1 font-semibold transition-colors ${isOkClicked
-                          ? 'text-[#050E3C] underline'
-                          : 'text-gray-500 cursor-not-allowed underline'
-                          }`}
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        onClick={() => {
-                          setIsOkClicked(true);
-                          setIsEditMode(false);
-                        }}
-                        disabled={!guestInfo.fullName || !isValidEmail(guestInfo.email) || (isOkClicked && !isEditMode)}
-                        className={`px-3 py-1 font-semibold transition-colors ${guestInfo.fullName && isValidEmail(guestInfo.email) && (!isOkClicked || isEditMode)
-                          ? 'bg-[#050E3C] text-white'
-                          : 'bg-gray-400 text-white cursor-not-allowed'
-                          }`}
-                      >
-                        OK
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-8 flex space-x-4">
+              <div className="flex space-x-4">
                 <button
                   onClick={handleGuestRegister}
                   disabled={isRegistering || !isOkClicked || !acceptedTerms}
