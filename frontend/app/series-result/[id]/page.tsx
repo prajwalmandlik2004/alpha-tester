@@ -476,7 +476,7 @@ INDX1000 : ${result.score?.toFixed(0)}
                 className="w-full px-4 py-3 border border-gray-300 focus:border-[#050E3C] focus:ring-1 focus:ring-[#050E3C] outline-none resize-none"
                 disabled={feedbackSent}
               />
-              <div className="flex justify-between items-center mt-3">
+              <div className="mt-3 space-y-4">
                 <button
                   onClick={async () => {
                     if (feedback.trim()) {
@@ -493,17 +493,19 @@ INDX1000 : ${result.score?.toFixed(0)}
                     }
                   }}
                   disabled={submittingFeedback || !feedback.trim() || feedbackSent}
-                  className="text-[#050E3C] text-lg font-semibold underline hover:text-[#050E3C]/80 transition-colors disabled:opacity-50 disabled:no-underline"
+                  className="text-[#050E3C] text-lg font-semibold underline hover:text-[#050E3C]/80 transition-colors disabled:cursor-not-allowed"
                 >
                   {submittingFeedback ? 'Sending...' : feedbackSent ? 'Message Sent' : 'Send'}
                 </button>
 
-                <button
-                  onClick={() => router.push('/beta')}
-                  className="px-6 py-2 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors"
-                >
-                  Quitter
-                </button>
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => router.push('/beta')}
+                    className="px-6 py-2 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors"
+                  >
+                    Quitter
+                  </button>
+                </div>
               </div>
             </div>
           </div>
