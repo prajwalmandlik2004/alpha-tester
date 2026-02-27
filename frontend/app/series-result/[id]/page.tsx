@@ -433,33 +433,35 @@ INDX1000 : ${result.score?.toFixed(0)}
             {/* Send Email Button */}
             {/* {isAdmin && ( */}
               <div className="bg-white shadow-md p-6">
-                <button
-                  onClick={handleSendEmail}
-                  disabled={sendingEmail || result.email_sent}
-                  className="flex items-center justify-center space-x-2 px-6 py-3 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
-                >
-                  {sendingEmail ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                  ) : (
-                    <Mail size={20} />
-                  )}
-                  <span>
-                    {sendingEmail ? 'Sending...' : result.email_sent ? 'Mail Sent ✓' : 'Send analysis'}
-                  </span>
-                </button>
+                <div className="flex items-center space-x-6">
+                  <button
+                    onClick={handleSendEmail}
+                    disabled={sendingEmail || result.email_sent}
+                    className="flex items-center justify-center space-x-2 px-6 py-3 bg-[#050E3C] text-white font-semibold hover:bg-[#050E3C]/90 transition-colors disabled:opacity-50"
+                  >
+                    {sendingEmail ? (
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    ) : (
+                      <Mail size={20} />
+                    )}
+                    <span>
+                      {sendingEmail ? 'Sending...' : result.email_sent ? 'Mail Sent ✓' : 'Send analysis'}
+                    </span>
+                  </button>
 
-                {/* Percentile checkbox */}
-                <label className="flex items-start space-x-3 cursor-pointer mt-4">
-                  <input
-                    type="checkbox"
-                    checked={wantsPercentile}
-                    onChange={(e) => setWantsPercentile(e.target.checked)}
-                    className="mt-1 w-4 h-4 text-[#050E3C] border-gray-300 rounded focus:ring-[#050E3C]"
-                  />
-                  <span className="text-gray-900">
-                    Send percentile
-                  </span>
-                </label>
+                  {/* Percentile checkbox */}
+                  <label className="flex items-center space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={wantsPercentile}
+                      onChange={(e) => setWantsPercentile(e.target.checked)}
+                      className="w-5 h-5 text-[#050E3C] border-gray-300 rounded focus:ring-[#050E3C]"
+                    />
+                    <span className="text-gray-900 text-lg">
+                      Send percentile
+                    </span>
+                  </label>
+                </div>
               </div>
             {/* )} */}
 
