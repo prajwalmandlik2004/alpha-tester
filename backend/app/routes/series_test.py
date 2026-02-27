@@ -74,19 +74,16 @@ async def run_analysis_and_send_email(test_id: int):
                 level=test.series_type
             )
 
-            # Calculate overall score from analyses
-            scores = []
-            for engine, analysis_str in analysis_result.get("analyses", {}).items():
-                try:
-                    analysis = json.loads(analysis_str) if isinstance(analysis_str, str) else analysis_str
-                    if "overall_score" in analysis:
-                        scores.append(analysis["overall_score"])
-                except:
-                    pass
+            # Get GPT-4o score specifically (primary score)
+            gpt4o_score = 0
+            try:
+                gpt4o_str = analysis_result.get("analyses", {}).get("gpt4o", "{}")
+                gpt4o_analysis = json.loads(gpt4o_str) if isinstance(gpt4o_str, str) else gpt4o_str
+                gpt4o_score = gpt4o_analysis.get("overall_score", 0)
+            except:
+                pass
 
-            overall_score = sum(scores) / len(scores) if scores else 0
-
-            test.score = overall_score
+            test.score = gpt4o_score
             test.analysis = json.dumps(analysis_result)
             test.is_completed = True
             test.completed_at = now

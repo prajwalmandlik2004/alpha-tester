@@ -121,15 +121,7 @@ def create_result_email_html(
                             </td>
                         </tr>
                         
-                        <!-- CTA Button -->
-                        <tr>
-                            <td style="padding: 0 40px 40px 40px; text-align: center;">
-                                <a href="{settings.FRONTEND_URL}" 
-                                   style="display: inline-block; background-color: #050E3C; color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">
-                                    Accéder au site
-                                </a>
-                            </td>
-                        </tr>
+                       
                         
                         <!-- Footer -->
                         <tr>
