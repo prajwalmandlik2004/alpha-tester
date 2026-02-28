@@ -273,12 +273,12 @@ export default function Navbar() {
             <span className="text-white text-sm block">
               Bienvenu sur notre landing page INDX1000 M1-beta
             </span>
-            <Link
+            {/* <Link
               href="/series-platform?startTest=mt"
               className="text-white text-sm hover:text-blue-200 transition-colors underline"
             >
               M1 Fast
-            </Link>
+            </Link> */}
           </div>
         </div>
       </nav>
