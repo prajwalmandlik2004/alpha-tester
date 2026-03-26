@@ -393,7 +393,14 @@ INDX1000 : ${result.score?.toFixed(0)}
 
             {/* Analysis */}
             <div className="bg-white shadow-md p-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-800">Analyse synthetique continue</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-800">
+                Analyse synthetique continue / <button
+                  onClick={() => router.push(`/series-sequential/${testId}`)}
+                  className="text-[#050E3C] font-semibold underline hover:text-[#050E3C]/70 transition-colors"
+                >
+                  Sequential Analysis
+                </button>
+              </h3>
               <div className="text-gray-700 leading-relaxed text-base space-y-4">
                 {currentAnalysis.analysis?.split('\n\n').map((paragraph: string, index: number) => (
                   <p key={index}>{paragraph.trim()}</p>
